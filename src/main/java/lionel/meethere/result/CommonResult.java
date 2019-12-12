@@ -7,7 +7,7 @@ public class CommonResult {
 
     public static final int UNAUTHORIZED = 401;
 
-    public static final int ACCESS_DENIED = 403;
+    public static final int ACCESS_DENIED = 402;
 
     public static <T> Result<T> success() {
         return new Result<>(SUCCESS, "成功");

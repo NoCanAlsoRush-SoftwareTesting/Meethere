@@ -1,4 +1,4 @@
-package lionel.meethere.user.result;
+package lionel.meethere.result;
 
 
 import lionel.meethere.result.Result;

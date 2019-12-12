@@ -9,7 +9,7 @@ import lionel.meethere.user.exception.UsernameAlreadyExistException;
 import lionel.meethere.user.exception.UsernameNotExistsException;
 import lionel.meethere.user.param.LoginParam;
 import lionel.meethere.user.param.RegisterParam;
-import lionel.meethere.user.result.UserResult;
+import lionel.meethere.result.UserResult;
 import lionel.meethere.user.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
