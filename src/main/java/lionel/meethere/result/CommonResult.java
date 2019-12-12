@@ -1,11 +1,9 @@
-package lionel.meethere.common.result;
+package lionel.meethere.result;
 
 public class CommonResult {
     public static final int SUCCESS = 200;
 
     public static final int FAILED = 500;
-
-    public static final int DATA_BINDING_FAILED = 600;
 
     public static final int UNAUTHORIZED = 401;
 
@@ -17,10 +15,6 @@ public class CommonResult {
 
     public static <T> Result<T> failed() {
         return new Result<>(FAILED, "失败");
-    }
-
-    public static <T> Result<T> dataBindingFailed() {
-        return new Result<>(DATA_BINDING_FAILED, "数据绑定失败");
     }
 
     public static <T> Result<T> unauthorized() {

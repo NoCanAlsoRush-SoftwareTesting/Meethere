@@ -1,8 +1,8 @@
 package lionel.meethere.user.controller;
 
-import lionel.meethere.common.result.CommonResult;
-import lionel.meethere.common.result.Result;
-import lionel.meethere.session.UserSessionInfo;
+import lionel.meethere.result.CommonResult;
+import lionel.meethere.result.Result;
+import lionel.meethere.user.session.UserSessionInfo;
 import lionel.meethere.user.entity.User;
 import lionel.meethere.user.exception.IncorrectUsernameOrPasswordException;
 import lionel.meethere.user.exception.UsernameAlreadyExistException;
@@ -13,9 +13,7 @@ import lionel.meethere.user.result.UserResult;
 import lionel.meethere.user.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,17 +23,18 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login/{username}/{password}")
-    public Result<?> login(@PathVariable(value = "username", required = true) String username,
-                        @PathVariable(value = "password", required = true) String password,
-                        HttpSession httpSession){
-
+    //@GetMapping("/login/{username}/{password}")
+    //public Result<?> login(@ModelAttribute LoginParam loginParam,HttpSession httpSession){
+    @PostMapping("/login")
+    public Result<?> login(@RequestBody LoginParam loginParam,
+                           HttpSession httpSession){
         //参数校验
-        if(username.length() < 2 || username.length() > 20
-                || password.length() < 2 || password.length() > 20){
-            return UserResult.incorrectUsernameOrPassword();
+
+        if(loginParam.getUsername().length() < 2 || loginParam.getUsername().length() > 20
+                ||loginParam.getPassword().length() < 2 ||loginParam.getPassword().length() > 20){
+            return UserResult.invalidUsernameOrPassword();
         }
-        LoginParam loginParam = new LoginParam(username,password);
+
 
         UserSessionInfo userSessionInfo = new UserSessionInfo();
 
@@ -54,16 +53,16 @@ public class LoginController {
         return CommonResult.success().data(userSessionInfo);
     }
 
-    @GetMapping("/register/{username}/{password}")
-    public Result<?> register(@PathVariable(value = "username", required = true) String username,
-                           @PathVariable(value = "password", required = true) String password){
-        //参数校验
-        if(username.length() < 2 || username.length() > 20
-                || password.length() < 2 || password.length() > 20){
-            return UserResult.incorrectUsernameOrPassword();
-        }
+    //@GetMapping("/register/{username}/{password}")
 
-        RegisterParam registerParam = new RegisterParam(username,password);
+    //public Result<?> register(@ModelAttribute RegisterParam registerParam){
+    @PostMapping("/register")
+    public Result<?> register(@RequestBody RegisterParam registerParam){
+        //参数校验
+        if(registerParam.getUsername().length() < 2 || registerParam.getUsername().length() > 20
+                || registerParam.getPassword().length() < 2 || registerParam.getPassword().length() > 20){
+            return UserResult.invalidUsernameOrPassword();
+        }
 
          try{
              userService.register(registerParam);

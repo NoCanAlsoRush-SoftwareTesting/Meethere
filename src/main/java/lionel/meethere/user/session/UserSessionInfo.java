@@ -1,4 +1,4 @@
-package lionel.meethere.session;
+package lionel.meethere.user.session;
 
 
 import lombok.AllArgsConstructor;

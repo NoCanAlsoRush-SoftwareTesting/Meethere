@@ -1,4 +1,4 @@
-package lionel.meethere.common.result;
+package lionel.meethere.result;
 
 import lombok.Data;
 
