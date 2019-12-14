@@ -22,12 +22,12 @@ public interface SiteBookingOrderMapper {
     @Select("select * from site_order where id=#{id};")
     SiteBookingOrder getOrderById(Integer id);
 
-    @Select("select * from site_order where user_id=#{userId} and status=#{status} limit ${pageSize * (pageNum - 1)},#{pageSize};")
+    @Select("select * from site_order where user_id=#{userId} and status=#{status} order by create_time desc limit ${pageSize * (pageNum - 1)},#{pageSize};")
     List<SiteBookingOrderUserVO> getOrderByUser(@Param("userId") Integer userId,
                                                 @Param("status") Integer status,
                                                 @Param("pageParam")PageParam pageParam);
 
-    @Select("select * from site_order where site_id=#{siteID} and status=#{status} limit ${pageSize * (pageNum - 1)},#{pageSize};")
+    @Select("select * from site_order where site_id=#{siteID} and status=#{status} order by create_time desc limit ${pageSize * (pageNum - 1)},#{pageSize};")
     List<SiteBookingOrderAdminVO> getOrderBySite(@Param("siteId") Integer siteId,
                                                  @Param("status") Integer status,
                                                  @Param("pageParam") PageParam pageParam);
