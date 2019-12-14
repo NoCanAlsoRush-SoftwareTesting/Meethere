@@ -1,6 +1,7 @@
 package lionel.meethere.user.dao;
 
 import lionel.meethere.user.entity.User;
+import lionel.meethere.user.vo.UserVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public interface UserMapper {
     //根据用户名获取用户
     @Select("SELECT * FROM user WHERE username=#{username};")
     User getUserByUsername(@Param("username") String username);
+
+    @Select("select * from user where id=#{id};")
+    UserVO getUserById(Integer id);
 
     //插入新用户
     @Insert("insert into user(id,username,password,admin) values (#{id},#{username},#{password},#{admin});")

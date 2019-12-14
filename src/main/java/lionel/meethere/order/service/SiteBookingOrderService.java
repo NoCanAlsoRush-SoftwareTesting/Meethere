@@ -47,11 +47,11 @@ public class SiteBookingOrderService {
     public void auditOrder(Integer orderId, Integer auditStatus){
         SiteBookingOrder order = siteBookingOrderMapper.getOrderById(orderId);
 
-        if(order.getStatus() != OrderStatus.UNAUDITED){
+        if(!order.getStatus().equals(OrderStatus.UNAUDITED)){
             throw new WrongOrderStatusException();
         }
 
-        if(auditStatus == AuditStatus.SUCCESS){
+        if(auditStatus.equals(AuditStatus.SUCCESS)){
             siteBookingOrderMapper.updateOrderStatus(orderId,OrderStatus.AUDITED);
         }
         else {
@@ -63,10 +63,10 @@ public class SiteBookingOrderService {
     public void cancelOrderByUser(Integer userId, Integer orderId){
         SiteBookingOrder order = siteBookingOrderMapper.getOrderById(orderId);
 
-        if(userId != order.getUserId())
+        if(!userId.equals(order.getUserId()))
             return;
 
-        if(order.getStatus()!=OrderStatus.CANCEL){
+        if(!order.getStatus().equals(OrderStatus.CANCEL)){
             siteBookingOrderMapper.updateOrderStatus(orderId,OrderStatus.CANCEL);
             siteBookService.cancelSiteBookTime(order.getSiteId(),order.getStartTime());
         }
@@ -76,7 +76,7 @@ public class SiteBookingOrderService {
     public void cancelOrderByAdmin(Integer orderId){
         SiteBookingOrder order = siteBookingOrderMapper.getOrderById(orderId);
 
-        if(order.getStatus()!=OrderStatus.CANCEL){
+        if(!order.getStatus().equals(OrderStatus.CANCEL)){
             siteBookingOrderMapper.updateOrderStatus(orderId,OrderStatus.CANCEL);
             siteBookService.cancelSiteBookTime(order.getSiteId(),order.getStartTime());
         }

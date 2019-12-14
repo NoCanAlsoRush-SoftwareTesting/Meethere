@@ -2,11 +2,8 @@ package lionel.meethere.site.dao;
 
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.site.entity.Site;
-import lionel.meethere.site.param.SiteUpdateParam;
 import org.apache.ibatis.annotations.*;
-import sun.jvm.hotspot.debugger.Page;
 
-import javax.persistence.GeneratedValue;
 import java.util.List;
 
 @Mapper
