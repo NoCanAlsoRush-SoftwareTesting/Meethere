@@ -1,11 +1,12 @@
 package lionel.meethere.order.service;
 
-import lionel.meethere.booking.service.SiteBookService;
+import lionel.meethere.booking.service.SiteBookTimeService;
 import lionel.meethere.order.dao.SiteBookingOrderMapper;
 import lionel.meethere.order.entity.SiteBookingOrder;
 import lionel.meethere.order.exception.BookingTimeConflictException;
 import lionel.meethere.order.exception.WrongOrderStatusException;
 import lionel.meethere.order.param.SiteBookingOrderCreateParam;
+import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
 import lionel.meethere.order.status.AuditStatus;
 import lionel.meethere.order.status.OrderStatus;
 import lionel.meethere.order.vo.SiteBookingOrderAdminVO;
@@ -16,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,13 +27,14 @@ public class SiteBookingOrderService {
     private SiteBookingOrderMapper siteBookingOrderMapper;
 
     @Autowired
-    private SiteBookService siteBookService;
+    private SiteBookTimeService siteBookTimeService;
 
 
     public void crateSiteBookingOrder(Integer userId, SiteBookingOrderCreateParam createParam){
-        if(!siteBookService.tryBooking(createParam.getSiteId(),createParam.getStartTime(),createParam.getEndTime())){
+        if(!siteBookTimeService.tryBooking(createParam.getSiteId(),createParam.getStartTime(),createParam.getEndTime())){
             throw new BookingTimeConflictException();
         }
+        siteBookTimeService.insertBokingTime(createParam.getSiteId(),createParam.getStartTime(),createParam.getEndTime());
         siteBookingOrderMapper.insertOrder(convertToSiteBookingOrder(userId,createParam));
     }
 
@@ -68,7 +71,7 @@ public class SiteBookingOrderService {
 
         if(!order.getStatus().equals(OrderStatus.CANCEL)){
             siteBookingOrderMapper.updateOrderStatus(orderId,OrderStatus.CANCEL);
-            siteBookService.cancelSiteBookTime(order.getSiteId(),order.getStartTime());
+            siteBookTimeService.cancelSiteBookTime(order.getSiteId(),order.getStartTime());
         }
 
     }
@@ -78,8 +81,18 @@ public class SiteBookingOrderService {
 
         if(!order.getStatus().equals(OrderStatus.CANCEL)){
             siteBookingOrderMapper.updateOrderStatus(orderId,OrderStatus.CANCEL);
-            siteBookService.cancelSiteBookTime(order.getSiteId(),order.getStartTime());
+            siteBookTimeService.cancelSiteBookTime(order.getSiteId(),order.getStartTime());
         }
+    }
+
+    public void updateOrderBookTime(SiteBookingOrderUpdateParam updateParam){
+        if(!siteBookTimeService.tryBooking(updateParam.getSiteId(),updateParam.getStartTime(),updateParam.getEndTime())){
+            throw new BookingTimeConflictException();
+        }
+        siteBookTimeService.updateSiteBookTime(updateParam);
+        siteBookingOrderMapper.updateOrderBookTime(updateParam);
+        siteBookingOrderMapper.updateOrderStatus(updateParam.getOrderId(),OrderStatus.UNAUDITED);
+
     }
 
     public SiteBookingOrderAdminVO getOrderById(Integer id){

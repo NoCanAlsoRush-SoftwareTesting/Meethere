@@ -16,7 +16,7 @@ public interface SiteMapper {
     @Delete("delete from site where id=#{id};")
     int deleteSite(Integer id);
 
-    @Update("update site set name=#{name},location=#{location},description=#{description},rent=#{rent},image=#{image} where id=#{id};")
+    @Update("update site set name=#{name},stadium=#{stadium},location=#{location},description=#{description},rent=#{rent},image=#{image} where id=#{id};")
     int updateSite(Site site);
 
     @Select("select * from site where id=#{id};")
@@ -28,6 +28,8 @@ public interface SiteMapper {
     @Select("select * from site order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
     List<Site> listSites(PageParam pageParam);
 
+    @Select("select * from site where stadium=#{stadium} order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
+    List<Site> listSitesByStadium(String stadium,PageParam pageParam);
 
 
 }

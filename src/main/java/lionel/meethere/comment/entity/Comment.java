@@ -22,8 +22,8 @@ public class Comment {
     @Column(name = "user_id")
     private Integer reviewerId;
 
-    @Column(name = "neww_id")
-    private Integer newsId;
+    @Column(name = "site_id")
+    private Integer siteId;
 
     @Column(name = "content")
     private String content;

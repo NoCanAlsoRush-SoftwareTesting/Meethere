@@ -1,6 +1,7 @@
 package lionel.meethere.order.dao;
 
 import lionel.meethere.order.entity.SiteBookingOrder;
+import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
 import lionel.meethere.order.vo.SiteBookingOrderAdminVO;
 import lionel.meethere.order.vo.SiteBookingOrderUserVO;
 import lionel.meethere.paging.PageParam;
@@ -18,6 +19,10 @@ public interface SiteBookingOrderMapper {
     @Update("update site_order set status=#{newstatus} where id=#{id};")
     int updateOrderStatus(@Param("id") Integer id,
                           @Param("newstatus") Integer status);
+
+    @Update("update site_order set start_time=#{startTime},end_time=#{endTime) where id=#{orderId};")
+    int updateOrderBookTime(SiteBookingOrderUpdateParam updateParam);
+
 
     @Select("select * from site_order where id=#{id};")
     SiteBookingOrder getOrderById(Integer id);

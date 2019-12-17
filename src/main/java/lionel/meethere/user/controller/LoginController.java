@@ -79,25 +79,4 @@ public class LoginController {
         return "logout successfully";
     }
 
-
- /*   @GetMapping("/login/{username}/{password}")
-    public String login(@PathVariable(value = "username", required = true) String username,
-                        @PathVariable(value = "password", required = true) String password,
-                        HttpSession httpSession){
-
-        //参数校验
-        if(username.length() < 2 || username.length() > 20
-                || password.length() < 2 || password.length() > 20){
-            return "Login failed";
-        }
-        LoginParam loginParam = new LoginParam(username,password);
-
-        //请求转发，会话管理
-        try{
-            httpSession.setAttribute("user",userService.login(loginParam));
-        }catch (Exception e){
-            return "login failed";
-        }
-        return "login successfully";
-    }*/
 }

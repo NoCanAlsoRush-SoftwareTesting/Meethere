@@ -2,10 +2,12 @@ package lionel.meethere.order.controller;
 
 import lionel.meethere.order.param.SiteBookingOrderAuditParam;
 import lionel.meethere.order.param.SiteBookingOrderCreateParam;
+import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
 import lionel.meethere.order.service.SiteBookingOrderService;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
+import lionel.meethere.user.entity.User;
 import lionel.meethere.user.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +56,12 @@ public class SiteBookingOrderController {
         return CommonResult.success();
     }
 
+    @PostMapping("user/update")
+    public Result<?> updateOrderBookingTime(@SessionAttribute UserSessionInfo userSessionInfo,
+                                            @RequestBody SiteBookingOrderUpdateParam updateParam){
+        orderService.updateOrderBookTime(updateParam);
+        return CommonResult.success();
+    }
     @GetMapping("site/list")
     public Result<?> listOrder(@SessionAttribute UserSessionInfo userSessionInfo,
                                @RequestParam Integer siteId,

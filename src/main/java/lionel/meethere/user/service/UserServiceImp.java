@@ -7,6 +7,7 @@ import lionel.meethere.user.exception.UsernameAlreadyExistException;
 import lionel.meethere.user.exception.UsernameNotExistsException;
 import lionel.meethere.user.param.LoginParam;
 import lionel.meethere.user.param.RegisterParam;
+import lionel.meethere.user.session.UserSessionInfo;
 import lionel.meethere.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,13 +59,21 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public int updatePassword(Integer id, String password) {
-        return userMapper.updatePasswordById(id,password);
+    public int updatePassword(UserSessionInfo userSessionInfo, String oldPassword, String newPassword) {
+        User user = userMapper.getUserByUsername(userSessionInfo.getUsername());
+        if(!oldPassword.equals(user.getPassword()))
+            return 0;
+        return userMapper.updatePasswordById(userSessionInfo.getId(),newPassword);
     }
 
     @Override
     public int updateUsername(Integer id, String username) {
         return userMapper.updateUsernameById(id,username);
+    }
+
+    @Override
+    public int updateTelephone(Integer id, String telephone) {
+        return userMapper.updateTelephoneById(id,telephone);
     }
 
     @Override
@@ -76,4 +85,6 @@ public class UserServiceImp implements UserService {
     public int deleteUserById(Integer id) {
         return userMapper.deleteUserById(id);
     }
+
+
 }

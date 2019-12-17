@@ -20,6 +20,9 @@ public class User {
     @Column(name = "username",nullable = false,length = 20)
     private String username;
 
+    @Column(name = "telephone",nullable = false,length = 11)
+    private String telephone;
+
     @Column(name = "password",nullable = false,length = 20)
     private String password;
 

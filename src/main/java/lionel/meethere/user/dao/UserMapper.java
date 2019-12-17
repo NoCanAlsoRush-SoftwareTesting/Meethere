@@ -36,6 +36,10 @@ public interface UserMapper {
     int updateUsernameById(@Param("id")Integer id,
                            @Param("username") String username);
 
+    @Update("udpate user set telephone=#{telephone} where id=#{id};")
+    int updateTelephoneById(@Param("id")Integer id,
+                            @Param("telephone")String telephone);
+
     //根据用户名获取用户列表
     @Results(
             id = "userList",value = {

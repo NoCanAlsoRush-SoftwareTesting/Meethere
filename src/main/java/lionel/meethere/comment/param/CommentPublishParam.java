@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentPublishParam {
 
-    Integer newsId;
+    Integer siteId;
 
     String content;
 }

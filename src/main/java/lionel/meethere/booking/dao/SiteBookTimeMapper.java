@@ -1,7 +1,9 @@
 package lionel.meethere.booking.dao;
 
 import lionel.meethere.booking.entity.SiteBookingTime;
+import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
 import org.apache.ibatis.annotations.*;
+import sun.security.util.Length;
 
 import java.time.LocalDateTime;
 
@@ -19,4 +21,7 @@ public interface SiteBookTimeMapper {
     @Delete("delete from site_booked_time where site_id=#{siteId} and start_time=#{startTime};")
     int deleteBookTimeByStartTime(@Param("siteId")Integer siteId,
                                   @Param("startTime")LocalDateTime startTime);
+
+    @Update("udpate site_booked_time set start_time=#{startTime}, end_time=#{endTime} where site_id=#{siteId} and start_time=#{oldStartTime}")
+    int updateBookTime(SiteBookingOrderUpdateParam updateParam);
 }

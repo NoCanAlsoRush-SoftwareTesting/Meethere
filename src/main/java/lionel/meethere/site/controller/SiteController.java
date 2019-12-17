@@ -18,14 +18,20 @@ public class SiteController {
     @Autowired
     private SiteService siteService;
 
-    @GetMapping("/site/get/{id}")
-    public Result<?> getSite(@PathVariable(value = "id",required = true)Integer id){
+    @GetMapping("/site/get")
+    public Result<?> getSite(@RequestParam Integer id){
         return CommonResult.success().data(siteService.getSiteById(id));
     }
 
-    @GetMapping("/site/list/{pageNum}/{pageSize}")
+    @GetMapping("/site/list")
     public Result<?> getSiteList(@ModelAttribute PageParam pageParam){
         return CommonResult.success().data(siteService.getSites(pageParam));
+    }
+
+    @GetMapping("/site/listbystadium")
+    public Result<?> getSiteListByStadium(@ModelAttribute PageParam pageParam,
+                                          @RequestParam String stadium){
+        return CommonResult.success().data(siteService.getSitesByStadium(stadium,pageParam));
     }
 
     @PostMapping("/site/create")

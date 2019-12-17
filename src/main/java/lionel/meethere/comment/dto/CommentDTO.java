@@ -16,7 +16,7 @@ public class CommentDTO {
 
     private Integer reviewerId;
 
-    private Integer newsId;
+    private Integer siteId;
 
     private String content;
 

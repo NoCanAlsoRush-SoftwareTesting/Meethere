@@ -56,10 +56,10 @@ public class CommentService {
     }
 
     public List<CommentVO> getComments(PageParam pageParam){
-        return convertoCommentVOList(commentMapper.getAuditedComments(pageParam));
+        return convertToCommentVOList(commentMapper.getAuditedComments(pageParam));
     }
 
-    private List<CommentVO> convertoCommentVOList(List<CommentDTO> commentDTOList){
+    private List<CommentVO> convertToCommentVOList(List<CommentDTO> commentDTOList){
         List<CommentVO> commentVOList = new ArrayList<>();
         for(CommentDTO commentDTO : commentDTOList){
             commentVOList.add(convertToCommentVO(commentDTO));

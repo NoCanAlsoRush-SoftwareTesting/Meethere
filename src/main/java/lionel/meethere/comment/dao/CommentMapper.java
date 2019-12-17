@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
 
-    @Insert("insert into comment(id,user_id,news_id,content,status,creat_time valus(#{id},#{userId},#{newsId},#{content},#{status},#{create_time};")
+    @Insert("insert into comment(id,user_id,site_id,content,status,creat_time valus(#{id},#{userId},#{siteId},#{content},#{status},#{create_time};")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int publishCommnet(Comment comment);
 

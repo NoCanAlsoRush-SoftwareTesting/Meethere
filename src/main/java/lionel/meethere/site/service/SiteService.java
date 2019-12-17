@@ -4,6 +4,7 @@ import lionel.meethere.paging.PageParam;
 import lionel.meethere.site.dao.SiteMapper;
 import lionel.meethere.site.entity.Site;
 import lionel.meethere.site.param.SiteUpdateParam;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,10 @@ public class SiteService {
 
     public List<Site> getSites(PageParam pageParam){
         return siteMapper.listSites(pageParam);
+    }
+
+    public List<Site> getSitesByStadium(String stadium, PageParam pageParam){
+        return siteMapper.listSitesByStadium(stadium,pageParam);
     }
 
 }

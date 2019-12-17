@@ -30,7 +30,7 @@ public class NewsController {
 
     @PostMapping("delete")
     public Result<?> deleteNews(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @RequestParam Integer newsId){
+                                @RequestBody Integer newsId){
         if(userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
         newsService.deleteNews(newsId);

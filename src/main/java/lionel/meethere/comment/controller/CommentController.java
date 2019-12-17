@@ -1,7 +1,6 @@
 package lionel.meethere.comment.controller;
 
 import lionel.meethere.comment.dto.CommentDTO;
-import lionel.meethere.comment.entity.Comment;
 import lionel.meethere.comment.param.CommentPublishParam;
 import lionel.meethere.comment.service.CommentService;
 import lionel.meethere.comment.status.CommentAuditStatus;
@@ -16,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/news/comment/")
+@RequestMapping("/site/comment/")
 public class CommentController {
 
     @Autowired
@@ -62,7 +61,7 @@ public class CommentController {
     }
 
     @GetMapping("getcomments")
-    public Result<?> getComments(@RequestBody PageParam pageParam){
+    public Result<?> getComments(@ModelAttribute PageParam pageParam){
         return CommonResult.success().data(commentService.getComments(pageParam));
     }
 

@@ -3,6 +3,7 @@ package lionel.meethere.user.service;
 import lionel.meethere.user.entity.User;
 import lionel.meethere.user.param.LoginParam;
 import lionel.meethere.user.param.RegisterParam;
+import lionel.meethere.user.session.UserSessionInfo;
 import lionel.meethere.user.vo.UserVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
@@ -26,10 +27,13 @@ public interface UserService {
     int register(RegisterParam registerParam);
 
     //更新用户密码
-    int updatePassword(Integer id, String password);
+    int updatePassword(UserSessionInfo userSessionInfo, String oldPassword, String newPassword);
 
     //更新用户名
     int updateUsername(Integer id, String username);
+
+    //更新用户电话
+    int updateTelephone(Integer id, String telephone);
 
     //获取所有用户
     List<User> getUserListOrderl(String order_by_sql);
