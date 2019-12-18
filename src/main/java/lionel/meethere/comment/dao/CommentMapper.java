@@ -27,5 +27,7 @@ public interface CommentMapper {
     @Select("select * from comment where status=1 limit $(pageSize*(pageNum-1),#{pageSize};")
     List<CommentDTO> getAuditedComments(PageParam pageParam);
 
+    @Select("select count(*) from comment")
+    int getCommentCount();
 
 }

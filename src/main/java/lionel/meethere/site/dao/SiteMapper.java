@@ -31,5 +31,9 @@ public interface SiteMapper {
     @Select("select * from site where stadium=#{stadium} order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
     List<Site> listSitesByStadium(String stadium,PageParam pageParam);
 
+    @Select("select count(*) from site")
+    int getSiteCount();
 
+    @Select("select count(*) from site where stadium=#{stadium}")
+    int getSiteCountByStadium(String stadium);
 }

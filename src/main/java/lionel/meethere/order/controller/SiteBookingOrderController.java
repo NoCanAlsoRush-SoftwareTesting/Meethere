@@ -71,14 +71,14 @@ public class SiteBookingOrderController {
             return CommonResult.accessDenied();
 
 
-        return CommonResult.success().data(orderService.getOrderBySite(siteId,status,pageParam));
+        return CommonResult.success().data(orderService.getOrderBySite(siteId,status,pageParam)).total(orderService.getOrderCount());
     }
 
     @GetMapping("user/list")
     public Result<?> listUserOrder(@SessionAttribute UserSessionInfo userSessionInfo,
                                    @RequestParam Integer status,
                                    @ModelAttribute PageParam pageParam){
-        return CommonResult.success().data(orderService.getOrderByUser(userSessionInfo.getId(),status,pageParam));
+        return CommonResult.success().data(orderService.getOrderByUser(userSessionInfo.getId(),status,pageParam)).total(orderService.getOrderCount());
     }
 
     @GetMapping("get")

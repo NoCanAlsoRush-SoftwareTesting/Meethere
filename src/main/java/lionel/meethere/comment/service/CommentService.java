@@ -66,4 +66,8 @@ public class CommentService {
         }
         return commentVOList;
     }
+
+    public int getCommentCount(){
+        return commentMapper.getCommentCount();
+    }
 }

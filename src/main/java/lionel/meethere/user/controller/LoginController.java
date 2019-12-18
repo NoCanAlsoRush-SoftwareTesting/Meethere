@@ -74,9 +74,9 @@ public class LoginController {
 
 
     @GetMapping("/logout")
-    public String logout(HttpSession session){
+    public Result<?> logout(HttpSession session){
         session.invalidate();
-        return "logout successfully";
+        return CommonResult.success();
     }
     @GetMapping("/hello")
     public String hello(){

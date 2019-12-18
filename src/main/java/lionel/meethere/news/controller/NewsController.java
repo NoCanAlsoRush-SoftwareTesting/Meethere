@@ -19,6 +19,11 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
+    /*@GetMapping("")
+    public Result<?> getNewsCount(){
+        return CommonResult.success().data(newsService.getNewsCount());
+    }*/
+
     @PostMapping("publish")
     public Result<?> publishNews(@SessionAttribute UserSessionInfo userSessionInfo,
                                  @RequestBody @Valid NewsPublishParam newsPublishParam){
@@ -53,7 +58,7 @@ public class NewsController {
 
     @GetMapping("getcatalog")
     public Result<?> getCatalog(@ModelAttribute PageParam pageParam){
-        return CommonResult.success().data(newsService.getNewsCatalogList(pageParam));
+        return CommonResult.success().data(newsService.getNewsCatalogList(pageParam)).total(newsService.getNewsCount());
     }
 
 }
