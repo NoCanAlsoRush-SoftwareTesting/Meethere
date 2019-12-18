@@ -16,7 +16,5 @@ public class NewsCatalogVO {
 
     private String title;
 
-    private String image;
-
     private String createTime;
 }

@@ -7,12 +7,16 @@ import lionel.meethere.news.entity.News;
 import lionel.meethere.news.param.NewsPublishParam;
 import lionel.meethere.news.param.NewsUpdateParam;
 import lionel.meethere.news.vo.NewsCatalogVO;
+import lionel.meethere.news.vo.NewsVO;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.user.dao.UserMapper;
 import lionel.meethere.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NewsService {
@@ -41,8 +45,14 @@ public class NewsService {
         newsMapper.updateNews(updateParam);
     }
 
-    public NewsCatalogVO getNewsCatalogList(PageParam pageParam){
-        return convertToNewsCatalogVO(newsMapper.getNewsCatalogList(pageParam));
+    public List<NewsCatalogVO> getNewsCatalogList(PageParam pageParam){
+
+        List<NewsCatalogDTO> newsCatalogDTOS = newsMapper.getNewsCatalogList(pageParam);
+        List<NewsCatalogVO> newsCatalogVOS = new ArrayList<>();
+        for(NewsCatalogDTO newsCatalogDTO : newsCatalogDTOS){
+            newsCatalogVOS.add(convertToNewsCatalogVO(newsCatalogDTO));
+        }
+        return newsCatalogVOS;
     }
 
     private NewsCatalogVO convertToNewsCatalogVO(NewsCatalogDTO newsCatalogDTO){
@@ -52,9 +62,16 @@ public class NewsService {
         newsCatalogVO.setAdmin(admin);
         return newsCatalogVO;
     }
-    public NewsDTO getNews(Integer id){
-        return newsMapper.getNewsById(id);
+    public NewsVO getNews(Integer id){
+        return convertToNewsVO(newsMapper.getNewsById(id));
     }
 
+    private NewsVO convertToNewsVO(NewsDTO newsDTO){
+        NewsVO newsVO = new NewsVO();
+        BeanUtils.copyProperties(newsDTO,newsVO);
+        UserVO admin = userMapper.getUserById(newsDTO.getAdminId());
+        newsVO.setAdmin(admin);
+        return newsVO;
+    }
 
 }
