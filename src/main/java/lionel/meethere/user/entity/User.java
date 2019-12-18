@@ -28,5 +28,4 @@ public class User {
 
     @Column(name = "admin",nullable = false)
     private Integer admin;
-
 }
