@@ -22,7 +22,7 @@ public interface UserMapper {
     UserVO getUserById(Integer id);
 
     //插入新用户
-    @Insert("insert into user(id,username,password,admin) values (#{id},#{username},#{password},#{admin});")
+    @Insert("insert into user(id,username,password,telephone,admin) values (#{id},#{username},#{password},#{telephone},#{admin});")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertUser(User user);
 
