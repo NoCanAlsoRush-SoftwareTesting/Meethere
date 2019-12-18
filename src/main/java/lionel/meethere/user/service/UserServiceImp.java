@@ -1,5 +1,6 @@
 package lionel.meethere.user.service;
 
+import lionel.meethere.paging.PageParam;
 import lionel.meethere.user.dao.UserMapper;
 import lionel.meethere.user.entity.User;
 import lionel.meethere.user.exception.IncorrectUsernameOrPasswordException;
@@ -77,8 +78,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getUserListOrderl(String order_by_sql) {
-        return userMapper.getUserListOrderly(order_by_sql);
+    public int updatePermission(Integer id, Integer admin) {
+        return userMapper.updatePermission(id,admin);
+    }
+
+    @Override
+    public List<User> getUserList(PageParam pageParam) {
+        return userMapper.getUserList(pageParam);
     }
 
     @Override
@@ -86,5 +92,7 @@ public class UserServiceImp implements UserService {
         return userMapper.deleteUserById(id);
     }
 
+    @Override
+    public int getCountOfUser(){return userMapper.getCountOfUser();}
 
 }

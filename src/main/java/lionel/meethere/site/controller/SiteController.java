@@ -24,13 +24,13 @@ public class SiteController {
 
     @GetMapping("/site/list")
     public Result<?> getSiteList(@ModelAttribute PageParam pageParam){
-        return CommonResult.success().data(siteService.getSites(pageParam));
+        return CommonResult.success().data(siteService.getSites(pageParam)).total(siteService.getSiteCount());
     }
 
     @GetMapping("/site/listbystadium")
     public Result<?> getSiteListByStadium(@ModelAttribute PageParam pageParam,
                                           @RequestParam String stadium){
-        return CommonResult.success().data(siteService.getSitesByStadium(stadium,pageParam));
+        return CommonResult.success().data(siteService.getSitesByStadium(stadium,pageParam)).total(siteService.getSiteCountByStadium(stadium));
     }
 
     @PostMapping("/site/create")

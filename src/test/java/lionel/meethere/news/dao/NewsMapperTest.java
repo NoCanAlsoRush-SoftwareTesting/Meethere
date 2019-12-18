@@ -50,7 +50,7 @@ class NewsMapperTest {
       //  verify(newsMapper).insertNews(news);
 
         NewsDTO newsDTO = newsMapper.getNewsById(1);
-        Assertions.assertAll(
+        Assertions.assertAll                                                                                                                                                                                                                                                                                                                                          (
                 () -> assertEquals(1,newsDTO.getId()),
                 () -> assertEquals(1,newsDTO.getAdminId()),
                 () -> assertEquals("news title",newsDTO.getTitle()),

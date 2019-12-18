@@ -21,6 +21,11 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    /*@GetMapping("")
+    public Result<?> getNewsCount(){
+        return CommonResult.success().data(commentService.getCommentCount());
+    }*/
+
     @PostMapping("publish")
     public Result<?> publishComment(@SessionAttribute UserSessionInfo userSessionInfo,
                                     @RequestBody CommentPublishParam publishParam){
@@ -62,7 +67,7 @@ public class CommentController {
 
     @GetMapping("getcomments")
     public Result<?> getComments(@ModelAttribute PageParam pageParam){
-        return CommonResult.success().data(commentService.getComments(pageParam));
+        return CommonResult.success().data(commentService.getComments(pageParam)).total(commentService.getCommentCount());
     }
 
     @GetMapping("get")

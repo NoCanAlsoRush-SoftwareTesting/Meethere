@@ -114,5 +114,8 @@ public class SiteBookingOrderService {
         return orderAdminVO;
     }
 
+    public int getOrderCount(){
+        return siteBookingOrderMapper.getOrderCount();
+    }
 
 }

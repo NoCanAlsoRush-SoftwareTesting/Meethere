@@ -1,5 +1,6 @@
 package lionel.meethere.user.dao;
 
+import lionel.meethere.paging.PageParam;
 import lionel.meethere.user.entity.User;
 import lionel.meethere.user.vo.UserVO;
 import org.apache.ibatis.annotations.*;
@@ -9,17 +10,16 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    //根据用户名和密码获取用户
-    @Select("select * from user where username=#{username} and password=#{password};")
-    User getUserByUsernameAndPassword(@Param("username") String username,
-                                      @Param("password") String password);
-
     //根据用户名获取用户
     @Select("SELECT * FROM user WHERE username=#{username};")
     User getUserByUsername(@Param("username") String username);
 
+    //根据用户id获取用户
     @Select("select * from user where id=#{id};")
     UserVO getUserById(Integer id);
+
+    @Select("select count(*) from user")
+    int getCountOfUser();
 
     //插入新用户
     @Insert("insert into user(id,username,password,admin) values (#{id},#{username},#{password},#{admin});")
@@ -36,9 +36,14 @@ public interface UserMapper {
     int updateUsernameById(@Param("id")Integer id,
                            @Param("username") String username);
 
-    @Update("udpate user set telephone=#{telephone} where id=#{id};")
+    //更新电话
+    @Update("update user set telephone=#{telephone} where id=#{id};")
     int updateTelephoneById(@Param("id")Integer id,
                             @Param("telephone")String telephone);
+    //更改权限
+    @Update("update user set admin=#{admin} where id=#{id}")
+    int updatePermission(@Param("id")Integer id,
+                         @Param("admin") Integer admin);
 
     //根据用户名获取用户列表
     @Results(
@@ -47,14 +52,11 @@ public interface UserMapper {
             @Result(property="password", column="password")
     }
     )
-    @Select("SELECT * FROM user WHERE username=#{username};")
-    List<User> getUserListByUsername(@Param("username") String username);
-
 
     //获取所有用户
-    @ResultMap("userList")
-    @Select("SELECT * FROM user ORDER BY ${order_by_sql};")
-    List<User> getUserListOrderly(@Param("order_by_sql") String order_by_sql);
+    //@ResultMap("userList")
+    @Select("SELECT * FROM user where admin=0 order by id desc limit ${pageSize * (pageNum - 1)},#{pageSize};")
+    List<User> getUserList(@Param("pageParam") PageParam pageParam);
 
     //删除用户
     @Delete("delete from user where id = #{id};")

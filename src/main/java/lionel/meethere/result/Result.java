@@ -9,6 +9,7 @@ public class Result<T> implements Serializable {
     protected int code;
     protected String message;
     protected T data;
+    protected int total;
 
     public Result() {
         this.code = 0;
@@ -35,6 +36,10 @@ public class Result<T> implements Serializable {
 
     public Result<T> code(int code) {
         this.code = code;
+        return this;
+    }
+    public Result<T> total(int total) {
+        this.total = total;
         return this;
     }
 }

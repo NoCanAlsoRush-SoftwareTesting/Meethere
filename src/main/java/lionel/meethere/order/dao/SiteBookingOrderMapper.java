@@ -37,4 +37,6 @@ public interface SiteBookingOrderMapper {
                                                  @Param("status") Integer status,
                                                  @Param("pageParam") PageParam pageParam);
 
+    @Select("select count(*) from site_order")
+    int getOrderCount();
 }

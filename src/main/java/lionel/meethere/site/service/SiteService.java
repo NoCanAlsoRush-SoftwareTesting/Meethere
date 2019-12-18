@@ -51,4 +51,10 @@ public class SiteService {
         return siteMapper.listSitesByStadium(stadium,pageParam);
     }
 
+    public int getSiteCount(){
+        return siteMapper.getSiteCount();
+    }
+    public int getSiteCountByStadium(String stadium){
+        return siteMapper.getSiteCountByStadium(stadium);
+    }
 }

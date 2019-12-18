@@ -46,4 +46,7 @@ public interface NewsMapper {
     )
     @Select("select * from news order by create_time desc limit ${pageSize * (pageNum - 1)},#{pageSize}")
     List<NewsCatalogDTO> getNewsCatalogList(PageParam pageParam);
+
+    @Select("select count(*) from news")
+    int getNewsCount();
 }
