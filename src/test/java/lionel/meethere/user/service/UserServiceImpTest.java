@@ -4,7 +4,7 @@ import lionel.meethere.user.dao.UserMapper;
 import lionel.meethere.user.entity.User;
 import lionel.meethere.user.param.LoginParam;
 import lionel.meethere.user.vo.UserVO;
-import org.hibernate.service.spi.InjectService;
+
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,10 +39,8 @@ class UserServiceImpTest {
         User result = userService.login(loginParam);
         assertEquals(user,result);*/
         UserVO u = Mockito.mock(UserVO.class);
-        u.setPassword("123456789");
         u.setUsername("lyb");
         u.setId(1);
-        u.setTelephone("18982170688");
         LoginParam loginParam = new LoginParam("lyb","123456789","18982170688");
 
         Mockito.when((userMapper.getUserById(1))).thenReturn(u);
