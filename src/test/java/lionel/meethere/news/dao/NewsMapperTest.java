@@ -44,10 +44,7 @@ class NewsMapperTest {
     void when_insert_a_news_should_insert_success(){
         LocalDateTime localDateTime = LocalDateTime.now();
         News news = new News(1,1,"news title","content",null, localDateTime,localDateTime);
-        //this.entityManager.persist(news);
         this.newsMapper.insertNews(news);
-
-      //  verify(newsMapper).insertNews(news);
 
         NewsDTO newsDTO = newsMapper.getNewsById(1);
         Assertions.assertAll                                                                                                                                                                                                                                                                                                                                          (

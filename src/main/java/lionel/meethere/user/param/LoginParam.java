@@ -20,8 +20,4 @@ public class LoginParam {
     @Length(min = 8, max = 20)
     private String password;
 
-    @NotNull
-    @Length(max = 11,min = 11)
-    private String telephone;
-
 }

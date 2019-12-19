@@ -2,10 +2,12 @@ package lionel.meethere.news.service;
 
 import lionel.meethere.news.dao.NewsMapper;
 import lionel.meethere.news.dto.NewsCatalogDTO;
+import lionel.meethere.news.dto.NewsDTO;
 import lionel.meethere.news.entity.News;
 import lionel.meethere.news.param.NewsPublishParam;
 import lionel.meethere.news.param.NewsUpdateParam;
 import lionel.meethere.news.vo.NewsCatalogVO;
+import lionel.meethere.news.vo.NewsVO;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.user.dao.UserMapper;
 import lionel.meethere.user.vo.UserVO;
@@ -39,7 +41,7 @@ class NewsServiceTest {
 
 
     @Test
-    void when_service_publish_news_with_publishParam_should_dispatcher_to_mapper_to_insert_news() {
+    void when_service_do_publishNews_with_publishParam_then_dispatch_to_mapper_insert_news() {
 
         NewsPublishParam publishParam = new NewsPublishParam("title","content","image");
         News news = new News();
@@ -54,20 +56,20 @@ class NewsServiceTest {
     }
 
     @Test
-    void when_service_delete_news_by_id_1_should_mapper_delete_news_by_id_1() {
+    void when_service_do_deleteNews_by_id_1_then_dispatch_to_mapper_delete_news_by_id_1() {
         newsService.deleteNews(1);
         verify(newsMapper,times(1)).deleteNews(1);
     }
 
     @Test
-    void when_service_update_news_with_updateParam_should_dispatcher_to_mapper_to_update_news() {
+    void when_service_do_updateNews_with_updateParam_then_diapatch_to_mapper_update_news() {
         NewsUpdateParam updateParam = new NewsUpdateParam(1,"title","content","image");
         newsService.updateNews(updateParam);
         verify(newsMapper, times(1)).updateNews(updateParam);
     }
 
     @Test
-    void getNewsCatalogList(){
+    void when_service_do_getNewsCatalogList_then_return_list_of_newsCatalogVO(){
         PageParam pageParam = new PageParam(1,2);
         String createTime =LocalDateTime.now().toString();
         List<NewsCatalogDTO> newsCatalogDTOS = new ArrayList<>();
@@ -95,8 +97,36 @@ class NewsServiceTest {
     }
 
     @Test
-    void getNews() {
+    void when_service_do_getNews_then_return_newsVO() {
+        String createTime = LocalDateTime.now().toString();
+        NewsDTO newsDTO = new NewsDTO(1,6,"title","content","image",createTime);
 
+        when(newsMapper.getNewsById(1)).thenReturn(newsDTO);
+        when(userMapper.getUserById(6)).thenReturn(new UserVO(6,"admin1"));
+
+        NewsVO newsVO = newsService.getNews(1);
+        verify(newsMapper,times(1)).getNewsById(1);
+        verify(userMapper,times(1)).getUserById(6);
+        Assertions.assertAll(
+                ()-> assertEquals(1,newsVO.getId()),
+                ()-> assertEquals(6,newsVO.getAdmin().getId()),
+                ()-> assertEquals("admin1",newsVO.getAdmin().getUsername()),
+                ()-> assertEquals("title",newsVO.getTitle()),
+                ()-> assertEquals("content",newsVO.getContent()),
+                ()-> assertEquals("image",newsVO.getImage()),
+                ()-> assertEquals(createTime,newsVO.getCreateTime())
+        );
+
+    }
+
+    @Test
+    void when_do_getNewsCount_then_return_the_count_of_news(){
+        when(newsMapper.getNewsCount()).thenReturn(10);
+
+        int num = newsService.getNewsCount();
+
+        assertEquals(10,num);
+        verify(newsMapper,times(1)).getNewsCount();
 
     }
 }

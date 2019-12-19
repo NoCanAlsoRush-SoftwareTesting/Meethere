@@ -30,9 +30,7 @@ class UserMapperTest {
     @Transactional
     void when_insert_a_user_should_insert_success() {
         User user = new User(1, "test", "18982170688", "123", 1);
-        //this.entityManager.persist(User);
         this.userMapper.insertUser(user);
-        //  verify(UserMapper).insertUser(User);
         UserVO userVO = userMapper.getUserById(1);
         Assertions.assertAll(
                 () -> assertEquals(1, userVO.getId()),
@@ -69,14 +67,5 @@ class UserMapperTest {
         assertNull(this.userMapper.getUserById(10));
     }
 
-    @Test
-    void when_get_user_by_matched_Id_and_password_should_return_a_user(){
-        //assertNotNull(this.userMapper.getUserByUsernameAndPassword("lyb","123"));
-    }
-
-    @Test
-    void when_get_user_by_unmatched_Id_and_password_should_return_a_user(){
-        //assertNull(this.userMapper.getUserByUsernameAndPassword("lyb","321"));
-    }
 
 }

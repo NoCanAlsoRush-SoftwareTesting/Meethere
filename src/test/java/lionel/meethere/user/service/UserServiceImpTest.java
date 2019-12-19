@@ -13,11 +13,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.*;
+@SpringBootTest
 class UserServiceImpTest {
 
     @Mock
@@ -33,20 +33,13 @@ class UserServiceImpTest {
 
     @Test
     void login() {
-/*
-        User user = new User(1,"lyb","18982170688","123456789",1);
-        userMapper.insertUser(user);
-        User result = userService.login(loginParam);
-        assertEquals(user,result);*/
-        UserVO u = Mockito.mock(UserVO.class);
-        u.setUsername("lyb");
-        u.setId(1);
-        LoginParam loginParam = new LoginParam("lyb","123456789","18982170688");
 
-        Mockito.when((userMapper.getUserById(1))).thenReturn(u);
+        User user = new User(1,"lyb","18982170688","123456789",1);
+        LoginParam loginParam = new LoginParam("lyb","123456789");
+
+        when((userMapper.getUserByUsername("lyb"))).thenReturn(user);
         User returnU = userService.login(loginParam);
-        Mockito.verify(userMapper).getUserById(1);
-        Assertions.assertEquals(u.getUsername(),returnU.getUsername());
+        verify(userMapper,times(1)).getUserByUsername("lyb");
     }
 
     @Test
