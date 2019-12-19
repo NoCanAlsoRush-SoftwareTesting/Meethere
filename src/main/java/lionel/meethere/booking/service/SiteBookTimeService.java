@@ -3,16 +3,16 @@ package lionel.meethere.booking.service;
 import lionel.meethere.booking.dao.SiteBookTimeMapper;
 import lionel.meethere.booking.entity.SiteBookingTime;
 import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 @Service
 public class SiteBookTimeService {
 
-    @Autowired
+    //@Autowired
+    @Resource
     private SiteBookTimeMapper siteBookTimeMapper;
 
     public boolean tryBooking(Integer siteId, LocalDateTime startTime, LocalDateTime endTime){

@@ -3,11 +3,12 @@ package lionel.meethere.booking.dao;
 import lionel.meethere.booking.entity.SiteBookingTime;
 import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
 import org.apache.ibatis.annotations.*;
-import sun.security.util.Length;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 
 @Mapper
+@Repository
 public interface SiteBookTimeMapper {
 
     @Insert("insert into site_booked_time(id,site_id,start_time,end_time) values (#{id},#{siteId},#{startTime},#{endTime});")

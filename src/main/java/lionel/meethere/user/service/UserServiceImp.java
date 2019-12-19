@@ -51,14 +51,17 @@ public class UserServiceImp implements UserService {
     public int register(RegisterParam registerParam) {
         String username = registerParam.getUsername();
         String password = registerParam.getPassword();
+        String telephone = registerParam.getTelephone();
+        System.out.println(telephone);
 
         if(userMapper.getUserByUsername(username) != null)
             throw new UsernameAlreadyExistException();
 
         User user = new User();
-        user.setAdmin(0);
         user.setUsername(username);
         user.setPassword(password);
+        user.setTelephone(telephone);
+        user.setAdmin(0);
 
         return userMapper.insertUser(user);
     }

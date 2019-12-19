@@ -78,5 +78,10 @@ public class LoginController {
         session.invalidate();
         return CommonResult.success();
     }
+    @GetMapping("/hello")
+    public String hello(){
+        //session.invalidate();
+        return "logout successfully";
+    }
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface SiteMapper {
 
-    @Insert("insert into site(id,name,location,description,rent,image) values(#{id},#{name},#{location},#{description},#{rent},#{image};")
+    @Insert("insert into site(id,name,stadium,location,description,rent,image) values(#{id},#{name},#{stadium},#{location},#{description},#{rent},#{image});")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertSite(Site site);
 
