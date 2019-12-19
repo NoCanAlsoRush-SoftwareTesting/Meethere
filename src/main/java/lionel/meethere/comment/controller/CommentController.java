@@ -66,8 +66,9 @@ public class CommentController {
     }
 
     @GetMapping("getcomments")
-    public Result<?> getComments(@ModelAttribute PageParam pageParam){
-        return CommonResult.success().data(commentService.getComments(pageParam)).total(commentService.getCommentCount());
+    public Result<?> getCommentsBySite(@ModelAttribute PageParam pageParam,
+                                       @RequestParam Integer siteId){
+        return CommonResult.success().data(commentService.getCommentsBySite(pageParam,siteId)).total(commentService.getCommentCount());
     }
 
     @GetMapping("get")

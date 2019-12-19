@@ -54,7 +54,6 @@ public interface UserMapper {
     )
 
     //获取所有用户
-    //@ResultMap("userList")
     @Select("SELECT * FROM user where admin=0 order by id desc limit ${pageSize * (pageNum - 1)},#{pageSize};")
     List<User> getUserList(@Param("pageParam") PageParam pageParam);
 

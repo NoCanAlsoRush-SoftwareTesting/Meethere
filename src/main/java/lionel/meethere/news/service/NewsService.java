@@ -74,7 +74,6 @@ public class NewsService {
         return newsVO;
     }
 
-
     public int getNewsCount(){
        return newsMapper.getNewsCount();
     }

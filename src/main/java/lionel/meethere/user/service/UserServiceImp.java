@@ -43,6 +43,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserVO getUserById(Integer id) {
+        return userMapper.getUserById(id);
+    }
+
+    @Override
     public int register(RegisterParam registerParam) {
         String username = registerParam.getUsername();
         String password = registerParam.getPassword();

@@ -80,4 +80,10 @@ public class UserController {
         return CommonResult.success().data(service.getUserList(pageParam)).total(service.getCountOfUser());
     }
 
+    @GetMapping("get")
+    public Result<?> getUserById(@SessionAttribute UserSessionInfo userSessionInfo,
+                                 @RequestParam Integer id){
+        return CommonResult.success().data(service.getUserById(id));
+    }
+
 }

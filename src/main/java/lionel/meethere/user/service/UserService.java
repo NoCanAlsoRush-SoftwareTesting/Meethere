@@ -24,6 +24,9 @@ public interface UserService {
     //根据用户名获取用户
     UserVO getUserByUsername(String username);
 
+    //根据用户Id获取用户
+    UserVO getUserById(Integer id);
+
     //注册新用户
     int register(RegisterParam registerParam);
 
