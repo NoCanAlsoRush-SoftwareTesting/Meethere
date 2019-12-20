@@ -20,8 +20,10 @@ public class SiteController {
         return CommonResult.success().data(siteService.getSiteById(id));
     }
 
-    @GetMapping("/site/list")
-    public Result<?> getSiteList(@ModelAttribute PageParam pageParam){
+
+
+    @PostMapping("/site/list")
+    public Result<?> getSiteList(@RequestBody PageParam pageParam){
         return CommonResult.success().data(siteService.getSites(pageParam)).total(siteService.getSiteCount());
     }
 

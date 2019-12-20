@@ -42,7 +42,7 @@ public class LoginController {
         try{
             User user = userService.login(loginParam);
             BeanUtils.copyProperties(user,userSessionInfo);
-            httpSession.setAttribute("user",user);
+            httpSession.setAttribute("userSessionInfo",userSessionInfo);
         }catch (UsernameNotExistsException e){
             return UserResult.usernameNotExists();
         }
@@ -73,7 +73,7 @@ public class LoginController {
     }
 
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public Result<?> logout(HttpSession session){
         session.invalidate();
         return CommonResult.success();
