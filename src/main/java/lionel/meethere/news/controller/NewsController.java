@@ -52,8 +52,8 @@ public class NewsController {
         return CommonResult.success().data(newsService.getNews(newsId));
     }
 
-    @GetMapping("getcatalog")
-    public Result<?> getCatalog(@ModelAttribute PageParam pageParam){
+    @PostMapping("getcatalog")
+    public Result<?> getCatalog(@RequestBody PageParam pageParam){
         return CommonResult.success().data(newsService.getNewsCatalogList(pageParam)).total(newsService.getNewsCount());
     }
 
