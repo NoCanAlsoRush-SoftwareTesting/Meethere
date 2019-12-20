@@ -14,6 +14,4 @@ public class UserVO {
     private Integer id;
 
     private String username;
-
-
 }

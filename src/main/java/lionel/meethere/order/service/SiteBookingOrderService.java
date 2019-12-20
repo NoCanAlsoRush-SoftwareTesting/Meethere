@@ -4,6 +4,7 @@ import lionel.meethere.booking.service.SiteBookTimeService;
 import lionel.meethere.order.dao.SiteBookingOrderMapper;
 import lionel.meethere.order.entity.SiteBookingOrder;
 import lionel.meethere.order.exception.BookingTimeConflictException;
+import lionel.meethere.order.exception.UserIdNotMatchOrderException;
 import lionel.meethere.order.exception.WrongOrderStatusException;
 import lionel.meethere.order.param.SiteBookingOrderCreateParam;
 import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
@@ -17,7 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Service
@@ -67,7 +68,7 @@ public class SiteBookingOrderService {
         SiteBookingOrder order = siteBookingOrderMapper.getOrderById(orderId);
 
         if(!userId.equals(order.getUserId()))
-            return;
+            throw new UserIdNotMatchOrderException();
 
         if(!order.getStatus().equals(OrderStatus.CANCEL)){
             siteBookingOrderMapper.updateOrderStatus(orderId,OrderStatus.CANCEL);

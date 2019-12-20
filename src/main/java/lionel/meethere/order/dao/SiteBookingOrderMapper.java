@@ -39,4 +39,5 @@ public interface SiteBookingOrderMapper {
 
     @Select("select count(*) from site_order")
     int getOrderCount();
+
 }
