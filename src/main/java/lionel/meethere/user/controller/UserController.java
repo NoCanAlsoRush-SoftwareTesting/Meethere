@@ -3,12 +3,18 @@ package lionel.meethere.user.controller;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
+import lionel.meethere.user.entity.User;
+import lionel.meethere.user.param.LoginParam;
+import lionel.meethere.user.param.RegisterParam;
 import lionel.meethere.user.service.UserService;
 import lionel.meethere.user.session.UserSessionInfo;
+import lionel.meethere.user.vo.UserVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user/")
@@ -17,12 +23,10 @@ public class UserController {
     UserService service;
 
     @PostMapping("update/username")
-    public Result<?> updateUsername(@RequestBody Map<String,Object> map, @SessionAttribute(value = "userSessionInfo") UserSessionInfo userSessionInfo) {
-        System.out.println(map);
-        String newName = map.get("newName").toString();
+    public Result<?> updateUsername(@SessionAttribute UserSessionInfo userSessionInfo,
+                                 @RequestBody String newName) {
         if (userSessionInfo != null) {
             service.updateUsername(userSessionInfo.getId(), newName);
-            System.out.println(newName);
             return CommonResult.success();
         }
         return CommonResult.failed();
@@ -38,12 +42,10 @@ public class UserController {
 
     @PostMapping("update/telephone")
     public Result<?> updateTelephone(@SessionAttribute UserSessionInfo userSessionInfo,
-                                     @RequestBody Map<String,Object> map){
-        String telephone=map.get("telephone").toString();
+                                     @RequestBody String telephone){
         if(userSessionInfo != null){
 
             service.updateTelephone(userSessionInfo.getId(),telephone);
-            System.out.println(telephone);
             return CommonResult.success();
         }
         return CommonResult.failed();
@@ -80,8 +82,7 @@ public class UserController {
 
     @GetMapping("get")
     public Result<?> getUserById(@SessionAttribute UserSessionInfo userSessionInfo,
-                                 @RequestParam Map<String,Object> map){
-        Integer id= (Integer) map.get("id");
+                                 @RequestParam Integer id){
         return CommonResult.success().data(service.getUserById(id));
     }
 

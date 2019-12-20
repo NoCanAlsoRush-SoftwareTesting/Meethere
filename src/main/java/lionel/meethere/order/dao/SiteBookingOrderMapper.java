@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface SiteBookingOrderMapper {
 
-    @Insert("insert into site_order(id,use_id,site_id,site_name,rent,status,start_time,end_time) values(id,userId,siteId,siteName,rent,status,startTime,endTime);")
+    @Insert("insert into site_order(id,user_id,site_id,site_name,rent,status,start_time,end_time) values(id,userId,siteId,siteName,rent,status,startTime,endTime);")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertOrder(SiteBookingOrder siteBookingOrder);
 
@@ -39,4 +39,5 @@ public interface SiteBookingOrderMapper {
 
     @Select("select count(*) from site_order")
     int getOrderCount();
+
 }

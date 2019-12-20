@@ -10,7 +10,7 @@ spring:
       ddl-auto: update
       #控制台显示SQL语句
     show-sql: true
-    database-platform: org.hibernate.dialect.MySQLInnoDBDialect
+    #database-platform: org.hibernate.dialect.MySQLInnoDBDialect
 
 server:
   port: 8082

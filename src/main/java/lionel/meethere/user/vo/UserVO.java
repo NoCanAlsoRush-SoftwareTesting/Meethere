@@ -15,5 +15,5 @@ public class UserVO {
 
     private String username;
 
-
+    private String telephone;
 }

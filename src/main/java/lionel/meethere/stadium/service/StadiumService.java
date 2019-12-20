@@ -23,12 +23,14 @@ public class StadiumService {
     public List<StadiumVO> getStadiums (PageParam pageParam){
         return convertToStadiumVOList(stadiumMapper.getStadiumList(pageParam));
     }
+
     private StadiumVO convertToStadiumVO(Stadium stadium){
         StadiumVO stadiumVO = new StadiumVO();
         BeanUtils.copyProperties(stadium,stadiumVO);
         stadiumVO.setSiteCount(siteMapper.getSiteCountByStadium(stadium.getId()));
         return stadiumVO;
     }
+
     private List<StadiumVO> convertToStadiumVOList(List<Stadium> stadiums){
         List<StadiumVO> stadiumVOList = new ArrayList<>();
         for(Stadium stadium : stadiums){
@@ -36,7 +38,6 @@ public class StadiumService {
         }
         return stadiumVOList;
     }
-
 
     public int getStadiumCount(){
         return stadiumMapper.getStadiumCount();
