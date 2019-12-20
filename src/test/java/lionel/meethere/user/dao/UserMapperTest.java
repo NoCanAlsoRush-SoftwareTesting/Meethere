@@ -51,7 +51,6 @@ class UserMapperTest {
         assertEquals(1,this.userMapper.updateTelephoneById(2,"18982170688"));
         assertEquals(1,this.userMapper.updateUsernameById(2,"luyubo"));
         UserVO userVO = userMapper.getUserById(2);
-
         Assertions.assertAll(
                 () -> assertEquals("luyubo",userVO.getUsername())
         );

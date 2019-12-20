@@ -78,8 +78,8 @@ class NewsServiceTest {
 
 
         when(newsMapper.getNewsCatalogList(pageParam)).thenReturn(newsCatalogDTOS);
-        when(userMapper.getUserById(1)).thenReturn(new UserVO(1,"admin1"));
-        when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"admin2"));
+        when(userMapper.getUserById(1)).thenReturn(new UserVO(1,"admin1","18982170688"));
+        when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"admin2","18982170687"));
 
         List<NewsCatalogVO> newsCatalogVOS = newsService.getNewsCatalogList(pageParam);
         verify(newsMapper,times(1)).getNewsCatalogList(pageParam);
@@ -102,7 +102,7 @@ class NewsServiceTest {
         NewsDTO newsDTO = new NewsDTO(1,6,"title","content","image",createTime);
 
         when(newsMapper.getNewsById(1)).thenReturn(newsDTO);
-        when(userMapper.getUserById(6)).thenReturn(new UserVO(6,"admin1"));
+        when(userMapper.getUserById(6)).thenReturn(new UserVO(6,"admin1","18982170688"));
 
         NewsVO newsVO = newsService.getNews(1);
         verify(newsMapper,times(1)).getNewsById(1);

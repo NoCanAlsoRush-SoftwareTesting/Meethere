@@ -9,16 +9,16 @@ import java.util.List;
 @Mapper
 public interface StadiumMapper {
 
-   /* @Select("select * from stadium where id={id}")
+    @Select("select * from stadium where id=#{id}")
     Stadium getStadium(Integer id);
-*/
+
     @Select("select * from stadium order by id limit ${pageSize * (pageNum - 1)},#{pageSize}")
     List<Stadium> getStadiumList(PageParam pageParam);
 
     @Select("select count(*) from stadium")
     int getStadiumCount();
 
-    @Insert("insert into stadium(id,location,image values(#{id},#{location},#{image}")
+    @Insert("insert into stadium(id,name,location,image) values(#{id},#{name},#{location},#{image})")
     int createStadium(Stadium stadium);
 
     @Delete("delete from stadium where id=#{id}")

@@ -57,7 +57,7 @@ class UserServiceImpTest {
 
     @Test
     void when_service_do_get_user_by_id_then_dispatch_mapper_to_return_uservo() {
-        UserVO user =new UserVO(1,"lyb");
+        UserVO user =new UserVO(1,"lyb","18982170688");
         when(userMapper.getUserById(1)).thenReturn(user);
         UserVO returnU = userService.getUserById(1);
         verify(userMapper,times(1)).getUserById(1);
@@ -116,15 +116,10 @@ class UserServiceImpTest {
         userList.add(new User(5,"zhoul","12345678913","123",1));
 
         when(userMapper.getUserList(pageParam)).thenReturn(userList);
-        when(userMapper.getUserById(3)).thenReturn(new UserVO(3,"xyl"));
-        when(userMapper.getUserById(4)).thenReturn(new UserVO(4,"zhangl"));
-        when(userMapper.getUserById(5)).thenReturn(new UserVO(5,"zhoul"));
+        when(userMapper.getUserById(3)).thenReturn(new UserVO(3,"xyl","18982170688"));
 
         List<User> returnUserList = userService.getUserList(pageParam);
         verify(userMapper,times(1)).getUserList(pageParam);
-/*        verify(userMapper,times(1)).getUserById(3);
-        verify(userMapper,times(1)).getUserById(4);
-        verify(userMapper,times(1)).getUserById(5);*/
 
         User user = returnUserList.get(0);
         Assertions.assertAll(

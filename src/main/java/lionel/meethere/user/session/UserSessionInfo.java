@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class    UserSessionInfo {
+public class UserSessionInfo {
 
     private Integer id;
 
