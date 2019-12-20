@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/news/")
@@ -47,13 +48,16 @@ public class NewsController {
         return CommonResult.success();
     }
 
-    @GetMapping("get")
-    public Result<?> getNews(@RequestParam Integer newsId){
-        return CommonResult.success().data(newsService.getNews(newsId));
+    @PostMapping("get")
+    public Result<?> getNews(@RequestParam Map<String,Object> map){
+        System.out.println(map);
+        Integer id= (Integer) map.get("id");
+        System.out.println(id);
+        return CommonResult.success().data(newsService.getNews(id));
     }
 
-    @GetMapping("getcatalog")
-    public Result<?> getCatalog(@ModelAttribute PageParam pageParam){
+    @PostMapping("getcatalog")
+    public Result<?> getCatalog(@RequestBody PageParam pageParam){
         return CommonResult.success().data(newsService.getNewsCatalogList(pageParam)).total(newsService.getNewsCount());
     }
 

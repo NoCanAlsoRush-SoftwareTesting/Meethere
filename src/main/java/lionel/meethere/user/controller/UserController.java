@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     UserService service;
 
-    @PostMapping("update/info")
+    @PostMapping("update/username")
     public Result<?> updateUsername(@SessionAttribute UserSessionInfo userSessionInfo,
                                  @RequestBody String newName) {
         if (userSessionInfo != null) {
