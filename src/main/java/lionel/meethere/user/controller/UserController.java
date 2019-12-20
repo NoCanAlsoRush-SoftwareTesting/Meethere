@@ -80,7 +80,8 @@ public class UserController {
 
     @GetMapping("get")
     public Result<?> getUserById(@SessionAttribute UserSessionInfo userSessionInfo,
-                                 @RequestParam Integer id){
+                                 @RequestParam Map<String,Object> map){
+        Integer id= (Integer) map.get("id");
         return CommonResult.success().data(service.getUserById(id));
     }
 
