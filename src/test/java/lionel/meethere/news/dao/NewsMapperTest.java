@@ -49,7 +49,7 @@ class NewsMapperTest {
         NewsDTO newsDTO = newsMapper.getNewsById(1);
         Assertions.assertAll                                                                                                                                                                                                                                                                                                                                          (
                 () -> assertEquals(1,newsDTO.getId()),
-                () -> assertEquals(1,newsDTO.getAdminId()),
+                () -> assertEquals(1,newsDTO.getWriterId()),
                 () -> assertEquals("news title",newsDTO.getTitle()),
                 () -> assertEquals("content",newsDTO.getContent()),
                 () -> assertEquals(null,newsDTO.getImage())

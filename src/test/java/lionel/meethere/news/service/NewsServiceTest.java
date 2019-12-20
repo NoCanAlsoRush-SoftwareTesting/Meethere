@@ -45,7 +45,7 @@ class NewsServiceTest {
 
         NewsPublishParam publishParam = new NewsPublishParam("title","content","image");
         News news = new News();
-        news.setAdminId(1);
+        news.setWriterId(1);
         news.setTitle("title");
         news.setContent("content");
         news.setImage("image");
@@ -89,8 +89,8 @@ class NewsServiceTest {
         NewsCatalogVO newsCatalogVO1 = newsCatalogVOS.get(0);
         Assertions.assertAll(
                 ()-> assertEquals(1,newsCatalogVO1.getId()),
-                ()-> assertEquals(1,newsCatalogVO1.getAdmin().getId()),
-                ()-> assertEquals("admin1",newsCatalogVO1.getAdmin().getUsername()),
+                ()-> assertEquals(1,newsCatalogVO1.getWriter().getId()),
+                ()-> assertEquals("admin1",newsCatalogVO1.getWriter().getUsername()),
                 ()-> assertEquals("title",newsCatalogVO1.getTitle()),
                 ()-> assertEquals(createTime,newsCatalogVO1.getCreateTime())
                 );
@@ -109,8 +109,8 @@ class NewsServiceTest {
         verify(userMapper,times(1)).getUserById(6);
         Assertions.assertAll(
                 ()-> assertEquals(1,newsVO.getId()),
-                ()-> assertEquals(6,newsVO.getAdmin().getId()),
-                ()-> assertEquals("admin1",newsVO.getAdmin().getUsername()),
+                ()-> assertEquals(6,newsVO.getWriter().getId()),
+                ()-> assertEquals("admin1",newsVO.getWriter().getUsername()),
                 ()-> assertEquals("title",newsVO.getTitle()),
                 ()-> assertEquals("content",newsVO.getContent()),
                 ()-> assertEquals("image",newsVO.getImage()),

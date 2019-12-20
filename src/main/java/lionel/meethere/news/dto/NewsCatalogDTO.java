@@ -11,7 +11,7 @@ public class NewsCatalogDTO {
 
     private Integer id;
 
-    private Integer adminId;
+    private Integer writerId;
 
     private String title;
 

@@ -27,8 +27,8 @@ public class SiteController {
 
     @GetMapping("/site/listbystadium")
     public Result<?> getSiteListByStadium(@ModelAttribute PageParam pageParam,
-                                          @RequestParam String stadium){
-        return CommonResult.success().data(siteService.getSitesByStadium(stadium,pageParam)).total(siteService.getSiteCountByStadium(stadium));
+                                          @RequestParam Integer stadiumId){
+        return CommonResult.success().data(siteService.getSitesByStadium(stadiumId,pageParam)).total(siteService.getSiteCountByStadium(stadiumId));
     }
 
     @PostMapping("/site/create")

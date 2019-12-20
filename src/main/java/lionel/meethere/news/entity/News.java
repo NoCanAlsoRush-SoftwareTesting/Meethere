@@ -20,7 +20,7 @@ public class News {
     private Integer id;
 
     @Column(name = "writer_id")
-    private Integer adminId;
+    private Integer writerId;
 
     @Column(name = "title")
     private String title;

@@ -9,14 +9,14 @@ import java.util.List;
 @Mapper
 public interface SiteMapper {
 
-    @Insert("insert into site(id,name,stadium,location,description,rent,image) values(#{id},#{name},#{stadium},#{location},#{description},#{rent},#{image});")
+    @Insert("insert into site(id,name,stadium_id,location,description,rent,image) values(#{id},#{name},#{stadiumId},#{location},#{description},#{rent},#{image});")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertSite(Site site);
 
     @Delete("delete from site where id=#{id};")
     int deleteSite(Integer id);
 
-    @Update("update site set name=#{name},stadium=#{stadium},location=#{location},description=#{description},rent=#{rent},image=#{image} where id=#{id};")
+    @Update("update site set name=#{name},stadium_id=#{stadiumId},location=#{location},description=#{description},rent=#{rent},image=#{image} where id=#{id};")
     int updateSite(Site site);
 
     @Select("select * from site where id=#{id};")
@@ -28,12 +28,12 @@ public interface SiteMapper {
     @Select("select * from site order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
     List<Site> listSites(PageParam pageParam);
 
-    @Select("select * from site where stadium=#{stadium} order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
-    List<Site> listSitesByStadium(String stadium,PageParam pageParam);
+    @Select("select * from site where stadium_id=#{stadiumId} order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
+    List<Site> listSitesByStadium(Integer stadiumId,PageParam pageParam);
 
     @Select("select count(*) from site")
     int getSiteCount();
 
-    @Select("select count(*) from site where stadium=#{stadium}")
-    int getSiteCountByStadium(String stadium);
+    @Select("select count(*) from site where stadium_id=#{stadiumId}")
+    int getSiteCountByStadium(Integer stadiumId);
 }
