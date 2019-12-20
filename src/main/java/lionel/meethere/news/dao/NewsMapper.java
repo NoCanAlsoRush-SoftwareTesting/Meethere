@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface NewsMapper {
 
-    @Insert("insert into news(id,writer_id,title,content,image,create_time,modified_time) values(#{id},#{adminId},#{title},#{content},#{image},#{createTime},#{modifiedTime});")
+    @Insert("insert into news(id,writer_id,title,content,image,create_time,modified_time) values(#{id},#{writerId},#{title},#{content},#{image},#{createTime},#{modifiedTime});")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertNews(News news);
 
@@ -25,7 +25,7 @@ public interface NewsMapper {
     @Results(
             id = "newsDTO",value = {
             @Result(property="id", column="id"),
-            @Result(property="adminId", column="writer_id"),
+            @Result(property="writerId", column="writer_id"),
             @Result(property="title", column="title"),
             @Result(property="content", column="content"),
             @Result(property="image", column="image"),
@@ -39,7 +39,7 @@ public interface NewsMapper {
     @Results(
             id = "newsCatalogDTO",value = {
             @Result(property="id", column="id"),
-            @Result(property="adminId", column="writer_id"),
+            @Result(property="writerId", column="writer_id"),
             @Result(property="title", column="title"),
             @Result(property="createTime", column="create_time"),
     }

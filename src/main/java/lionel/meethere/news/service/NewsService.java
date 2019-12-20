@@ -34,7 +34,7 @@ public class NewsService {
     private News convertToNews(Integer adminId, NewsPublishParam newsPublishParam){
         News news = new News();
         BeanUtils.copyProperties(newsPublishParam,news);
-        news.setAdminId(adminId);
+        news.setWriterId(adminId);
         return news;
     }
     public void deleteNews(Integer id){
@@ -58,8 +58,8 @@ public class NewsService {
     private NewsCatalogVO convertToNewsCatalogVO(NewsCatalogDTO newsCatalogDTO){
         NewsCatalogVO newsCatalogVO = new NewsCatalogVO();
         BeanUtils.copyProperties(newsCatalogDTO,newsCatalogVO);
-        UserVO admin = userMapper.getUserById(newsCatalogDTO.getAdminId());
-        newsCatalogVO.setAdmin(admin);
+        UserVO admin = userMapper.getUserById(newsCatalogDTO.getWriterId());
+        newsCatalogVO.setWriter(admin);
         return newsCatalogVO;
     }
     public NewsVO getNews(Integer id){
@@ -69,11 +69,10 @@ public class NewsService {
     private NewsVO convertToNewsVO(NewsDTO newsDTO){
         NewsVO newsVO = new NewsVO();
         BeanUtils.copyProperties(newsDTO,newsVO);
-        UserVO admin = userMapper.getUserById(newsDTO.getAdminId());
-        newsVO.setAdmin(admin);
+        UserVO admin = userMapper.getUserById(newsDTO.getWriterId());
+        newsVO.setWriter(admin);
         return newsVO;
     }
-
 
     public int getNewsCount(){
        return newsMapper.getNewsCount();

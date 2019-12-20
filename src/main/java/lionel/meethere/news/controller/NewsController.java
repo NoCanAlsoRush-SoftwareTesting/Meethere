@@ -19,10 +19,6 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    /*@GetMapping("")
-    public Result<?> getNewsCount(){
-        return CommonResult.success().data(newsService.getNewsCount());
-    }*/
 
     @PostMapping("publish")
     public Result<?> publishNews(@SessionAttribute UserSessionInfo userSessionInfo,

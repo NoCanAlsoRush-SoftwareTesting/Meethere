@@ -13,7 +13,7 @@ import java.util.List;
 public class SiteService {
 
     @Autowired
-    SiteMapper siteMapper;
+    SiteMapper  siteMapper;
 
     public void createSite(Site site){
         siteMapper.insertSite(site);
@@ -43,16 +43,17 @@ public class SiteService {
     }
 
     public List<Site> getSites(PageParam pageParam){
-       return siteMapper.listSites(pageParam);
-   }
-    public List<Site> getSitesByStadium(String stadium, PageParam pageParam){
-        return siteMapper.listSitesByStadium(stadium,pageParam);
+        return siteMapper.listSites(pageParam);
+    }
+
+    public List<Site> getSitesByStadium(Integer stadiumId, PageParam pageParam){
+        return siteMapper.listSitesByStadium(stadiumId,pageParam);
     }
 
     public int getSiteCount(){
         return siteMapper.getSiteCount();
     }
-    public int getSiteCountByStadium(String stadium){
-        return siteMapper.getSiteCountByStadium(stadium);
+    public int getSiteCountByStadium(Integer stadiumId){
+        return siteMapper.getSiteCountByStadium(stadiumId);
     }
 }

@@ -55,8 +55,8 @@ public class CommentService {
         return commentVO;
     }
 
-    public List<CommentVO> getComments(PageParam pageParam){
-        return convertToCommentVOList(commentMapper.getAuditedComments(pageParam));
+    public List<CommentVO> getCommentsBySite(PageParam pageParam, Integer siteId){
+        return convertToCommentVOList(commentMapper.getAuditedComments(pageParam,siteId));
     }
 
     private List<CommentVO> convertToCommentVOList(List<CommentDTO> commentDTOList){

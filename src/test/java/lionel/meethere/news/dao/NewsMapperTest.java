@@ -44,15 +44,12 @@ class NewsMapperTest {
     void when_insert_a_news_should_insert_success(){
         LocalDateTime localDateTime = LocalDateTime.now();
         News news = new News(1,1,"news title","content",null, localDateTime,localDateTime);
-        //this.entityManager.persist(news);
         this.newsMapper.insertNews(news);
-
-      //  verify(newsMapper).insertNews(news);
 
         NewsDTO newsDTO = newsMapper.getNewsById(1);
         Assertions.assertAll                                                                                                                                                                                                                                                                                                                                          (
                 () -> assertEquals(1,newsDTO.getId()),
-                () -> assertEquals(1,newsDTO.getAdminId()),
+                () -> assertEquals(1,newsDTO.getWriterId()),
                 () -> assertEquals("news title",newsDTO.getTitle()),
                 () -> assertEquals("content",newsDTO.getContent()),
                 () -> assertEquals(null,newsDTO.getImage())

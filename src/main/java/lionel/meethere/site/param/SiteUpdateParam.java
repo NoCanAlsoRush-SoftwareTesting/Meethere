@@ -19,7 +19,7 @@ public class SiteUpdateParam {
 
     private String name;
 
-    private String stadium;
+    private Integer stadiumId;
 
     private String location;
 

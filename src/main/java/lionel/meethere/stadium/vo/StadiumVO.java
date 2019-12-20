@@ -1,4 +1,5 @@
-package lionel.meethere.news.dto;
+package lionel.meethere.stadium.vo;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewsCatalogDTO {
-
+public class StadiumVO {
     private Integer id;
 
-    private Integer writerId;
+    private String location;
 
-    private String title;
+    private String image;
 
-    private String createTime;
+    private Integer siteCount;
+
 }
