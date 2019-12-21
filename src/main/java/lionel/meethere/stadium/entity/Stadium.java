@@ -23,9 +23,6 @@ public class Stadium {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "image")
     private String image;
 
