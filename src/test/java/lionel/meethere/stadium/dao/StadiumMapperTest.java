@@ -26,7 +26,6 @@ class StadiumMapperTest {
     }
 
     @Test
-    @Transactional
     void when_insert_a_stadium_should_insert_success() {
         Stadium stadium = new Stadium(1,"Software Testing健身房","中山北路",null);
         this.stadiumMapper.createStadium(stadium);

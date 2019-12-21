@@ -124,9 +124,13 @@ public class LoginControllerTest {
         when(userService.register(registerParam)).thenThrow(UsernameAlreadyExistException.class);
         MvcResult result = mockMvc.perform(
                 post("/register")
-                        .content(JSON.toJSONString(registerParam))
+                .param("username","lyb")
+                .param("password","123456789")
+                .param("telephone","18982170688")
+                .session(session)
+                        /*.content(JSON.toJSONString(registerParam))
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .session(session)
+                        .session(session)*/
         ).andReturn();
 
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
