@@ -9,7 +9,7 @@ import lionel.meethere.user.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("/stadium/")
 public class StadiumController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class StadiumController {
         return CommonResult.success();
     }
 
-    @PostMapping("/stadium/delete")
+    @PostMapping("delete")
     public Result<?> deleteStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @RequestBody Integer id){
         if(userSessionInfo.getAdmin() == 0){
@@ -48,7 +48,7 @@ public class StadiumController {
         return CommonResult.success();
     }
 
-    @PostMapping("/stadium/update")
+    @PostMapping("update")
     public Result<?> updateStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @RequestBody Stadium stadium){
         if(userSessionInfo.getAdmin() == 0){

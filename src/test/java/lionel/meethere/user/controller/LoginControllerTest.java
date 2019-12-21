@@ -140,7 +140,7 @@ public class LoginControllerTest {
         session.setAttribute("userSessionInfo",userSessionInfo);
 
         MvcResult result = mockMvc.perform(
-                get("/logout")
+                post("/logout")
                     .session(session)
         ).andReturn();
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);

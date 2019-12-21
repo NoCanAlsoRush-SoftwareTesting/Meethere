@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lionel.meethere.news.param.NewsPublishParam;
 import lionel.meethere.news.param.NewsUpdateParam;
 import lionel.meethere.news.service.NewsService;
+import lionel.meethere.news.vo.NewsVO;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
@@ -17,9 +18,11 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -47,7 +50,7 @@ class NewsControllerTest {
                         .session(session)
         ).andReturn();
 
-        verify(newsService,times(1)).publishNews(1,publishParam);
+        verify(newsService, times(1)).publishNews(1, publishParam);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
     }
@@ -85,7 +88,7 @@ class NewsControllerTest {
                         .session(session)
         ).andReturn();
 
-        verify(newsService,times(1)).deleteNews(1);
+        verify(newsService, times(1)).deleteNews(1);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
     }
@@ -123,7 +126,7 @@ class NewsControllerTest {
                         .session(session)
         ).andReturn();
 
-        verify(newsService,times(1)).updateNews(updateParam);
+        verify(newsService, times(1)).updateNews(updateParam);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
     }
@@ -149,22 +152,29 @@ class NewsControllerTest {
 
     @Test
     void when_request_to_get_news_by_id_then_dispatch_to_service_and_return_success_result() throws Exception {
-        MvcResult result = mockMvc.perform(
-                get("/news/get")
-                        .param("newsId", "1")
-        ).andReturn();
 
-        verify(newsService).getNews(1);
+        NewsVO newsVO = new NewsVO();
+        newsVO.setId(1);
+        when(newsService.getNews(1)).thenReturn(newsVO);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("newsId", 1);
+        MvcResult result = mockMvc.perform(
+                post("/news/get")
+                        .content(JSON.toJSONString(map))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        ).andReturn();
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
     }
 
     @Test
     void when_request_to_get_news_catalog_then_dispatch_to_service_and_return_success_result() throws Exception {
+        PageParam pageParam = new PageParam(1, 1);
         MvcResult result = mockMvc.perform(
-                get("/news/getcatalog")
-                        .param("pageNum", "1")
-                        .param("pageSize", "1")
+                post("/news/getcatalog")
+                        .content(JSON.toJSONString(pageParam))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
         ).andReturn();
 
         verify(newsService).getNewsCatalogList(new PageParam(1, 1));

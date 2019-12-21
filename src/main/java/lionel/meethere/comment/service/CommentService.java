@@ -56,10 +56,8 @@ public class CommentService {
     }
 
     public List<CommentVO> getCommentsBySite(PageParam pageParam, Integer siteId){
-        System.out.println("进入service comments");
-        System.out.println(pageParam);
-        System.out.println(siteId);
         return convertToCommentVOList(commentMapper.getAuditedComments(pageParam.getPageNum(),pageParam.getPageSize(),siteId));
+
     }
 
     private List<CommentVO> convertToCommentVOList(List<CommentDTO> commentDTOList){
@@ -73,4 +71,5 @@ public class CommentService {
     public int getCommentCount(){
         return commentMapper.getCommentCount();
     }
+
 }

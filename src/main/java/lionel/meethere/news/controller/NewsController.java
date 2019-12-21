@@ -53,10 +53,8 @@ public class NewsController {
 //        Integer id= (Integer) map.get("id");
 //        System.out.println(id);
 //        return CommonResult.success().data(newsService.getNews(id));
-//    }
     @PostMapping("get")
     public Result<?> getNews(@RequestParam Integer id){
-        System.out.println(id);
         return CommonResult.success().data(newsService.getNews(id));
     }
 
