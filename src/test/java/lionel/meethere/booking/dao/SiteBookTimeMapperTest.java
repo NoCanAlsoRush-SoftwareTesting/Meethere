@@ -51,7 +51,14 @@ class SiteBookTimeMapperTest {
 
     @Test
     void when_select_siteBookingTimes_between_specific_start_and_end_tiem_should_select(){
-        assertNotNull(siteBookTimeMapper.getSiteBookingTimeBetweenStimeAndEtime(3,localDateTime,localDateTime2));
+        SiteBookingTime siteBookingTime = siteBookTimeMapper.getSiteBookingTimeBetweenStimeAndEtime(3,localDateTime,localDateTime2);
+        assertNotNull(siteBookingTime);
+        Assertions.assertAll(
+                ()->assertEquals(4,siteBookingTime.getId()),
+                ()->assertEquals(3,siteBookingTime.getSiteId()),
+                ()->assertEquals(localDateTime,siteBookingTime.getStartTime()),
+                ()->assertEquals(localDateTime2,siteBookingTime.getEndTime())
+        );
     }
 
     @Test

@@ -161,8 +161,7 @@ class NewsControllerTest {
         map.put("newsId", 1);
         MvcResult result = mockMvc.perform(
                 post("/news/get")
-                        .content(JSON.toJSONString(map))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .param("id","1")
         ).andReturn();
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
@@ -173,8 +172,10 @@ class NewsControllerTest {
         PageParam pageParam = new PageParam(1, 1);
         MvcResult result = mockMvc.perform(
                 post("/news/getcatalog")
-                        .content(JSON.toJSONString(pageParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .param("pageNum","1")
+                .param("pageSize","1")
+                        /*.content(JSON.toJSONString(pageParam))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)*/
         ).andReturn();
 
         verify(newsService).getNewsCatalogList(new PageParam(1, 1));

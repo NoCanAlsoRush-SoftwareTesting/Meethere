@@ -7,6 +7,7 @@ import lionel.meethere.order.vo.SiteBookingOrderUserVO;
 import lionel.meethere.paging.PageParam;
 import org.apache.ibatis.annotations.*;
 
+import javax.persistence.SqlResultSetMapping;
 import java.util.List;
 
 @Mapper

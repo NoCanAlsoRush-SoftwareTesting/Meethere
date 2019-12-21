@@ -27,7 +27,6 @@ class StadiumMapperTest {
     }
 
     @Test
-    @Transactional
     void when_insert_a_stadium_should_insert_success() {
         Stadium stadium = new Stadium(1,"Software Testing健身房","中山北路",null);
         this.stadiumMapper.createStadium(stadium);
@@ -49,7 +48,13 @@ class StadiumMapperTest {
 
     @Test
     void when_get_stadium_by_valid_Id_should_return_a_stadium() {
-        assertNotNull(this.stadiumMapper.getStadium(2));
+        Stadium stadium = stadiumMapper.getStadium(2);
+        assertNotNull(stadium);
+        Assertions.assertAll(
+                ()->assertEquals("OOAD体育馆",stadium.getName()),
+                ()->assertEquals("中山北路",stadium.getLocation()),
+                ()->assertEquals(null,stadium.getImage())
+        );
     }
 
     @Test
