@@ -16,22 +16,25 @@ public class SiteController {
     @Autowired
     private SiteService siteService;
 
-    @GetMapping("/site/get")
+    //ok
+    @PostMapping("/site/get")
     public Result<?> getSite(@RequestParam Integer id){
+        System.out.println("site");
+        System.out.println(id);
         return CommonResult.success().data(siteService.getSiteById(id));
     }
 
 
-
     @PostMapping("/site/list")
-    public Result<?> getSiteList(@RequestBody PageParam pageParam){
+    public Result<?> getSiteList(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
+        PageParam pageParam = new PageParam(pageNum,pageSize);
         return CommonResult.success().data(siteService.getSites(pageParam)).total(siteService.getSiteCount());
     }
-
-    @GetMapping("/site/listbystadium")
-    public Result<?> getSiteListByStadium(@ModelAttribute PageParam pageParam,
-                                          @RequestParam Integer stadiumId){
-        return CommonResult.success().data(siteService.getSitesByStadium(stadiumId,pageParam)).total(siteService.getSiteCountByStadium(stadiumId));
+    //ok
+    @PostMapping("/site/listByStadium")
+    public Result<?> getSiteListByStadium(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam Integer id){
+        PageParam pageParam = new PageParam(pageNum,pageSize);
+        return CommonResult.success().data(siteService.getSitesByStadium(id,pageParam)).total(siteService.getSiteCountByStadium(id));
     }
 
     @PostMapping("/site/create")

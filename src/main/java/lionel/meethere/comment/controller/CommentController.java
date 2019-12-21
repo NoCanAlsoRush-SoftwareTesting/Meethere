@@ -64,10 +64,12 @@ public class CommentController {
         }
         return CommonResult.success();
     }
-
-    @GetMapping("getcomments")
-    public Result<?> getCommentsBySite(@ModelAttribute PageParam pageParam,
+    //OK
+    @PostMapping("getcomments")
+    public Result<?> getCommentsBySite(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
                                        @RequestParam Integer siteId){
+
+        PageParam pageParam = new PageParam(pageNum,pageSize);
         return CommonResult.success().data(commentService.getCommentsBySite(pageParam,siteId)).total(commentService.getCommentCount());
     }
 

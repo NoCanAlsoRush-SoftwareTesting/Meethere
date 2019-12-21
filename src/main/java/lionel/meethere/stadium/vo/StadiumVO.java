@@ -10,13 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StadiumVO {
     private Integer id;
-
     private String name;
-
     private String location;
-
     private String image;
-
     private Integer siteCount;
 
 }

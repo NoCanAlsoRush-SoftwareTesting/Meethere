@@ -39,6 +39,7 @@ public class SiteService {
     }
 
     public Site getSiteById(Integer id){
+        System.out.println("site service");
         return siteMapper.getSite(id);
     }
 
@@ -47,7 +48,9 @@ public class SiteService {
     }
 
     public List<Site> getSitesByStadium(Integer stadiumId, PageParam pageParam){
-        return siteMapper.listSitesByStadium(stadiumId,pageParam);
+        System.out.println("进入service");
+        System.out.println(pageParam);
+        return siteMapper.listSitesByStadium(stadiumId,pageParam.getPageNum(),pageParam.getPageSize());
     }
 
     public int getSiteCount(){

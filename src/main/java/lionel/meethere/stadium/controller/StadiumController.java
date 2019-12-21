@@ -14,13 +14,20 @@ public class StadiumController {
 
     @Autowired
     private StadiumService stadiumService;
-
-    @GetMapping("list")
-    public Result<?> getStadium(@ModelAttribute PageParam pageParam){
+    //OK
+    @PostMapping("/stadium/list")
+    public Result<?> getStadium(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
+        PageParam pageParam = new PageParam(pageNum,pageSize);
         return CommonResult.success().data(stadiumService.getStadiums(pageParam)).total(stadiumService.getStadiumCount());
     }
 
-    @PostMapping("create")
+    //OK
+    @PostMapping("/stadium/get")
+    public Result<?> getStadiumById(@RequestParam Integer id){
+        return CommonResult.success().data(stadiumService.getStadiumById(id));
+    }
+
+    @PostMapping("/stadium/create")
     public Result<?> createStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @RequestBody Stadium stadium){
         if(userSessionInfo.getAdmin() == 0){
