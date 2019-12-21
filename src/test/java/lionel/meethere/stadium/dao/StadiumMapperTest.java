@@ -47,7 +47,13 @@ class StadiumMapperTest {
 
     @Test
     void when_get_stadium_by_valid_Id_should_return_a_stadium() {
-        assertNotNull(this.stadiumMapper.getStadium(2));
+        Stadium stadium = stadiumMapper.getStadium(2);
+        assertNotNull(stadium);
+        Assertions.assertAll(
+                ()->assertEquals("OOAD体育馆",stadium.getName()),
+                ()->assertEquals("中山北路",stadium.getLocation()),
+                ()->assertEquals(null,stadium.getImage())
+        );
     }
 
     @Test

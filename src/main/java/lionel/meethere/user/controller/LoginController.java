@@ -2,6 +2,7 @@ package lionel.meethere.user.controller;
 
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
+import lionel.meethere.user.service.UserServiceImp;
 import lionel.meethere.user.session.UserSessionInfo;
 import lionel.meethere.user.entity.User;
 import lionel.meethere.user.exception.IncorrectUsernameOrPasswordException;
@@ -23,9 +24,6 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    //@GetMapping("/login/{username}/{password}")
-    //public Result<?> login(@ModelAttribute LoginParam loginParam,HttpSession httpSession){
-    //OK
     @PostMapping("/login")
     public Result<?> login(@RequestParam String username,@RequestParam String  password,
             HttpSession httpSession){
@@ -35,7 +33,6 @@ public class LoginController {
                 ||loginParam.getPassword().length() < 2 ||loginParam.getPassword().length() > 20){
             return UserResult.invalidUsernameOrPassword();
         }
-
 
         UserSessionInfo userSessionInfo = new UserSessionInfo();
 
@@ -54,11 +51,6 @@ public class LoginController {
         return CommonResult.success().data(userSessionInfo);
     }
 
-
-    //@GetMapping("/register/{username}/{password}")
-
-    //public Result<?> register(@ModelAttribute RegisterParam registerParam){
-    //OK
     @PostMapping("/register")
     public Result<?> register(@RequestParam String username,@RequestParam String  password,@RequestParam String telephone){
 
@@ -76,7 +68,6 @@ public class LoginController {
          }
          return CommonResult.success();
     }
-
 
     @PostMapping("/logout")
     public Result<?> logout(HttpSession session){

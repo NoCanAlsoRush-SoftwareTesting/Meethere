@@ -70,6 +70,7 @@ public class UserController {
         service.deleteUserById(userId);
         return CommonResult.success();
     }
+
     @GetMapping("list")
     public Result<?> getUerList(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @ModelAttribute PageParam pageParam){
