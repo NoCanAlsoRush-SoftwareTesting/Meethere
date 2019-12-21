@@ -53,11 +53,13 @@ public class NewsController {
 //        Integer id= (Integer) map.get("id");
 //        System.out.println(id);
 //        return CommonResult.success().data(newsService.getNews(id));
+   //OK
     @PostMapping("get")
     public Result<?> getNews(@RequestParam Integer id){
         return CommonResult.success().data(newsService.getNews(id));
     }
 
+    //OK
     @PostMapping("getcatalog")
     public Result<?> getCatalog(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
         PageParam pageParam = new PageParam(pageNum,pageSize);

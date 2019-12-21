@@ -26,9 +26,12 @@ public class CommentController {
         return CommonResult.success().data(commentService.getCommentCount());
     }*/
 
+    //OK
     @PostMapping("publish")
     public Result<?> publishComment(@SessionAttribute UserSessionInfo userSessionInfo,
-                                    @RequestBody CommentPublishParam publishParam){
+                                   @RequestParam Integer siteId,
+                                    @RequestParam String content){
+        CommentPublishParam publishParam = new CommentPublishParam(siteId,content);
         CommentDTO commentDTO = new CommentDTO();
         BeanUtils.copyProperties(publishParam,commentDTO);
         commentDTO.setReviewerId(userSessionInfo.getId());

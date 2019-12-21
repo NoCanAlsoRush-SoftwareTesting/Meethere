@@ -32,6 +32,7 @@ public interface CommentMapper {
     @Select("select * from comment where id=#{id};")
     CommentDTO getCommentById(Integer id);
 
+    @ResultMap("commentDTO")
     @Select("select * from comment where status=1 and site_id=#{siteId} limit ${pageSize*(pageNum-1)},#{pageSize};")
     List<CommentDTO> getAuditedComments(@Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize,
                                         @Param("siteId")   Integer siteId);
