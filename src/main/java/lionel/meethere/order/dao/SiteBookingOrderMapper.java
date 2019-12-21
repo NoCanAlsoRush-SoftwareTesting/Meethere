@@ -53,7 +53,7 @@ public interface SiteBookingOrderMapper {
     @Select("select * from site_order where user_id=#{userId} and status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
     List<SiteBookingOrderUserVO> getOrderByUser(@Param("userId") Integer userId,
                                                 @Param("status") Integer status,
-                                                @Param("pageParam")PageParam pageParam);
+                                                @Param("pageParam") PageParam pageParam);
 
     @Results(
             id = "siteBookingOrderAdminVO", value = {

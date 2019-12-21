@@ -3,46 +3,38 @@ package lionel.meethere.user.controller;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
-import lionel.meethere.user.entity.User;
-import lionel.meethere.user.param.LoginParam;
-import lionel.meethere.user.param.RegisterParam;
 import lionel.meethere.user.service.UserService;
 import lionel.meethere.user.session.UserSessionInfo;
-import lionel.meethere.user.vo.UserVO;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @RestController
 @RequestMapping("/user/")
 public class UserController {
     @Autowired
     UserService service;
-
+//ok
     @PostMapping("update/username")
     public Result<?> updateUsername(@SessionAttribute UserSessionInfo userSessionInfo,
-                                 @RequestBody String newName) {
+                                 @RequestParam String newName) {
         if (userSessionInfo != null) {
             service.updateUsername(userSessionInfo.getId(), newName);
             return CommonResult.success();
         }
         return CommonResult.failed();
     }
-
+//ok
     @PostMapping("update/password")
     public Result<?> updatePassword(@SessionAttribute UserSessionInfo userSessionInfo,
-                                    @RequestBody String oldPassword,
-                                    @RequestBody String newPassword){
+                                    @RequestParam String oldPassword,
+                                    @RequestParam String newPassword){
         service.updatePassword(userSessionInfo,oldPassword,newPassword);
         return CommonResult.success();
     }
-
+//ok
     @PostMapping("update/telephone")
     public Result<?> updateTelephone(@SessionAttribute UserSessionInfo userSessionInfo,
-                                     @RequestBody String telephone){
+                                     @RequestParam String telephone){
         if(userSessionInfo != null){
 
             service.updateTelephone(userSessionInfo.getId(),telephone);
@@ -80,8 +72,8 @@ public class UserController {
 
         return CommonResult.success().data(service.getUserList(pageParam)).total(service.getCountOfUser());
     }
-
-    @GetMapping("get")
+   //ok
+    @PostMapping("get")
     public Result<?> getUserById(@SessionAttribute UserSessionInfo userSessionInfo,
                                  @RequestParam Integer id){
         return CommonResult.success().data(service.getUserById(id));

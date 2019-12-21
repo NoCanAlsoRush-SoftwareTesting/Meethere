@@ -31,6 +31,7 @@ public class Comment {
     @Column(name = "status")
     private Integer status;
 
+
     @Column(name = "create_time")
     @CreatedDate
     private LocalDateTime createTime;
