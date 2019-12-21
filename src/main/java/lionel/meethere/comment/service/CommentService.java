@@ -56,7 +56,7 @@ public class CommentService {
     }
 
     public List<CommentVO> getCommentsBySite(PageParam pageParam, Integer siteId){
-        return convertToCommentVOList(commentMapper.getAuditedComments(pageParam,siteId));
+        return convertToCommentVOList(commentMapper.getAuditedCommentsBySite(pageParam,siteId));
     }
 
     private List<CommentVO> convertToCommentVOList(List<CommentDTO> commentDTOList){
@@ -70,4 +70,5 @@ public class CommentService {
     public int getCommentCount(){
         return commentMapper.getCommentCount();
     }
+
 }

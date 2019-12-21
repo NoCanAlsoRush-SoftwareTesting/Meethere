@@ -14,6 +14,14 @@ public interface SiteBookTimeMapper {
     @Insert("insert into site_booked_time(id,site_id,start_time,end_time) values (#{id},#{siteId},#{startTime},#{endTime});")
     int insertBookTime(SiteBookingTime bookingTime);
 
+    @Results(
+            id = "siteBookingTime",value = {
+            @Result(property="id", column="id"),
+            @Result(property="siteId", column="site_id"),
+            @Result(property="startTime", column="start_time"),
+            @Result(property="endTime", column="end_time"),
+    }
+    )
     @Select("select * from site_booked_time where site_id=#{siteId} and start_time between #{startTime} and #{endTime} or site_id=#{siteId} and end_time between #{startTime} and #{endTime};")
     SiteBookingTime getSiteBookingTimeBetweenStimeAndEtime(@Param("siteId") Integer siteId,
                                                   @Param("startTime")LocalDateTime startTime,

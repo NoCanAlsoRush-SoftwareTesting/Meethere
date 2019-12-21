@@ -9,18 +9,18 @@ import lionel.meethere.user.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/stadium/")
+@RestController
 public class StadiumController {
 
     @Autowired
     private StadiumService stadiumService;
 
-    @GetMapping("list")
+    @GetMapping("/stadium/list")
     public Result<?> getStadium(@ModelAttribute PageParam pageParam){
         return CommonResult.success().data(stadiumService.getStadiums(pageParam)).total(stadiumService.getStadiumCount());
     }
 
-    @PostMapping("create")
+    @PostMapping("/stadium/create")
     public Result<?> createStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @RequestBody Stadium stadium){
         if(userSessionInfo.getAdmin() == 0){
@@ -30,7 +30,7 @@ public class StadiumController {
         return CommonResult.success();
     }
 
-    @PostMapping("delete")
+    @PostMapping("/stadium/delete")
     public Result<?> deleteStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @RequestBody Integer id){
         if(userSessionInfo.getAdmin() == 0){
@@ -41,7 +41,7 @@ public class StadiumController {
         return CommonResult.success();
     }
 
-    @PostMapping("update")
+    @PostMapping("/stadium/update")
     public Result<?> updateStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                 @RequestBody Stadium stadium){
         if(userSessionInfo.getAdmin() == 0){

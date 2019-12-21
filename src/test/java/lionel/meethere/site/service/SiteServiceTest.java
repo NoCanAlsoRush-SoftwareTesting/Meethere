@@ -1,14 +1,10 @@
 package lionel.meethere.site.service;
 
-import com.mysql.cj.xdevapi.UpdateParams;
-import lionel.meethere.news.entity.News;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.site.dao.SiteMapper;
 import lionel.meethere.site.entity.Site;
 import lionel.meethere.site.param.SiteUpdateParam;
 import lionel.meethere.stadium.dao.StadiumMapper;
-import lionel.meethere.user.entity.User;
-import org.hibernate.service.spi.InjectService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
 
-    @Insert("insert into comment(id,user_id,site_id,content,status,creat_time valus(#{id},#{userId},#{siteId},#{content},#{status},#{create_time};")
+    @Insert("insert into comment(id,user_id,site_id,content,status,create_time) values(#{id},#{reviewerId},#{siteId},#{content},#{status},#{createTime});")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int publishCommnet(Comment comment);
 
@@ -21,12 +21,21 @@ public interface CommentMapper {
     int updateCommentStatus(@Param("id") Integer id,
                             @Param("status") Integer status);
 
-    @Select("select * from comment where id=#{id);")
+    @Results(
+            id = "commentDTO",value = {
+            @Result(property="id", column="id"),
+            @Result(property="reviewerId", column="user_id"),
+            @Result(property="siteId", column="site_id"),
+            @Result(property="content", column="content"),
+            @Result(property ="createTime", column = "create_time")
+    }
+    )
+    @Select("select * from comment where id=#{id};")
     CommentDTO getCommentById(Integer id);
 
-    @Select("select * from comment where status=1 and site_id=#{siteId} limit $(pageSize*(pageNum-1),#{pageSize};")
-    List<CommentDTO> getAuditedComments(@Param("pageParam") PageParam pageParam,
-                                        @Param("siteId") Integer siteId);
+
+    @Select("select * from comment where status=1 and site_id=#{siteId} limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize}")
+    List<CommentDTO> getAuditedCommentsBySite(PageParam pageParam, Integer siteId);
 
     @Select("select count(*) from comment")
     int getCommentCount();
