@@ -1,8 +1,12 @@
 package lionel.meethere.user.service;
 
+import lionel.meethere.order.exception.UserIdNotMatchOrderException;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.user.dao.UserMapper;
 import lionel.meethere.user.entity.User;
+import lionel.meethere.user.exception.IncorrectUsernameOrPasswordException;
+import lionel.meethere.user.exception.UsernameAlreadyExistException;
+import lionel.meethere.user.exception.UsernameNotExistsException;
 import lionel.meethere.user.param.LoginParam;
 import lionel.meethere.user.param.RegisterParam;
 import lionel.meethere.user.session.UserSessionInfo;
@@ -38,7 +42,7 @@ class UserServiceImpTest {
     }
 
     @Test
-    void when_service_do_login_then_dispatch_to_mapper_to_return_user(){
+    void when_service_do_login_with_matched_name_and_passwd_then_dispatch_mapper_to_return_user(){
         User user = new User(1,"lyb","18982170688","123456789",1);
         LoginParam loginParam = new LoginParam("lyb","123456789");
 
@@ -47,6 +51,24 @@ class UserServiceImpTest {
         verify(userMapper,times(1)).getUserByUsername("lyb");
     }
 
+    @Test
+    void when_service_do_login_with_unexisted_user_then_dispatch_mapper_to_throw_notexsistedException(){
+        User user = new User(1,"lyb","18982170688","123456789",1);
+        LoginParam loginParam = new LoginParam("lyb","123456789");
+
+        when((userMapper.getUserByUsername("lyb"))).thenReturn(null);
+        assertThrows(UsernameNotExistsException.class,()->userService.login(loginParam));
+    }
+
+
+    @Test
+    void when_service_do_login_with_incorrect_passwd_then_dispatch_mapper_to_throw_notexsistedException(){
+        User user = new User(1,"lyb","18982170688","123456789",1);
+        LoginParam loginParam = new LoginParam("lyb","123456788");
+
+        when((userMapper.getUserByUsername("lyb"))).thenReturn(user);
+        assertThrows(IncorrectUsernameOrPasswordException.class,()->userService.login(loginParam));
+    }
     @Test
     void when_service_do_get_user_by_username_then_dispatch_mapper_to_return_user(){
         User user =new User(1,"lyb","18982170688","123456789",1);
@@ -72,7 +94,15 @@ class UserServiceImpTest {
     }
 
     @Test
-    void when_service_do_update_password_then_dispatch_mapper_to_update_user() {
+    void when_service_do_register_with_exsist_username_then_dispatch_mapper_to_deny(){
+        RegisterParam registerParam = new RegisterParam("lyb","123456789","18982170688");
+        User user =new User(null,"lyb","18982170688","123456788",0);
+        when(userMapper.getUserByUsername("lyb")).thenReturn(user);
+        assertThrows(UsernameAlreadyExistException.class,()->userService.register(registerParam));
+    }
+
+    @Test
+    void when_service_do_update_password_with_matched_oldpasswd_then_dispatch_mapper_to_update_user() {
         UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
         String oldPassword = "123456789";
         String newPassword = "987654321";
@@ -80,6 +110,16 @@ class UserServiceImpTest {
         when(userMapper.getUserByUsername("lyb")).thenReturn(user);
         userService.updatePassword(userSessionInfo,oldPassword,newPassword);
         verify(userMapper,times(1)).updatePasswordById(1,"987654321");
+    }
+
+    @Test
+    void when_service_do_update_password_with_unmatched_oldpasswd_then_dispatch_mapper_to_update_user() {
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
+        String oldPassword = "123456789";
+        String newPassword = "987654321";
+        User user =new User(1,"lyb","18982170688","123456788",0);
+        when(userMapper.getUserByUsername("lyb")).thenReturn(user);
+        assertEquals(0,userService.updatePassword(userSessionInfo,oldPassword,newPassword));
     }
 
     @Test

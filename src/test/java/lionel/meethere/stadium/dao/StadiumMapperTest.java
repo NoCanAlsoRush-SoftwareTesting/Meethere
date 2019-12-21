@@ -1,5 +1,6 @@
 package lionel.meethere.stadium.dao;
 
+import lionel.meethere.paging.PageParam;
 import lionel.meethere.stadium.entity.Stadium;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,8 +11,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -58,6 +61,32 @@ class StadiumMapperTest {
 
     @Test
     void when_get_stadium_count_should_return_count(){
+        assertEquals(2,stadiumMapper.getStadiumCount());
+    }
 
+    @Test
+    void when_get_stadium_list_should_return_stadium_list(){
+        PageParam pageParam = new PageParam(1,3);
+        List<Stadium> stadiumList = this.stadiumMapper.getStadiumList(pageParam);
+        Stadium stadium = stadiumList.get(0);
+        Assertions.assertAll(
+                ()->assertEquals(2,stadium.getId()),
+                ()->assertEquals("OOAD体育馆",stadium.getName()),
+                ()->assertEquals("中山北路",stadium.getLocation()),
+                ()->assertEquals(null,stadium.getImage())
+        );
+    }
+
+    @Test
+    void when_update_a_stadium_with_param_should_update_stadium(){
+        Stadium stadium = new Stadium(2,"Software Testing健身房","中山北路",null);
+        assertEquals(1,stadiumMapper.updateStadium(stadium));
+        Stadium sReturn = stadiumMapper.getStadium(2);
+        Assertions.assertAll(
+                ()->assertEquals(2,stadium.getId()),
+                ()->assertEquals("Software Testing健身房",stadium.getName()),
+                ()->assertEquals("中山北路",stadium.getLocation()),
+                ()->assertEquals(null,stadium.getImage())
+        );
     }
 }
