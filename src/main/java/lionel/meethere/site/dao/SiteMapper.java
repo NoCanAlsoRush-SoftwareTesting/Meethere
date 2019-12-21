@@ -29,7 +29,7 @@ public interface SiteMapper {
     List<Site> listSites(PageParam pageParam);
 
     @Select("select * from site where stadium_id=#{stadiumId} order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
-    List<Site> listSitesByStadium(Integer stadiumId,PageParam pageParam);
+    List<Site> listSitesByStadium(Integer stadiumId, Integer pageNum, Integer pageSize);
 
     @Select("select count(*) from site")
     int getSiteCount();

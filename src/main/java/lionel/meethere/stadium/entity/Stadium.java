@@ -16,15 +16,11 @@ public class Stadium {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
     @Column(name = "name")
     private String name;
 
     @Column(name = "location")
     private String location;
-
-    @Column(name = "name")
-    private String name;
 
     @Column(name = "image")
     private String image;

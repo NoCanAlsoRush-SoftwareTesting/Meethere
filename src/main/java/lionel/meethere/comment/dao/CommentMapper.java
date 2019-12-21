@@ -2,7 +2,6 @@ package lionel.meethere.comment.dao;
 
 import lionel.meethere.comment.dto.CommentDTO;
 import lionel.meethere.comment.entity.Comment;
-import lionel.meethere.paging.PageParam;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,9 +23,9 @@ public interface CommentMapper {
     @Select("select * from comment where id=#{id);")
     CommentDTO getCommentById(Integer id);
 
-    @Select("select * from comment where status=1 and site_id=#{siteId} limit $(pageSize*(pageNum-1),#{pageSize};")
-    List<CommentDTO> getAuditedComments(@Param("pageParam") PageParam pageParam,
-                                        @Param("siteId") Integer siteId);
+    @Select("select * from comment where status=1 and site_id=#{siteId} limit ${pageSize*(pageNum-1)},#{pageSize};")
+    List<CommentDTO> getAuditedComments(@Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize,
+                                        @Param("siteId")   Integer siteId);
 
     @Select("select count(*) from comment")
     int getCommentCount();

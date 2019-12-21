@@ -25,11 +25,12 @@ public class LoginController {
 
     //@GetMapping("/login/{username}/{password}")
     //public Result<?> login(@ModelAttribute LoginParam loginParam,HttpSession httpSession){
+    //OK
     @PostMapping("/login")
-    public Result<?> login(@RequestBody LoginParam loginParam,
-                           HttpSession httpSession){
+    public Result<?> login(@RequestParam String username,@RequestParam String  password,
+            HttpSession httpSession){
         //参数校验
-
+        LoginParam loginParam = new LoginParam(username,password);
         if(loginParam.getUsername().length() < 2 || loginParam.getUsername().length() > 20
                 ||loginParam.getPassword().length() < 2 ||loginParam.getPassword().length() > 20){
             return UserResult.invalidUsernameOrPassword();
@@ -56,8 +57,11 @@ public class LoginController {
     //@GetMapping("/register/{username}/{password}")
 
     //public Result<?> register(@ModelAttribute RegisterParam registerParam){
+    //OK
     @PostMapping("/register")
-    public Result<?> register(@RequestBody RegisterParam registerParam){
+    public Result<?> register(@RequestParam String username,@RequestParam String  password,@RequestParam String telephone){
+
+        RegisterParam registerParam = new RegisterParam(username,password,telephone);
         //参数校验
         if(registerParam.getUsername().length() < 2 || registerParam.getUsername().length() > 20
                 || registerParam.getPassword().length() < 2 || registerParam.getPassword().length() > 20){

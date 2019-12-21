@@ -26,4 +26,5 @@ public interface StadiumMapper {
 
     @Update("update stadium set location=#{location},image=#{image} where id=#{id}")
     int updateStadium (Stadium stadium);
+
 }

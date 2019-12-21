@@ -14,10 +14,17 @@ public class StadiumController {
 
     @Autowired
     private StadiumService stadiumService;
-
+    //OK
     @PostMapping("/stadium/list")
-    public Result<?> getStadium(@RequestBody PageParam pageParam){
+    public Result<?> getStadium(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
+        PageParam pageParam = new PageParam(pageNum,pageSize);
         return CommonResult.success().data(stadiumService.getStadiums(pageParam)).total(stadiumService.getStadiumCount());
+    }
+
+    //OK
+    @PostMapping("/stadium/get")
+    public Result<?> getStadiumById(@RequestParam Integer id){
+        return CommonResult.success().data(stadiumService.getStadiumById(id));
     }
 
     @PostMapping("/stadium/create")
