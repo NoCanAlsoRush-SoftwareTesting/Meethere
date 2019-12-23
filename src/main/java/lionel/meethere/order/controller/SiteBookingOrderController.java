@@ -80,6 +80,7 @@ public class SiteBookingOrderController {
         LocalDateTime start = LocalDateTime.parse(startTime,df);
         LocalDateTime end = LocalDateTime.parse(endTime,df);
         SiteBookingOrderUpdateParam updateParam = new SiteBookingOrderUpdateParam(orderId,siteId,oldStart,start,end);
+        System.out.println(updateParam);
         orderService.updateOrderBookTime(updateParam);
         return CommonResult.success();
     }

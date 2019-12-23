@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface SiteBookingOrderMapper {
 
-    @Insert("insert into site_order(id,user_id,site_id,site_name,rent,status,start_time,end_time) values(id,userId,siteId,siteName,rent,status,startTime,endTime);")
+    @Insert("insert into site_order(id,user_id,site_id,site_name,rent,status,start_time,end_time) values(#{id},#{userId},#{siteId},#{siteName},#{rent},#{status},#{startTime},#{endTime});")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertOrder(SiteBookingOrder siteBookingOrder);
 
@@ -20,19 +20,41 @@ public interface SiteBookingOrderMapper {
     int updateOrderStatus(@Param("id") Integer id,
                           @Param("newstatus") Integer status);
 
-    @Update("update site_order set start_time=#{startTime},end_time=#{endTime) where id=#{orderId};")
+    @Update("update site_order set start_time=#{startTime},end_time=#{endTime} where id=#{orderId};")
     int updateOrderBookTime(SiteBookingOrderUpdateParam updateParam);
 
-
+    @Results(
+            id = "siteBookingOrder", value = {
+            @Result(property = "id", column = "id"),
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "siteId", column = "site_id"),
+            @Result(property = "siteName", column = "site_name"),
+            @Result(property = "rent", column = "rent"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "startTime", column = "start_time"),
+            @Result(property = "endTime", column = "end_time")
+    }
+    )
     @Select("select * from site_order where id=#{id};")
     SiteBookingOrder getOrderById(Integer id);
 
-    @Select("select * from site_order where user_id=#{userId} and status=#{status} order by create_time desc limit ${pageSize * (pageNum - 1)},#{pageSize};")
+    @Results(
+            id = "siteBookingOrderUserVO", value = {
+            @Result(property = "id", column = "id"),
+            @Result(property = "siteId", column = "site_id"),
+            @Result(property = "siteName", column = "site_name"),
+            @Result(property = "rent", column = "rent"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "startTime", column = "start_time"),
+            @Result(property = "endTime", column = "end_time")
+    }
+    )
+    @Select("select * from site_order where user_id=#{userId} and status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
     List<SiteBookingOrderUserVO> getOrderByUser(@Param("userId") Integer userId,
                                                 @Param("status") Integer status,
                                                 @Param("pageParam")PageParam pageParam);
-
-    @Select("select * from site_order where site_id=#{siteID} and status=#{status} order by create_time desc limit ${pageSize * (pageNum - 1)},#{pageSize};")
+    @ResultMap("siteBookingOrder")
+    @Select("select * from site_order where site_id=#{siteID} and status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
     List<SiteBookingOrderAdminVO> getOrderBySite(@Param("siteId") Integer siteId,
                                                  @Param("status") Integer status,
                                                  @Param("pageParam") PageParam pageParam);
