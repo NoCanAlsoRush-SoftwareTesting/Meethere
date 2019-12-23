@@ -14,7 +14,7 @@ public class UserResult {
     public static final int USERNAME_NOT_EXISTS = 104;
 
     public static Result invalidUsernameOrPassword() {
-        return new Result(INCORRECT_USERNAME_OR_PASSWORD, "用户名或密码不合法");
+        return new Result(INVALID_USERNAME_OR_PASSWORD, "用户名或密码不合法");
     }
 
     public static Result incorrectUsernameOrPassword() {

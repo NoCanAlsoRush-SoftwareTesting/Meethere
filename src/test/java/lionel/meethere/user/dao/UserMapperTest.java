@@ -58,7 +58,14 @@ class UserMapperTest {
 
     @Test
     void when_get_user_by_valid_Id_should_return_a_userVO(){
-        assertNotNull(this.userMapper.getUserById(2));
+        UserVO userVO = userMapper.getUserById(2);
+        assertNotNull(userVO);
+        Assertions.assertAll(
+                ()->assertEquals(2,userVO.getId()),
+                ()->assertEquals("lyb",userVO.getUsername()),
+                ()->assertEquals("12345678910",userVO.getTelephone())
+        );
+
     }
 
     @Test

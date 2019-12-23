@@ -54,11 +54,6 @@ public class LoginController {
         return CommonResult.success().data(userSessionInfo);
     }
 
-
-    //@GetMapping("/register/{username}/{password}")
-
-    //public Result<?> register(@ModelAttribute RegisterParam registerParam){
-    //OK
     @PostMapping("/register")
     public Result<?> register(@RequestParam String username,@RequestParam String  password,@RequestParam String telephone){
 
