@@ -8,13 +8,11 @@ import lionel.meethere.comment.vo.CommentVO;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.user.dao.UserMapper;
 import lionel.meethere.user.vo.UserVO;
-import org.hibernate.annotations.Source;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.*;
 
@@ -105,12 +103,21 @@ class CommentServiceTest {
         commentDTOList.add(new CommentDTO(1,2,3,"hh",time));
         commentDTOList.add(new CommentDTO(2,1,3,"aa",time));
 
-        when(commentMapper.getAuditedCommentsBySite(pageParam,3)).thenReturn(commentDTOList);
+
+//        when(commentMapper.getAuditedCommentsBySite(pageParam,3)).thenReturn(commentDTOList);
+//        when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"gg","18912345678"));
+//        when(userMapper.getUserById(1)).thenReturn(new UserVO(1,"mm","18987654321"));
+//
+//        List<CommentVO> commentVOList = commentService.getCommentsBySite(pageParam,3);
+//        assertEquals(2,commentVOList.size());
+
+      //  when(commentMapper.getAuditedCommentsBySite(pageParam,3)).thenReturn(commentDTOList);
         when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"gg","18912345678"));
         when(userMapper.getUserById(1)).thenReturn(new UserVO(1,"mm","18987654321"));
 
         List<CommentVO> commentVOList = commentService.getCommentsBySite(pageParam,3);
         assertEquals(2,commentVOList.size());
+
 
     }
 

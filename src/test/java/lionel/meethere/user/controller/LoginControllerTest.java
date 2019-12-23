@@ -39,12 +39,12 @@ public class LoginControllerTest {
 
 
     @Test
-    void when_matched_user_request_to_login_then_dispatch_to_service_and_return_success() throws Exception {
+    void when_matched_user_request_to_login_then_dispatch_to_service_and_return_success() throws Exception{
         MockHttpSession session = new MockHttpSession();
-        UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lyb", 0);
-        session.setAttribute("userSessionInfo", userSessionInfo);
-        LoginParam loginParam = new LoginParam("lyb", "123456789");
-        when(userService.login(loginParam)).thenReturn(new User(1, "lyb", "18982170688", "123456789", 0));
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
+        LoginParam loginParam = new LoginParam("lyb","123456789");
+        when(userService.login(loginParam)).thenReturn(new User(1,"lyb","18982170688","123456789",0));
         MvcResult result = mockMvc.perform(
                 post("/login")
                         .content(JSON.toJSONString(loginParam))
@@ -52,17 +52,17 @@ public class LoginControllerTest {
                         .session(session)
         ).andReturn();
 
-        verify(userService, times(1)).login(loginParam);
+        verify(userService,times(1)).login(loginParam);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
     }
 
     @Test
-    void when_unmatched_user_request_to_login_then_dispatch_to_service_and_return_incorrect() throws Exception {
+    void when_unmatched_user_request_to_login_then_dispatch_to_service_and_return_incorrect() throws Exception{
         MockHttpSession session = new MockHttpSession();
-        UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lyb", 0);
-        session.setAttribute("userSessionInfo", userSessionInfo);
-        LoginParam loginParam = new LoginParam("lyb", "123456789");
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
+        LoginParam loginParam = new LoginParam("lyb","123456789");
         when(userService.login(loginParam)).thenThrow(IncorrectUsernameOrPasswordException.class);
         MvcResult result = mockMvc.perform(
                 post("/login")
@@ -71,17 +71,17 @@ public class LoginControllerTest {
                         .session(session)
         ).andReturn();
 
-        verify(userService, times(1)).login(loginParam);
+        verify(userService,times(1)).login(loginParam);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(UserResult.INCORRECT_USERNAME_OR_PASSWORD, res.getCode());
     }
 
     @Test
-    void when_unregisterd_user_request_to_login_then_dispatch_to_service_and_return_incorrect() throws Exception {
+    void when_unregisterd_user_request_to_login_then_dispatch_to_service_and_return_incorrect() throws Exception{
         MockHttpSession session = new MockHttpSession();
-        UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lyb", 0);
-        session.setAttribute("userSessionInfo", userSessionInfo);
-        LoginParam loginParam = new LoginParam("lyb", "123456789");
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
+        LoginParam loginParam = new LoginParam("lyb","123456789");
         when(userService.login(loginParam)).thenThrow(UsernameNotExistsException.class);
         MvcResult result = mockMvc.perform(
                 post("/login")
@@ -90,7 +90,7 @@ public class LoginControllerTest {
                         .session(session)
         ).andReturn();
 
-        verify(userService, times(1)).login(loginParam);
+        verify(userService,times(1)).login(loginParam);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(UserResult.USERNAME_NOT_EXISTS, res.getCode());
     }
@@ -99,18 +99,18 @@ public class LoginControllerTest {
     @Test
     void when_unregistered_user_request_to_regist_then_dispatch_to_service_and_return_success() throws Exception {
         MockHttpSession session = new MockHttpSession();
-        UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lyb", 0);
-        session.setAttribute("userSessionInfo", userSessionInfo);
-        RegisterParam registerParam = new RegisterParam("lyb", "123456789", "18982170688");
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
+        RegisterParam registerParam = new RegisterParam("lyb","123456789","18982170688");
 
         MvcResult result = mockMvc.perform(
                 post("/register")
-                        .content(JSON.toJSONString(registerParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .session(session)
+                    .content(JSON.toJSONString(registerParam))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .session(session)
         ).andReturn();
 
-        verify(userService, times(1)).register(registerParam);
+        verify(userService,times(1)).register(registerParam);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
     }
@@ -118,16 +118,16 @@ public class LoginControllerTest {
     @Test
     void when_registered_user_request_to_regist_then_return_user_already_exist() throws Exception {
         MockHttpSession session = new MockHttpSession();
-        UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lyb", 0);
-        session.setAttribute("userSessionInfo", userSessionInfo);
-        RegisterParam registerParam = new RegisterParam("lyb", "123456789", "18982170688");
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
+        RegisterParam registerParam = new RegisterParam("lyb","123456789","18982170688");
         when(userService.register(registerParam)).thenThrow(UsernameAlreadyExistException.class);
         MvcResult result = mockMvc.perform(
                 post("/register")
-                        .param("username", "lyb")
-                        .param("password", "123456789")
-                        .param("telephone", "18982170688")
-                        .session(session)
+                .param("username","lyb")
+                .param("password","123456789")
+                .param("telephone","18982170688")
+                .session(session)
                         /*.content(JSON.toJSONString(registerParam))
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .session(session)*/
@@ -140,12 +140,12 @@ public class LoginControllerTest {
     @Test
     void when_request_to_logout_then_return_sucess() throws Exception {
         MockHttpSession session = new MockHttpSession();
-        UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lyb", 0);
-        session.setAttribute("userSessionInfo", userSessionInfo);
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
 
         MvcResult result = mockMvc.perform(
                 post("/logout")
-                        .session(session)
+                    .session(session)
         ).andReturn();
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
