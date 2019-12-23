@@ -66,7 +66,7 @@ public class SiteBookingOrderService {
 
     public void cancelOrderByUser(Integer userId, Integer orderId){
         SiteBookingOrder order = siteBookingOrderMapper.getOrderById(orderId);
-
+        System.out.println("userID"+userId+"orderID"+orderId+"  "+order.getUserId());
         if(!userId.equals(order.getUserId()))
             throw new UserIdNotMatchOrderException();
 
