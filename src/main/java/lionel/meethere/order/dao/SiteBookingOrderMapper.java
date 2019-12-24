@@ -53,7 +53,19 @@ public interface SiteBookingOrderMapper {
     List<SiteBookingOrderUserVO> getOrderByUser(@Param("userId") Integer userId,
                                                 @Param("status") Integer status,
                                                 @Param("pageParam")PageParam pageParam);
-    @ResultMap("siteBookingOrder")
+
+    @Results(
+            id = "siteBookingOrderAdminVO", value = {
+            @Result(property = "id", column = "id"),
+            @Result(property = "userId", column = "user_id"),
+            @Result(property = "siteId", column = "site_id"),
+            @Result(property = "siteName", column = "site_name"),
+            @Result(property = "rent", column = "rent"),
+            @Result(property = "status", column = "status"),
+            @Result(property = "startTime", column = "start_time"),
+            @Result(property = "endTime", column = "end_time")
+    }
+    )
     @Select("select * from site_order where site_id=#{siteID} and status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
     List<SiteBookingOrderAdminVO> getOrderBySite(@Param("siteId") Integer siteId,
                                                  @Param("status") Integer status,

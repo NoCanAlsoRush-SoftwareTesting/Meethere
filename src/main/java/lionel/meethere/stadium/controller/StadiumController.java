@@ -9,7 +9,7 @@ import lionel.meethere.user.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/stadium/")
+@RestController()
 public class StadiumController {
 
     @Autowired

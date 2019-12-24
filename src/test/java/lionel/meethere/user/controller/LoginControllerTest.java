@@ -40,21 +40,35 @@ public class LoginControllerTest {
 
     @Test
     void when_matched_user_request_to_login_then_dispatch_to_service_and_return_success() throws Exception{
-        MockHttpSession session = new MockHttpSession();
-        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
-        session.setAttribute("userSessionInfo",userSessionInfo);
         LoginParam loginParam = new LoginParam("lyb","123456789");
         when(userService.login(loginParam)).thenReturn(new User(1,"lyb","18982170688","123456789",0));
         MvcResult result = mockMvc.perform(
                 post("/login")
-                        .content(JSON.toJSONString(loginParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .session(session)
+                        .param("username","lyb")
+                        .param("password","123456789")
         ).andReturn();
 
         verify(userService,times(1)).login(loginParam);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
+    }
+
+    @Test
+    void when_invalid_username_request_to_login_then_dispatch_to_service_and_return_exception()throws Exception{
+
+        MockHttpSession session = new MockHttpSession();
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lu",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
+
+        MvcResult result = mockMvc.perform(
+                post("/login")
+                        .param("username","lu")
+                        .param("password","1234567891011121314151617181920")
+                        .session(session)
+        ).andReturn();
+
+        Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
+        assertEquals(UserResult.INVALID_USERNAME_OR_PASSWORD,res.getCode());
     }
 
     @Test
@@ -66,8 +80,8 @@ public class LoginControllerTest {
         when(userService.login(loginParam)).thenThrow(IncorrectUsernameOrPasswordException.class);
         MvcResult result = mockMvc.perform(
                 post("/login")
-                        .content(JSON.toJSONString(loginParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .param("username","lyb")
+                        .param("password","123456789")
                         .session(session)
         ).andReturn();
 
@@ -85,8 +99,8 @@ public class LoginControllerTest {
         when(userService.login(loginParam)).thenThrow(UsernameNotExistsException.class);
         MvcResult result = mockMvc.perform(
                 post("/login")
-                        .content(JSON.toJSONString(loginParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .param("username","lyb")
+                        .param("password","123456789")
                         .session(session)
         ).andReturn();
 
@@ -105,9 +119,10 @@ public class LoginControllerTest {
 
         MvcResult result = mockMvc.perform(
                 post("/register")
-                    .content(JSON.toJSONString(registerParam))
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .session(session)
+                        .param("username","lyb")
+                        .param("password","123456789")
+                        .param("telephone","18982170688")
+                        .session(session)
         ).andReturn();
 
         verify(userService,times(1)).register(registerParam);
@@ -135,6 +150,25 @@ public class LoginControllerTest {
 
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(UserResult.USERNAME_ALREADY_EXISTS, res.getCode());
+    }
+
+    @Test
+    void when_invalid_username_request_to_regist_then_dispatch_to_service_and_return_exception()throws Exception{
+
+        MockHttpSession session = new MockHttpSession();
+        UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lu",0);
+        session.setAttribute("userSessionInfo",userSessionInfo);
+
+        MvcResult result = mockMvc.perform(
+                post("/register")
+                        .param("username","lu")
+                        .param("password","1234567891011121314151617181920")
+                        .param("telephone","18982170688")
+                        .session(session)
+        ).andReturn();
+
+        Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
+        assertEquals(UserResult.INVALID_USERNAME_OR_PASSWORD,res.getCode());
     }
 
     @Test

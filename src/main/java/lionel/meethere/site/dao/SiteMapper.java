@@ -28,8 +28,8 @@ public interface SiteMapper {
     @Select("select * from site order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
     List<Site> listSites(PageParam pageParam);
 
-    @Select("select * from site where stadium_id=#{stadiumId} order by id limit ${pageSize * (pageNum - 1)},#{pageSize}; ")
-    List<Site> listSitesByStadium(Integer stadiumId, Integer pageNum, Integer pageSize);
+    @Select("select * from site where stadium_id=#{stadiumId} order by id limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize}; ")
+    List<Site> listSitesByStadium(Integer stadiumId, PageParam pageParam);
 
     @Select("select count(*) from site")
     int getSiteCount();

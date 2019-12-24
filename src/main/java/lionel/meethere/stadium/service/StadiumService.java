@@ -21,7 +21,7 @@ public class StadiumService {
     private SiteMapper siteMapper;
 
     public List<StadiumVO> getStadiums (PageParam pageParam){
-        System.out.println(pageParam);
+        //System.out.println(pageParam);
         return convertToStadiumVOList(stadiumMapper.getStadiumList(pageParam));
     }
     public StadiumVO getStadiumById (Integer id){

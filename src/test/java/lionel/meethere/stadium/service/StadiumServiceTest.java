@@ -45,8 +45,6 @@ class StadiumServiceTest {
         stadiumList.add(new Stadium(3,"OS运动馆","东川路",null));
 
         when(stadiumMapper.getStadiumList(pageParam)).thenReturn(stadiumList);
-        when(stadiumMapper.getStadium(3)).thenReturn(new Stadium(3,"OS运动馆","东川路",null));
-        when(siteMapper.getSiteCountByStadium(3)).thenReturn(1);
         List<StadiumVO> returnstadiumList = stadiumService.getStadiums(pageParam);
         verify(stadiumMapper,times(1)).getStadiumList(pageParam);
 
@@ -56,6 +54,20 @@ class StadiumServiceTest {
                 ()->assertEquals("中山北路",stadiumVO.getLocation()),
                 ()->assertEquals(null,stadiumVO.getImage()),
                 ()->assertEquals(0,stadiumVO.getSiteCount())
+        );
+    }
+
+    @Test
+    void when_service_do_get_stadiums_by_id_then_dispatch_mapper_to_return_stadium(){
+        when(stadiumMapper.getStadium(3)).thenReturn(new Stadium(3,"OS运动馆","东川路",null));
+        StadiumVO stadiumVO = stadiumService.getStadiumById(3);
+        verify(stadiumMapper,times(1)).getStadium(3);
+
+        assertAll(
+                ()->assertEquals(3,stadiumVO.getId()),
+                ()->assertEquals("OS运动馆",stadiumVO.getName()),
+                ()->assertEquals("东川路",stadiumVO.getLocation()),
+                ()->assertEquals(null,stadiumVO.getImage())
         );
     }
 
@@ -82,7 +94,7 @@ class StadiumServiceTest {
     }
 
     @Test
-    void updateStadium() {
+    void when_service_update_stadium_then_disparch_mapper_to_update() {
         Stadium stadium = new Stadium(2,"OOAD体育馆","中山北路",null);
         when(stadiumMapper.updateStadium(stadium)).thenReturn(1);
         stadiumService.updateStadium(stadium);

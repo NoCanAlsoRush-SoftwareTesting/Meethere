@@ -17,45 +17,39 @@ public class UserController {
     @PostMapping("update/username")
     public Result<?> updateUsername(@SessionAttribute UserSessionInfo userSessionInfo,
                                  @RequestParam String newName) {
-        if (userSessionInfo != null) {
             service.updateUsername(userSessionInfo.getId(), newName);
             return CommonResult.success();
-        }
-        return CommonResult.failed();
     }
 //ok
     @PostMapping("update/password")
     public Result<?> updatePassword(@SessionAttribute UserSessionInfo userSessionInfo,
                                     @RequestParam String oldPassword,
                                     @RequestParam String newPassword){
-        service.updatePassword(userSessionInfo,oldPassword,newPassword);
-        return CommonResult.success();
+            service.updatePassword(userSessionInfo, oldPassword, newPassword);
+            return CommonResult.success();
     }
 //ok
     @PostMapping("update/telephone")
     public Result<?> updateTelephone(@SessionAttribute UserSessionInfo userSessionInfo,
                                      @RequestParam String telephone){
-        if(userSessionInfo != null){
-
             service.updateTelephone(userSessionInfo.getId(),telephone);
             return CommonResult.success();
-        }
-        return CommonResult.failed();
     }
 
     @PostMapping("update/permission")
     public Result<?> updatePermission(@SessionAttribute UserSessionInfo userSessionInfo,
-                                      @RequestBody Integer permission){
+                                      @RequestParam Integer userId,
+                                      @RequestParam Integer permission){
         if(userSessionInfo.getAdmin() != 1){
             return CommonResult.accessDenied();
         }
-        service.updatePermission(userSessionInfo.getId(),permission);
+        service.updatePermission(userId,permission);
         return CommonResult.success();
     }
 
     @PostMapping("delete")
     public Result<?> deleteUser(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @RequestBody Integer userId){
+                                @RequestParam Integer userId){
         if(userSessionInfo.getAdmin() != 1){
             return CommonResult.accessDenied();
         }
@@ -73,7 +67,7 @@ public class UserController {
         return CommonResult.success().data(service.getUserList(pageParam)).total(service.getCountOfUser());
     }
    //ok
-    @PostMapping("get")
+    @GetMapping("get")
     public Result<?> getUserById(@SessionAttribute UserSessionInfo userSessionInfo,
                                  @RequestParam Integer id){
         return CommonResult.success().data(service.getUserById(id));

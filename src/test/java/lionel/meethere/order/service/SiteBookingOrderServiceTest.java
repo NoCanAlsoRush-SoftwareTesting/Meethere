@@ -163,9 +163,7 @@ class SiteBookingOrderServiceTest {
 
         assertThrows(BookingTimeConflictException.class,()->orderService.updateOrderBookTime(updateParam));
 
-        //verify(bookTimeService).tryBooking(1,updateParam.getStartTime(),updateParam.getEndTime());
-        //verify(orderMapper).updateOrderBookTime(updateParam);
-
+        verify(bookTimeService).tryBooking(1,updateParam.getStartTime(),updateParam.getEndTime());
     }
 
     @Test
@@ -200,8 +198,8 @@ class SiteBookingOrderServiceTest {
     void when_do_getOrderByUser_then_mapper_get_user_Order() {
         PageParam pageParam = new PageParam(1,1);
 
-//        orderService.getOrderByUser(1,OrderStatus.AUDITED,pageParam);
-//        verify(orderMapper).getOrderByUser(1,OrderStatus.AUDITED,pageParam);
+        orderService.getOrderByUser(1,OrderStatus.AUDITED,pageParam);
+        verify(orderMapper).getOrderByUser(1,OrderStatus.AUDITED,pageParam);
     }
 
     @Test

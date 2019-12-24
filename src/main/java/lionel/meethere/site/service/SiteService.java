@@ -48,9 +48,7 @@ public class SiteService {
     }
 
     public List<Site> getSitesByStadium(Integer stadiumId, PageParam pageParam){
-        System.out.println("进入service");
-        System.out.println(pageParam);
-        return siteMapper.listSitesByStadium(stadiumId,pageParam.getPageNum(),pageParam.getPageSize());
+        return siteMapper.listSitesByStadium(stadiumId,pageParam);
     }
 
     public int getSiteCount(){

@@ -101,17 +101,9 @@ class CommentServiceTest {
         PageParam pageParam = new PageParam(1,2);
         List<CommentDTO> commentDTOList = new ArrayList<>();
         commentDTOList.add(new CommentDTO(1,2,3,"hh",time));
-        commentDTOList.add(new CommentDTO(2,1,3,"aa",time));
+        commentDTOList.add(new CommentDTO(2,1,3,"aa",time));;
 
-
-//        when(commentMapper.getAuditedCommentsBySite(pageParam,3)).thenReturn(commentDTOList);
-//        when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"gg","18912345678"));
-//        when(userMapper.getUserById(1)).thenReturn(new UserVO(1,"mm","18987654321"));
-//
-//        List<CommentVO> commentVOList = commentService.getCommentsBySite(pageParam,3);
-//        assertEquals(2,commentVOList.size());
-
-      //  when(commentMapper.getAuditedCommentsBySite(pageParam,3)).thenReturn(commentDTOList);
+        when(commentMapper.getAuditedCommentsBySite(pageParam,3)).thenReturn(commentDTOList);
         when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"gg","18912345678"));
         when(userMapper.getUserById(1)).thenReturn(new UserVO(1,"mm","18987654321"));
 
