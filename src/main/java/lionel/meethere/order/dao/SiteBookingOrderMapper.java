@@ -66,7 +66,7 @@ public interface SiteBookingOrderMapper {
             @Result(property = "endTime", column = "end_time")
     }
     )
-    @Select("select * from site_order where site_id=#{siteID} and status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
+    @Select("select * from site_order where site_id=#{siteId} and status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
     List<SiteBookingOrderAdminVO> getOrderBySite(@Param("siteId") Integer siteId,
                                                  @Param("status") Integer status,
                                                  @Param("pageParam") PageParam pageParam);
