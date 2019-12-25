@@ -15,6 +15,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(SiteController.class)
 class SiteControllerTest {
@@ -27,14 +28,15 @@ class SiteControllerTest {
 
     @Test
     void when_request_to_get_a_site_then_dispatch_to_service_and_return_suceccess() throws Exception {
-/*        MvcResult result = mockMvc.perform(
-                get("/site/get")
-                        .param("SiteId","1")
+        MvcResult result = mockMvc.perform(
+                post("/site/get")
+                        .param("id","1")
         ).andReturn();
 
-        verify(siteService).getSiteById(1);
+        verify(siteService,times(1)).getSiteById(1);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
-        assertEquals(CommonResult.SUCCESS, res.getCode());*/
+        assertEquals(CommonResult.SUCCESS, res.getCode());
+
     }
 
     @Test
@@ -42,7 +44,15 @@ class SiteControllerTest {
     }
 
     @Test
-    void getSiteListByStadium() {
+    void when_request_to_get_a_site_by_stadium_then_dispatch_to_service_and_return_suceccess() throws Exception{
+        MvcResult result = mockMvc.perform(
+                post("/site/get")
+                        .param("id","1")
+        ).andReturn();
+
+        verify(siteService,times(1)).getSiteById(1);
+        Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
+        assertEquals(CommonResult.SUCCESS, res.getCode());
     }
 
     @Test

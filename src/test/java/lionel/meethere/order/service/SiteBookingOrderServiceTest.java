@@ -45,7 +45,7 @@ class SiteBookingOrderServiceTest {
         SiteBookingOrder order = new SiteBookingOrder(null,1,1,"site1",new BigDecimal(20), OrderStatus.UNAUDITED,localDateTime, localDateTime);
         when(bookTimeService.tryBooking(createParam.getSiteId(),createParam.getStartTime(),createParam.getEndTime())).thenReturn(true);
 
-        orderService.crateSiteBookingOrder(1,createParam);
+        orderService.createSiteBookingOrder(1,createParam);
         verify(bookTimeService).tryBooking(createParam.getSiteId(),createParam.getStartTime(),createParam.getEndTime());
         verify(orderMapper).insertOrder(order);
     }
@@ -56,7 +56,7 @@ class SiteBookingOrderServiceTest {
         SiteBookingOrderCreateParam createParam = new SiteBookingOrderCreateParam(1,"site1",new BigDecimal(20),localDateTime, localDateTime);
         when(bookTimeService.tryBooking(createParam.getSiteId(),createParam.getStartTime(),createParam.getEndTime())).thenReturn(false);
 
-        assertThrows(BookingTimeConflictException.class,()->orderService.crateSiteBookingOrder(1,createParam));
+        assertThrows(BookingTimeConflictException.class,()->orderService.createSiteBookingOrder(1,createParam));
     }
 
     @ParameterizedTest

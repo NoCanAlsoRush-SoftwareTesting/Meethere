@@ -19,8 +19,6 @@ public class SiteController {
     //ok
     @PostMapping("/site/get")
     public Result<?> getSite(@RequestParam Integer id){
-        System.out.println("site");
-        System.out.println(id);
         return CommonResult.success().data(siteService.getSiteById(id));
     }
 

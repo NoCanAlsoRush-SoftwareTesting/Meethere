@@ -34,7 +34,7 @@ public class SiteBookingOrderController {
         LocalDateTime start = LocalDateTime.parse(startTime,df);
         LocalDateTime end = LocalDateTime.parse(endTime,df);
         SiteBookingOrderCreateParam createParam = new SiteBookingOrderCreateParam(siteId,siteName,rent,start,end);
-        orderService.crateSiteBookingOrder(userSessionInfo.getId(),createParam);
+        orderService.createSiteBookingOrder(userSessionInfo.getId(),createParam);
         return CommonResult.success();
     }
 
@@ -80,7 +80,6 @@ public class SiteBookingOrderController {
         LocalDateTime start = LocalDateTime.parse(startTime,df);
         LocalDateTime end = LocalDateTime.parse(endTime,df);
         SiteBookingOrderUpdateParam updateParam = new SiteBookingOrderUpdateParam(orderId,siteId,oldStart,start,end);
-        System.out.println(updateParam);
         orderService.updateOrderBookTime(updateParam);
         return CommonResult.success();
     }
@@ -103,7 +102,6 @@ public class SiteBookingOrderController {
                                    @RequestParam Integer pageSize){
 
         PageParam pageParam = new PageParam(pageNum,pageSize);
-        System.out.println(pageParam);
         return CommonResult.success().data(orderService.getOrderByUser(userSessionInfo.getId(),status,pageParam)).total(orderService.getOrderCount());
     }
 

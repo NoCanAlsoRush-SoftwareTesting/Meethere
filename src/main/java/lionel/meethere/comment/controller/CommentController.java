@@ -21,10 +21,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    /*@GetMapping("")
-    public Result<?> getNewsCount(){
-        return CommonResult.success().data(commentService.getCommentCount());
-    }*/
 
     //OK
     @PostMapping("publish")

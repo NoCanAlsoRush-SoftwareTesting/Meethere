@@ -31,7 +31,7 @@ public class SiteBookingOrderService {
     private SiteBookTimeService siteBookTimeService;
 
 
-    public void crateSiteBookingOrder(Integer userId, SiteBookingOrderCreateParam createParam){
+    public void createSiteBookingOrder(Integer userId, SiteBookingOrderCreateParam createParam){
         if(!siteBookTimeService.tryBooking(createParam.getSiteId(),createParam.getStartTime(),createParam.getEndTime())){
             throw new BookingTimeConflictException();
         }

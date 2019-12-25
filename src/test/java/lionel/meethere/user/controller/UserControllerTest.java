@@ -171,7 +171,7 @@ class UserControllerTest {
         session.setAttribute("userSessionInfo", userSessionInfo);
         when(userService.getUserById(1)).thenReturn(new UserVO(1,"lyb","1234312431"));
         MvcResult result = mockMvc.perform(
-                get("/user/get")
+                post("/user/get")
                         .param("id", "1")
                         .session(session)
         ).andReturn();

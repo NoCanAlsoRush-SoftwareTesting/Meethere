@@ -23,7 +23,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(NewsController.class)
@@ -174,8 +173,6 @@ class NewsControllerTest {
                 post("/news/getcatalog")
                 .param("pageNum","1")
                 .param("pageSize","1")
-                        /*.content(JSON.toJSONString(pageParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)*/
         ).andReturn();
 
         verify(newsService).getNewsCatalogList(new PageParam(1, 1));
