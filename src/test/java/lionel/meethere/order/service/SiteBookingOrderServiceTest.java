@@ -16,6 +16,8 @@ import lionel.meethere.site.service.SiteService;
 import lionel.meethere.stadium.entity.Stadium;
 import lionel.meethere.stadium.service.StadiumService;
 import lionel.meethere.stadium.vo.StadiumVO;
+import lionel.meethere.user.service.UserService;
+import lionel.meethere.user.vo.UserVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -45,6 +47,9 @@ class SiteBookingOrderServiceTest {
 
     @Mock
     private StadiumService stadiumService;
+
+    @Mock
+    private UserService userService;
 
     @InjectMocks
     private SiteBookingOrderService orderService;
@@ -200,11 +205,13 @@ class SiteBookingOrderServiceTest {
         SiteBookingOrder order = new SiteBookingOrder();
         order.setId(1);
         order.setSiteId(2);
+        order.setUserId(4);
         Site site = new Site();
         site.setStadiumId(3);
         when(orderMapper.getOrderById(1)).thenReturn(order);
         when(siteService.getSiteById(2)).thenReturn(site);
         when(stadiumService.getStadiumById(3)).thenReturn(new StadiumVO());
+        when(userService.getUserById(4)).thenReturn(new UserVO());
 
         orderService.getOrderById(1);
         verify(orderMapper).getOrderById(1);
@@ -219,8 +226,8 @@ class SiteBookingOrderServiceTest {
     }
 
     @Test
-    void when_do_getOrderBySite_then_mapper_get_list_of_site_of_Order() {
-        PageParam pageParam = new PageParam(1,1);
+    void when_do_list_orders_then_mapper_get_list_of_site_of_Order() {
+        PageParam pageParam = new PageParam(1,3);
 
         orderService.listOrders(OrderStatus.AUDITED,pageParam);
         verify(orderMapper).listOrders(OrderStatus.AUDITED,pageParam);

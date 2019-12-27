@@ -84,13 +84,15 @@ public class SiteBookingOrderController {
         orderService.updateOrderBookTime(updateParam);
         return CommonResult.success();
     }
-    @GetMapping("list")
+    @PostMapping("list")
     public Result<?> listOrder(@SessionAttribute UserSessionInfo userSessionInfo,
                                @RequestParam Integer status,
-                               @ModelAttribute PageParam pageParam){
+                               @RequestParam Integer pageNum,
+                               @RequestParam Integer pageSize){
+        PageParam pageParam = new PageParam(pageNum,pageSize);
+
         if(userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
-
 
         return CommonResult.success().data(orderService.listOrders(status,pageParam)).total(orderService.getOrderCount());
     }
@@ -105,7 +107,7 @@ public class SiteBookingOrderController {
         return CommonResult.success().data(orderService.getOrderByUser(userSessionInfo.getId(),status,pageParam)).total(orderService.getOrderCount());
     }
 
-    @GetMapping("get")
+    @PostMapping("get")
     public Result<?> getOrderById(@SessionAttribute UserSessionInfo userSessionInfo,
                                   @RequestParam Integer orderId){
         if(userSessionInfo.getAdmin() != 1)

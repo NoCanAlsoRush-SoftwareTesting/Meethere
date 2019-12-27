@@ -1,5 +1,6 @@
 package lionel.meethere.order.vo;
 
+import lionel.meethere.user.vo.UserVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ public class SiteBookingOrderAdminVO {
 
     private Integer id;
 
-    private Integer userId;
+    private UserVO user;
 
     private Integer siteId;
 

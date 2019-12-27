@@ -17,6 +17,8 @@ import lionel.meethere.paging.PageParam;
 import lionel.meethere.site.entity.Site;
 import lionel.meethere.site.service.SiteService;
 import lionel.meethere.stadium.service.StadiumService;
+import lionel.meethere.user.service.UserService;
+import lionel.meethere.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +38,12 @@ public class SiteBookingOrderService {
 
     @Autowired
     private StadiumService stadiumService;
+
     @Autowired
     private SiteService siteService;
+
+    @Autowired
+    private UserService userService;
 
 
     public void createSiteBookingOrder(Integer userId, SiteBookingOrderCreateParam createParam){
@@ -115,21 +121,26 @@ public class SiteBookingOrderService {
     }
 
     public List<SiteBookingOrderAdminVO> listOrders(Integer status, PageParam pageParam){
-        List<SiteBookingOrder> orders =  siteBookingOrderMapper.listOrders(status,pageParam);
-        List<SiteBookingOrderAdminVO> orderAdminVOS = new ArrayList<>();
-        for(SiteBookingOrder order : orders){
-            orderAdminVOS.add(convertToSiteBookingOrderAdminVO(order));
-        }
-        return orderAdminVOS;
+        return convertToSiteBookingOrderAdminVOList(siteBookingOrderMapper.listOrders(status,pageParam));
     }
 
 
     private SiteBookingOrderAdminVO convertToSiteBookingOrderAdminVO(SiteBookingOrder siteBookingOrder){
         SiteBookingOrderAdminVO orderAdminVO = new SiteBookingOrderAdminVO();
         BeanUtils.copyProperties(siteBookingOrder,orderAdminVO);
+        UserVO userVO = userService.getUserById(siteBookingOrder.getUserId());
         Site site = siteService.getSiteById(siteBookingOrder.getSiteId());
         orderAdminVO.setStadiumName(stadiumService.getStadiumById(site.getStadiumId()).getName());
+        orderAdminVO.setUser(userVO);
         return orderAdminVO;
+    }
+
+    private List<SiteBookingOrderAdminVO>  convertToSiteBookingOrderAdminVOList(List<SiteBookingOrder> siteBookingOrders){
+        List<SiteBookingOrderAdminVO> orderAdminVOS = new ArrayList<>();
+        for(SiteBookingOrder order : siteBookingOrders){
+            orderAdminVOS.add(convertToSiteBookingOrderAdminVO(order));
+        }
+        return orderAdminVOS;
     }
 
     public int getOrderCount(){
