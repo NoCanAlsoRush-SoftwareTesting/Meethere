@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/order/")
 public class SiteBookingOrderController {
 
