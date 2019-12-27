@@ -41,7 +41,10 @@ public class SiteBookingOrderController {
 
     @PostMapping("audit")
     public Result<?> auditOrder(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @RequestBody SiteBookingOrderAuditParam auditParam) {
+                                @RequestParam  Integer orderId,
+                                @RequestParam Integer auditStatus) {
+
+        SiteBookingOrderAuditParam auditParam = new SiteBookingOrderAuditParam(orderId,auditStatus);
         if(userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
 
@@ -51,7 +54,7 @@ public class SiteBookingOrderController {
 
     @PostMapping("cancel")
     public Result<?> cancelOrderByAdmin(@SessionAttribute UserSessionInfo userSessionInfo,
-                                   @RequestBody Integer orderId){
+                                        @RequestParam Integer orderId){
         if(userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
 

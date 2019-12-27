@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @CrossOrigin
@@ -23,17 +24,22 @@ public class NewsController {
 
     @PostMapping("publish")
     public Result<?> publishNews(@SessionAttribute UserSessionInfo userSessionInfo,
-                                 @RequestBody @Valid NewsPublishParam newsPublishParam){
-        if(userSessionInfo.getAdmin() != 1)
+                                 @RequestParam String title,
+                                 @RequestParam String content,
+                                 @RequestParam String image) {
+
+        NewsPublishParam newsPublishParam = new NewsPublishParam(title, content, image);
+
+        if (userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
-        newsService.publishNews(userSessionInfo.getId(),newsPublishParam);
+        newsService.publishNews(userSessionInfo.getId(), newsPublishParam);
         return CommonResult.success();
     }
 
     @PostMapping("delete")
     public Result<?> deleteNews(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @RequestBody Integer newsId){
-        if(userSessionInfo.getAdmin() != 1)
+                                @RequestParam Integer newsId) {
+        if (userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
         newsService.deleteNews(newsId);
         return CommonResult.success();
@@ -41,8 +47,13 @@ public class NewsController {
 
     @PostMapping("update")
     public Result<?> updateNews(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @RequestBody @Valid NewsUpdateParam updateParam){
-        if(userSessionInfo.getAdmin() != 1)
+                                @RequestParam Integer id,
+                                @RequestParam String title,
+                                @RequestParam String content,
+                                @RequestParam String image) {
+
+        NewsUpdateParam updateParam = new NewsUpdateParam(id, title, content, image);
+        if (userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
         newsService.updateNews(updateParam);
         return CommonResult.success();
@@ -50,13 +61,14 @@ public class NewsController {
 
 
     @PostMapping("get")
-    public Result<?> getNews(@RequestParam Integer id){
+    public Result<?> getNews(@RequestParam Integer id) {
         return CommonResult.success().data(newsService.getNews(id));
     }
 
     @PostMapping("getcatalog")
-    public Result<?> getCatalog(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
-        PageParam pageParam = new PageParam(pageNum,pageSize);
+    public Result<?> getCatalog(@RequestParam Integer pageNum,
+                                @RequestParam Integer pageSize) {
+        PageParam pageParam = new PageParam(pageNum, pageSize);
         return CommonResult.success().data(newsService.getNewsCatalogList(pageParam)).total(newsService.getNewsCount());
     }
 

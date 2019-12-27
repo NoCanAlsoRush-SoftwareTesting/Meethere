@@ -10,9 +10,12 @@ import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
 import lionel.meethere.user.session.UserSessionInfo;
+import lionel.meethere.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
 @CrossOrigin
@@ -26,11 +29,11 @@ public class CommentController {
     //OK
     @PostMapping("publish")
     public Result<?> publishComment(@SessionAttribute UserSessionInfo userSessionInfo,
-                                   @RequestParam Integer siteId,
-                                    @RequestParam String content){
-        CommentPublishParam publishParam = new CommentPublishParam(siteId,content);
+                                    @RequestParam Integer siteId,
+                                    @RequestParam String content) {
+        CommentPublishParam publishParam = new CommentPublishParam(siteId, content);
         CommentDTO commentDTO = new CommentDTO();
-        BeanUtils.copyProperties(publishParam,commentDTO);
+        BeanUtils.copyProperties(publishParam, commentDTO);
         commentDTO.setReviewerId(userSessionInfo.getId());
         commentService.publishComment(commentDTO);
         return CommonResult.success();
@@ -38,13 +41,13 @@ public class CommentController {
 
     @PostMapping("delete")
     public Result<?> deleteComment(@SessionAttribute UserSessionInfo userSessionInfo,
-                                   @RequestBody CommentVO commentVO){
-        if(userSessionInfo.getAdmin() == 1){
-            commentService.deleteComment(commentVO.getId());
+                                   @RequestParam Integer commentId,
+                                   @RequestParam Integer reviewerId) {
+        if (userSessionInfo.getAdmin() == 1) {
+            commentService.deleteComment(commentId);
             return CommonResult.success();
-        }
-        else if(userSessionInfo.getId().equals(commentVO.getReviewer().getId())){
-            commentService.deleteComment(commentVO.getId());
+        } else if (userSessionInfo.getId().equals(reviewerId)) {
+            commentService.deleteComment(commentId);
             return CommonResult.success();
         }
         return CommonResult.failed();
@@ -52,29 +55,31 @@ public class CommentController {
 
     @PostMapping("audit")
     public Result<?> auditCommnet(@SessionAttribute UserSessionInfo userSessionInfo,
-                                  @RequestBody CommentVO commentVO,
-                                  @RequestBody Integer auditOption){
-        if(userSessionInfo.getAdmin() != 1)
+                                  @RequestParam Integer commentId,
+                                  @RequestParam Integer auditOption) {
+
+        if (userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
-        if(auditOption == CommentAuditStatus.SUCCESS){
-            commentService.auditComment(commentVO.getId(), CommentStatus.AUDITED);
-        }
-        else {
-            commentService.auditComment(commentVO.getId(),CommentStatus.AUDITED_FAILED);
+        if (auditOption == CommentAuditStatus.SUCCESS) {
+            commentService.auditComment(commentId, CommentStatus.AUDITED);
+        } else {
+            commentService.auditComment(commentId, CommentStatus.AUDITED_FAILED);
         }
         return CommonResult.success();
     }
+
     //OK
     @PostMapping("getcomments")
-    public Result<?> getCommentsBySite(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
-                                       @RequestParam Integer siteId){
+    public Result<?> getCommentsBySite(@RequestParam Integer pageNum,
+                                       @RequestParam Integer pageSize,
+                                       @RequestParam Integer siteId) {
 
-        PageParam pageParam = new PageParam(pageNum,pageSize);
-        return CommonResult.success().data(commentService.getCommentsBySite(pageParam,siteId)).total(commentService.getCommentCount());
+        PageParam pageParam = new PageParam(pageNum, pageSize);
+        return CommonResult.success().data(commentService.getCommentsBySite(pageParam, siteId)).total(commentService.getCommentCount());
     }
 
-    @GetMapping("get")
-    public Result<?> getCommnetById(@RequestParam Integer commentId){
+    @PostMapping("get")
+    public Result<?> getCommnetById(@RequestParam Integer commentId) {
         return CommonResult.success().data(commentService.getCommentById(commentId));
     }
 

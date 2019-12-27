@@ -58,9 +58,12 @@ public class UserController {
         return CommonResult.success();
     }
 
-    @GetMapping("list")
+    @PostMapping("list")
     public Result<?> getUerList(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @ModelAttribute PageParam pageParam){
+                                @RequestParam Integer pageNum,
+                                @RequestParam Integer pageSize){
+
+        PageParam pageParam = new PageParam(pageNum,pageSize);
         if(userSessionInfo.getAdmin() != 1){
             return CommonResult.accessDenied();
         }
