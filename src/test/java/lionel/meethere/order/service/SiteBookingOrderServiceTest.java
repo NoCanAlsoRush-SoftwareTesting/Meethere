@@ -11,6 +11,11 @@ import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
 import lionel.meethere.order.status.AuditStatus;
 import lionel.meethere.order.status.OrderStatus;
 import lionel.meethere.paging.PageParam;
+import lionel.meethere.site.entity.Site;
+import lionel.meethere.site.service.SiteService;
+import lionel.meethere.stadium.entity.Stadium;
+import lionel.meethere.stadium.service.StadiumService;
+import lionel.meethere.stadium.vo.StadiumVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,6 +39,12 @@ class SiteBookingOrderServiceTest {
 
     @Mock
     private SiteBookTimeService bookTimeService;
+
+    @Mock
+    private SiteService siteService;
+
+    @Mock
+    private StadiumService stadiumService;
 
     @InjectMocks
     private SiteBookingOrderService orderService;
@@ -188,7 +199,12 @@ class SiteBookingOrderServiceTest {
         Integer orderId = 1;
         SiteBookingOrder order = new SiteBookingOrder();
         order.setId(1);
+        order.setSiteId(2);
+        Site site = new Site();
+        site.setStadiumId(3);
         when(orderMapper.getOrderById(1)).thenReturn(order);
+        when(siteService.getSiteById(2)).thenReturn(site);
+        when(stadiumService.getStadiumById(3)).thenReturn(new StadiumVO());
 
         orderService.getOrderById(1);
         verify(orderMapper).getOrderById(1);
@@ -206,8 +222,8 @@ class SiteBookingOrderServiceTest {
     void when_do_getOrderBySite_then_mapper_get_list_of_site_of_Order() {
         PageParam pageParam = new PageParam(1,1);
 
-        orderService.getOrderBySite(1,OrderStatus.AUDITED,pageParam);
-        verify(orderMapper).getOrderBySite(1,OrderStatus.AUDITED,pageParam);
+        orderService.listOrders(OrderStatus.AUDITED,pageParam);
+        verify(orderMapper).listOrders(OrderStatus.AUDITED,pageParam);
     }
 
     @Test

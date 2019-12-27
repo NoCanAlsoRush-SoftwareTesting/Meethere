@@ -16,6 +16,8 @@ public class SiteBookingOrderUserVO {
 
     private Integer siteId;
 
+    private String stadiumName;
+
     private String siteName;
 
     private BigDecimal rent;

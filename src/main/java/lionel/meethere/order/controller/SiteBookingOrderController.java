@@ -84,16 +84,15 @@ public class SiteBookingOrderController {
         orderService.updateOrderBookTime(updateParam);
         return CommonResult.success();
     }
-    @GetMapping("site/list")
+    @GetMapping("list")
     public Result<?> listOrder(@SessionAttribute UserSessionInfo userSessionInfo,
-                               @RequestParam Integer siteId,
                                @RequestParam Integer status,
                                @ModelAttribute PageParam pageParam){
         if(userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
 
 
-        return CommonResult.success().data(orderService.getOrderBySite(siteId,status,pageParam)).total(orderService.getOrderCount());
+        return CommonResult.success().data(orderService.listOrders(status,pageParam)).total(orderService.getOrderCount());
     }
 //OK
     @PostMapping("user/list")

@@ -18,6 +18,8 @@ public class SiteBookingOrderAdminVO {
 
     private Integer siteId;
 
+    private String stadiumName;
+
     private String siteName;
 
     private BigDecimal rent;

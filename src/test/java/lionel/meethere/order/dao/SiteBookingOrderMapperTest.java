@@ -141,22 +141,22 @@ class SiteBookingOrderMapperTest {
     }
 
     @ParameterizedTest
-    @MethodSource("orderBySiteSourceProvider")
-    void when_get_order_by_site_then_return_the_order_list_of_user(PageParam pageParam,int wsize,int siteId,int status){
-        List<SiteBookingOrderAdminVO>  orderAdminVOS = this.orderMapper.getOrderBySite(siteId,status,pageParam);
+    @MethodSource("orderSourceProvider")
+    void when_list_orders_then_return_the_list_of_orders(PageParam pageParam,int wsize,int status){
+        List<SiteBookingOrder>  orderAdminVOS = this.orderMapper.listOrders(status,pageParam);
         assertEquals(wsize,orderAdminVOS.size());
         if(!orderAdminVOS.isEmpty())
             assertEquals(status,orderAdminVOS.get(0).getStatus());
     }
 
-    static Stream<Arguments>  orderBySiteSourceProvider(){
+    static Stream<Arguments>  orderSourceProvider(){
         return Stream.of(
-                arguments(new PageParam(1,1),1,3,OrderStatus.UNAUDITED),
-                arguments(new PageParam(1,3),2,3,OrderStatus.UNAUDITED),
-                arguments(new PageParam(1,3),1,3,OrderStatus.AUDITED),
-                arguments(new PageParam(2,1),1,3,OrderStatus.UNAUDITED),
-                arguments(new PageParam(2,1),0,3,OrderStatus.AUDITED),
-                arguments(new PageParam(1,1),0,3,OrderStatus.CANCEL)
+                arguments(new PageParam(1,1),1,OrderStatus.UNAUDITED),
+                arguments(new PageParam(1,3),3,OrderStatus.UNAUDITED),
+                arguments(new PageParam(1,6),1,OrderStatus.AUDITED),
+                arguments(new PageParam(2,2),1,OrderStatus.UNAUDITED),
+                arguments(new PageParam(2,1),0,OrderStatus.AUDITED),
+                arguments(new PageParam(1,1),0,OrderStatus.CANCEL)
         );
     }
 

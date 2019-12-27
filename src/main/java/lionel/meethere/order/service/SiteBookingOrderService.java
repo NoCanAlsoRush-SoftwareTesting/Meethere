@@ -14,11 +14,15 @@ import lionel.meethere.order.vo.SiteBookingOrderAdminVO;
 import lionel.meethere.order.vo.SiteBookingOrderUserVO;
 import lionel.meethere.paging.PageParam;
 
+import lionel.meethere.site.entity.Site;
+import lionel.meethere.site.service.SiteService;
+import lionel.meethere.stadium.service.StadiumService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,6 +33,11 @@ public class SiteBookingOrderService {
 
     @Autowired
     private SiteBookTimeService siteBookTimeService;
+
+    @Autowired
+    private StadiumService stadiumService;
+    @Autowired
+    private SiteService siteService;
 
 
     public void createSiteBookingOrder(Integer userId, SiteBookingOrderCreateParam createParam){
@@ -105,14 +114,21 @@ public class SiteBookingOrderService {
         return siteBookingOrderMapper.getOrderByUser(userId,status,pageParam);
     }
 
-    public List<SiteBookingOrderAdminVO> getOrderBySite(Integer userId, Integer status, PageParam pageParam){
-        return siteBookingOrderMapper.getOrderBySite(userId,status,pageParam);
+    public List<SiteBookingOrderAdminVO> listOrders(Integer status, PageParam pageParam){
+        List<SiteBookingOrder> orders =  siteBookingOrderMapper.listOrders(status,pageParam);
+        List<SiteBookingOrderAdminVO> orderAdminVOS = new ArrayList<>();
+        for(SiteBookingOrder order : orders){
+            orderAdminVOS.add(convertToSiteBookingOrderAdminVO(order));
+        }
+        return orderAdminVOS;
     }
 
 
     private SiteBookingOrderAdminVO convertToSiteBookingOrderAdminVO(SiteBookingOrder siteBookingOrder){
         SiteBookingOrderAdminVO orderAdminVO = new SiteBookingOrderAdminVO();
         BeanUtils.copyProperties(siteBookingOrder,orderAdminVO);
+        Site site = siteService.getSiteById(siteBookingOrder.getSiteId());
+        orderAdminVO.setStadiumName(stadiumService.getStadiumById(site.getStadiumId()).getName());
         return orderAdminVO;
     }
 

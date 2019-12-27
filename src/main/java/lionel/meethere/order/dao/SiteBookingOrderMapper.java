@@ -54,22 +54,10 @@ public interface SiteBookingOrderMapper {
                                                 @Param("status") Integer status,
                                                 @Param("pageParam")PageParam pageParam);
 
-    @Results(
-            id = "siteBookingOrderAdminVO", value = {
-            @Result(property = "id", column = "id"),
-            @Result(property = "userId", column = "user_id"),
-            @Result(property = "siteId", column = "site_id"),
-            @Result(property = "siteName", column = "site_name"),
-            @Result(property = "rent", column = "rent"),
-            @Result(property = "status", column = "status"),
-            @Result(property = "startTime", column = "start_time"),
-            @Result(property = "endTime", column = "end_time")
-    }
-    )
-    @Select("select * from site_order where site_id=#{siteId} and status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
-    List<SiteBookingOrderAdminVO> getOrderBySite(@Param("siteId") Integer siteId,
-                                                 @Param("status") Integer status,
-                                                 @Param("pageParam") PageParam pageParam);
+    @ResultMap("siteBookingOrder")
+    @Select("select * from site_order where status=#{status} order by start_time desc limit ${pageParam.pageSize * (pageParam.pageNum - 1)},#{pageParam.pageSize};")
+    List<SiteBookingOrder> listOrders(@Param("status") Integer status,
+                                             @Param("pageParam") PageParam pageParam);
 
     @Select("select count(*) from site_order")
     int getOrderCount();
