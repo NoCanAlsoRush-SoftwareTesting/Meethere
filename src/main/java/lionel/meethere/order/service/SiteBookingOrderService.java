@@ -102,7 +102,7 @@ public class SiteBookingOrderService {
     }
 
     public void updateOrderBookTime(SiteBookingOrderUpdateParam updateParam){
-        if(!siteBookTimeService.tryBooking(updateParam.getSiteId(),updateParam.getStartTime(),updateParam.getEndTime())){
+        if(!siteBookTimeService.tryUpdateBookingTime(updateParam.getSiteId(),updateParam.getOldStartTime(),updateParam.getStartTime(),updateParam.getEndTime())){
             throw new BookingTimeConflictException();
         }
         siteBookTimeService.updateSiteBookTime(updateParam);
@@ -119,6 +119,7 @@ public class SiteBookingOrderService {
         System.out.println(pageParam);
         return siteBookingOrderMapper.getOrderByUser(userId,status,pageParam);
     }
+
 
     public List<SiteBookingOrderAdminVO> listOrders(Integer status, PageParam pageParam){
         return convertToSiteBookingOrderAdminVOList(siteBookingOrderMapper.listOrders(status,pageParam));
@@ -143,8 +144,8 @@ public class SiteBookingOrderService {
         return orderAdminVOS;
     }
 
-    public int getOrderCount(){
-        return siteBookingOrderMapper.getOrderCount();
+    public int getOrderCount(Integer status){
+        return siteBookingOrderMapper.getOrderCount(status);
     }
 
 }

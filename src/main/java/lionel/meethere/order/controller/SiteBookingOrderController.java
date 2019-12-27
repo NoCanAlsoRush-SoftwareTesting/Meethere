@@ -1,11 +1,13 @@
 package lionel.meethere.order.controller;
 
+import lionel.meethere.order.exception.BookingTimeConflictException;
 import lionel.meethere.order.param.SiteBookingOrderAuditParam;
 import lionel.meethere.order.param.SiteBookingOrderCreateParam;
 import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
 import lionel.meethere.order.service.SiteBookingOrderService;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
+import lionel.meethere.result.OrderResult;
 import lionel.meethere.result.Result;
 import lionel.meethere.user.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,11 @@ public class SiteBookingOrderController {
         LocalDateTime start = LocalDateTime.parse(startTime,df);
         LocalDateTime end = LocalDateTime.parse(endTime,df);
         SiteBookingOrderCreateParam createParam = new SiteBookingOrderCreateParam(siteId,siteName,rent,start,end);
-        orderService.createSiteBookingOrder(userSessionInfo.getId(),createParam);
+        try {
+            orderService.createSiteBookingOrder(userSessionInfo.getId(),createParam);
+        }catch (BookingTimeConflictException e){
+            return OrderResult.reserveTimeConflict();
+        }
         return CommonResult.success();
     }
 
@@ -84,7 +90,12 @@ public class SiteBookingOrderController {
         LocalDateTime start = LocalDateTime.parse(startTime,df);
         LocalDateTime end = LocalDateTime.parse(endTime,df);
         SiteBookingOrderUpdateParam updateParam = new SiteBookingOrderUpdateParam(orderId,siteId,oldStart,start,end);
-        orderService.updateOrderBookTime(updateParam);
+
+        try{
+            orderService.updateOrderBookTime(updateParam);
+        }catch (BookingTimeConflictException e){
+            return OrderResult.reserveTimeConflict();
+        }
         return CommonResult.success();
     }
     @PostMapping("list")
@@ -97,7 +108,7 @@ public class SiteBookingOrderController {
         if(userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
 
-        return CommonResult.success().data(orderService.listOrders(status,pageParam)).total(orderService.getOrderCount());
+        return CommonResult.success().data(orderService.listOrders(status,pageParam)).total(orderService.getOrderCount(status));
     }
 //OK
     @PostMapping("user/list")
@@ -107,7 +118,7 @@ public class SiteBookingOrderController {
                                    @RequestParam Integer pageSize){
 
         PageParam pageParam = new PageParam(pageNum,pageSize);
-        return CommonResult.success().data(orderService.getOrderByUser(userSessionInfo.getId(),status,pageParam)).total(orderService.getOrderCount());
+        return CommonResult.success().data(orderService.getOrderByUser(userSessionInfo.getId(),status,pageParam)).total(orderService.getOrderCount(status));
     }
 
     @PostMapping("get")

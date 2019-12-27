@@ -235,7 +235,7 @@ class SiteBookingOrderServiceTest {
 
     @Test
     void getOrderCount() {
-        orderService.getOrderCount();
-        verify(orderMapper).getOrderCount();
+        orderService.getOrderCount(1);
+        verify(orderMapper).getOrderCount(1);
     }
 }

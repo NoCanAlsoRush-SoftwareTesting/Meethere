@@ -162,7 +162,7 @@ class SiteBookingOrderMapperTest {
 
     @Test
     void when_get_order_count_should_return_count(){
-        assertEquals(4,orderMapper.getOrderCount());
+        assertEquals(3,orderMapper.getOrderCount(0));
     }
 
 }

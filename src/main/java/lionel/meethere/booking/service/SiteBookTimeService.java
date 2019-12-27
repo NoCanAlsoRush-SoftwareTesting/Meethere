@@ -14,17 +14,25 @@ public class SiteBookTimeService {
     @Autowired
     private SiteBookTimeMapper siteBookTimeMapper;
 
-    public boolean tryBooking(Integer siteId, LocalDateTime startTime, LocalDateTime endTime){
-        if(siteBookTimeMapper.getSiteBookingTimeBetweenStimeAndEtime(siteId,startTime,endTime)!=null)
+    public boolean tryBooking(Integer siteId, LocalDateTime startTime, LocalDateTime endTime) {
+        if (siteBookTimeMapper.getSiteBookingTimeBetweenStimeAndEtime(siteId, startTime, endTime) != null)
             return false;
         return true;
     }
 
-    public void insertBokingTime(Integer siteId, LocalDateTime startTime, LocalDateTime endTime){
-        siteBookTimeMapper.insertBookTime(convertToSiteBookingTime(siteId,startTime,endTime));
+    public boolean tryUpdateBookingTime(Integer siteId, LocalDateTime oldStartTime, LocalDateTime startTime, LocalDateTime endTime) {
+        siteBookTimeMapper.deleteBookTimeByStartTime(siteId, oldStartTime);
+        if (tryBooking(siteId, startTime, endTime))
+            return true;
+        else
+            return false;
     }
 
-    public SiteBookingTime convertToSiteBookingTime(Integer siteId, LocalDateTime startTime, LocalDateTime endTime){
+    public void insertBokingTime(Integer siteId, LocalDateTime startTime, LocalDateTime endTime) {
+        siteBookTimeMapper.insertBookTime(convertToSiteBookingTime(siteId, startTime, endTime));
+    }
+
+    public SiteBookingTime convertToSiteBookingTime(Integer siteId, LocalDateTime startTime, LocalDateTime endTime) {
         SiteBookingTime siteBookingTime = new SiteBookingTime();
         siteBookingTime.setSiteId(siteId);
         siteBookingTime.setStartTime(startTime);
@@ -32,12 +40,11 @@ public class SiteBookTimeService {
         return siteBookingTime;
     }
 
-    public void cancelSiteBookTime(Integer siteId, LocalDateTime startTime){
-        siteBookTimeMapper.deleteBookTimeByStartTime(siteId,startTime);
+    public void cancelSiteBookTime(Integer siteId, LocalDateTime startTime) {
+        siteBookTimeMapper.deleteBookTimeByStartTime(siteId, startTime);
     }
 
-    public void updateSiteBookTime(SiteBookingOrderUpdateParam updateParam)
-    {
+    public void updateSiteBookTime(SiteBookingOrderUpdateParam updateParam) {
         siteBookTimeMapper.updateBookTime(updateParam);
     }
 

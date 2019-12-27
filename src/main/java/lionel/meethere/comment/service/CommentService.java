@@ -68,8 +68,8 @@ public class CommentService {
         return commentVOList;
     }
 
-    public int getCommentCount(){
-        return commentMapper.getCommentCount();
+    public int getCommentCount(Integer siteId){
+        return commentMapper.getCommentCount(siteId);
     }
 
 }

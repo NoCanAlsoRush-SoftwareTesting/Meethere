@@ -59,7 +59,7 @@ public interface SiteBookingOrderMapper {
     List<SiteBookingOrder> listOrders(@Param("status") Integer status,
                                              @Param("pageParam") PageParam pageParam);
 
-    @Select("select count(*) from site_order")
-    int getOrderCount();
+    @Select("select count(*) from site_order where status=#{status}")
+    int getOrderCount(Integer status);
 
 }

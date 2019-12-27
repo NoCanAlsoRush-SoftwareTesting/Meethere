@@ -115,11 +115,11 @@ class CommentServiceTest {
 
     @Test
     void getCommentCount() {
-        when(commentMapper.getCommentCount()).thenReturn(10);
+        when(commentMapper.getCommentCount(1)).thenReturn(10);
 
-        int num = commentService.getCommentCount();
+        int num = commentService.getCommentCount(1);
 
         assertEquals(10,num);
-        verify(commentMapper,times(1)).getCommentCount();
+        verify(commentMapper,times(1)).getCommentCount(1);
     }
 }

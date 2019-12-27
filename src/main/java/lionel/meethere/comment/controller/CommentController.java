@@ -75,7 +75,7 @@ public class CommentController {
                                        @RequestParam Integer siteId) {
 
         PageParam pageParam = new PageParam(pageNum, pageSize);
-        return CommonResult.success().data(commentService.getCommentsBySite(pageParam, siteId)).total(commentService.getCommentCount());
+        return CommonResult.success().data(commentService.getCommentsBySite(pageParam, siteId)).total(commentService.getCommentCount(siteId));
     }
 
     @PostMapping("get")

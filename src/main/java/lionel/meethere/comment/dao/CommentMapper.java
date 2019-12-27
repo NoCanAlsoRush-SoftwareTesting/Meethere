@@ -39,7 +39,7 @@ public interface CommentMapper {
                                               @Param("siteId")   Integer siteId);
 
 
-    @Select("select count(*) from comment")
-    int getCommentCount();
+    @Select("select count(*) from comment where site_id=#{siteId}")
+    int getCommentCount(Integer siteId);
 
 }
