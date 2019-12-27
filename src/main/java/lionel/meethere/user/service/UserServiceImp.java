@@ -70,6 +70,7 @@ public class UserServiceImp implements UserService {
     @Override
     public int updatePassword(UserSessionInfo userSessionInfo, String oldPassword, String newPassword) {
         User user = userMapper.getUserByUsername(userSessionInfo.getUsername());
+        System.out.println(oldPassword+"   "+user.getPassword());
         if(!oldPassword.equals(user.getPassword()))
             return 0;
         return userMapper.updatePasswordById(userSessionInfo.getId(),newPassword);
