@@ -34,12 +34,14 @@ public class StadiumController {
 
     @PostMapping("/stadium/create")
     public Result<?> createStadium(@SessionAttribute UserSessionInfo userSessionInfo,
-                                   @RequestParam Integer id,
                                    @RequestParam String name,
                                    @RequestParam String location,
                                    @RequestParam String image) {
 
-        Stadium stadium = new Stadium(id,name,location,image);
+        Stadium stadium = new Stadium();
+        stadium.setName(name);
+        stadium.setLocation(location);
+        stadium.setImage(image);
         if (userSessionInfo.getAdmin() == 0) {
             return CommonResult.accessDenied();
         }

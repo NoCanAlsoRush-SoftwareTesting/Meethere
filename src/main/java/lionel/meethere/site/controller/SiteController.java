@@ -10,6 +10,9 @@ import lionel.meethere.user.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.stream.Stream;
+
 @RestController
 @CrossOrigin
 public class SiteController {
@@ -38,17 +41,25 @@ public class SiteController {
 
     @PostMapping("/site/create")
     public Result<?> createSite(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @RequestBody Site site){
+                                @RequestParam String name,
+                                @RequestParam Integer stadiumId,
+                                @RequestParam String location,
+                                @RequestParam String description,
+                                @RequestParam BigDecimal rent,
+                                @RequestParam String image){
+
         if(userSessionInfo.getAdmin() == 0){
             return CommonResult.accessDenied();
         }
+
+        Site site = new Site(0,name,stadiumId,location,description,rent,image);
         siteService.createSite(site);
         return CommonResult.success();
     }
 
     @PostMapping("/site/delete")
     public Result<?> deleteSite(@SessionAttribute UserSessionInfo userSessionInfo,
-                                @RequestBody Integer id){
+                                @RequestParam Integer id){
         if(userSessionInfo.getAdmin() == 0){
             return CommonResult.accessDenied();
         }

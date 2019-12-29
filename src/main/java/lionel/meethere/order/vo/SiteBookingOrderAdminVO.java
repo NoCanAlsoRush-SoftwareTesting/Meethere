@@ -15,7 +15,9 @@ public class SiteBookingOrderAdminVO {
 
     private Integer id;
 
-    private UserVO user;
+    private Integer userId;
+
+    private String userName;
 
     private Integer siteId;
 

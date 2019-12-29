@@ -42,4 +42,11 @@ public interface CommentMapper {
     @Select("select count(*) from comment where site_id=#{siteId}")
     int getCommentCount(Integer siteId);
 
+    @ResultMap("commentDTO")
+    @Select("select * from comment where status=#{status} limit ${pageParam.pageSize*(pageParam.pageNum-1)},#{pageParam.pageSize};")
+    List<CommentDTO> getCommentsByStatus(@Param("pageParam")PageParam pageParam,
+                                              @Param("status")   Integer status);
+
+    @Select("select count(*) from comment where status=#{status}")
+    int getNewCommentCount(Integer status);
 }

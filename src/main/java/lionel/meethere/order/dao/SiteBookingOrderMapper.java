@@ -2,7 +2,6 @@ package lionel.meethere.order.dao;
 
 import lionel.meethere.order.entity.SiteBookingOrder;
 import lionel.meethere.order.param.SiteBookingOrderUpdateParam;
-import lionel.meethere.order.vo.SiteBookingOrderAdminVO;
 import lionel.meethere.order.vo.SiteBookingOrderUserVO;
 import lionel.meethere.paging.PageParam;
 import org.apache.ibatis.annotations.*;

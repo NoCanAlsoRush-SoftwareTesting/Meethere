@@ -72,4 +72,8 @@ public class CommentService {
         return commentMapper.getCommentCount(siteId);
     }
 
+    public List<CommentVO> getCommentsByStatus(PageParam pageParam, Integer status){
+        return convertToCommentVOList(commentMapper.getCommentsByStatus(pageParam,status));
+
+    }
 }

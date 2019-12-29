@@ -83,5 +83,12 @@ public class CommentController {
         return CommonResult.success().data(commentService.getCommentById(commentId));
     }
 
+    @PostMapping("listNewComments")
+    public Result<?> getCommentsBySite(@RequestParam Integer pageNum,
+                                       @RequestParam Integer pageSize) {
+
+        PageParam pageParam = new PageParam(pageNum, pageSize);
+        return CommonResult.success().data(commentService.getCommentsBySite(pageParam, CommentStatus.UNAUDITED)).total(commentService.getCommentCount(CommentStatus.UNAUDITED));
+    }
 
 }

@@ -132,7 +132,8 @@ public class SiteBookingOrderService {
         UserVO userVO = userService.getUserById(siteBookingOrder.getUserId());
         Site site = siteService.getSiteById(siteBookingOrder.getSiteId());
         orderAdminVO.setStadiumName(stadiumService.getStadiumById(site.getStadiumId()).getName());
-        orderAdminVO.setUser(userVO);
+        orderAdminVO.setUserId(userVO.getId());
+        orderAdminVO.setUserName(userVO.getUsername());
         return orderAdminVO;
     }
 
