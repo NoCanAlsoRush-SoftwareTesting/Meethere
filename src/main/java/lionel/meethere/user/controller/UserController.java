@@ -3,6 +3,8 @@ package lionel.meethere.user.controller;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
+import lionel.meethere.user.exception.UsernameAlreadyExistException;
+import lionel.meethere.user.exception.UsernameNotExistsException;
 import lionel.meethere.user.service.UserService;
 import lionel.meethere.user.session.UserSessionInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,12 @@ public class UserController {
     @PostMapping("update/username")
     public Result<?> updateUsername(@SessionAttribute UserSessionInfo userSessionInfo,
                                  @RequestParam String newName) {
+        try{
             service.updateUsername(userSessionInfo.getId(), newName);
+        }catch (UsernameAlreadyExistException e){
+            return CommonResult.failed();
+        }
+
             return CommonResult.success();
     }
 //ok

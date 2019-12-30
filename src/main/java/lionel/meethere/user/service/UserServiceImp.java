@@ -78,6 +78,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     public int updateUsername(Integer id, String username) {
+        if(userMapper.getUserByUsername(username)!=null)
+            throw  new UsernameAlreadyExistException();
         return userMapper.updateUsernameById(id,username);
     }
 
