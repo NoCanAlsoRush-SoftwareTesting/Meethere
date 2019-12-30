@@ -124,8 +124,6 @@ public class SiteBookingOrderController {
     @PostMapping("get")
     public Result<?> getOrderById(@SessionAttribute UserSessionInfo userSessionInfo,
                                   @RequestParam Integer orderId){
-        if(userSessionInfo.getAdmin() != 1)
-            return CommonResult.accessDenied();
 
         return CommonResult.success().data(orderService.getOrderById(orderId));
     }

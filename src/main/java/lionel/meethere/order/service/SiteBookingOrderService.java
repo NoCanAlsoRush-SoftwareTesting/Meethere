@@ -17,6 +17,7 @@ import lionel.meethere.paging.PageParam;
 import lionel.meethere.site.entity.Site;
 import lionel.meethere.site.service.SiteService;
 import lionel.meethere.stadium.service.StadiumService;
+import lionel.meethere.stadium.vo.StadiumVO;
 import lionel.meethere.user.service.UserService;
 import lionel.meethere.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
@@ -134,7 +135,9 @@ public class SiteBookingOrderService {
         BeanUtils.copyProperties(siteBookingOrder,orderAdminVO);
         UserVO userVO = userService.getUserById(siteBookingOrder.getUserId());
         Site site = siteService.getSiteById(siteBookingOrder.getSiteId());
-        orderAdminVO.setStadiumName(stadiumService.getStadiumById(site.getStadiumId()).getName());
+        StadiumVO stadiumVO = stadiumService.getStadiumById(site.getStadiumId());
+
+        orderAdminVO.setStadiumName(stadiumVO.getName());
         orderAdminVO.setUserId(userVO.getId());
         orderAdminVO.setUserName(userVO.getUsername());
         return orderAdminVO;

@@ -43,7 +43,7 @@ class CommentServiceTest {
     @Test
     void when_service_do_publishComment_then_mapper_insert_comment() {
         LocalDateTime time = LocalDateTime.now();
-        CommentDTO commentDTO = new CommentDTO(1,2,3,"good",time);
+        CommentDTO commentDTO = new CommentDTO(1,2,3,"good",0,time);
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentDTO,comment);
         comment.setStatus(CommentStatus.UNAUDITED);
@@ -77,7 +77,7 @@ class CommentServiceTest {
     @Test
     void when_service_do_getCommentById_1_then_mapper_find_comment_which_id_equal_1() {
         LocalDateTime time = LocalDateTime.now();
-        CommentDTO commentDTO = new CommentDTO(1,2,3,"good",time);
+        CommentDTO commentDTO = new CommentDTO(1,2,3,"good",0,time);
         UserVO userVO = new UserVO(2,"lionel","18912344321");
 
         when(commentMapper.getCommentById(1)).thenReturn(commentDTO);
@@ -100,8 +100,8 @@ class CommentServiceTest {
         LocalDateTime time = LocalDateTime.now();
         PageParam pageParam = new PageParam(1,2);
         List<CommentDTO> commentDTOList = new ArrayList<>();
-        commentDTOList.add(new CommentDTO(1,2,3,"hh",time));
-        commentDTOList.add(new CommentDTO(2,1,3,"aa",time));;
+        commentDTOList.add(new CommentDTO(1,2,3,"hh",0,time));
+        commentDTOList.add(new CommentDTO(2,1,3,"aa",0,time));;
 
         when(commentMapper.getAuditedCommentsBySite(3)).thenReturn(commentDTOList);
         when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"gg","18912345678"));
@@ -113,6 +113,32 @@ class CommentServiceTest {
 
     }
 
+    @Test
+    void when_service_do_getCommentsByStatus_1_mapper_return_Comments_related_to_status_1() {
+        LocalDateTime time = LocalDateTime.now();
+        PageParam pageParam = new PageParam(1,2);
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+        commentDTOList.add(new CommentDTO(1,2,3,"hh",0,time));
+        commentDTOList.add(new CommentDTO(2,1,3,"aa",0,time));;
+
+        when(commentMapper.getCommentsByStatus(pageParam,1)).thenReturn(commentDTOList);
+        when(userMapper.getUserById(2)).thenReturn(new UserVO(2,"gg","18912345678"));
+        when(userMapper.getUserById(1)).thenReturn(new UserVO(1,"mm","18987654321"));
+
+        List<CommentVO> commentVOList = commentService.getCommentsByStatus(pageParam,1);
+        assertEquals(2,commentVOList.size());
+        CommentVO commentVO = commentVOList.get(0);
+        Assertions.assertAll(
+                ()->assertEquals(1,commentVO.getId()),
+                ()->assertEquals(2,commentVO.getReviewer().getId()),
+                ()->assertEquals("gg",commentVO.getReviewer().getUsername()),
+                ()->assertEquals("18912345678",commentVO.getReviewer().getTelephone()),
+                ()->assertEquals("hh",commentVO.getContent()),
+                ()->assertEquals(time,commentVO.getCreateTime())
+        );
+
+
+    }
     @Test
     void getCommentCount() {
         when(commentMapper.getCommentCount(1)).thenReturn(10);

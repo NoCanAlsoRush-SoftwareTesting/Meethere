@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class CommentService {
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentDTO,comment);
         comment.setStatus(CommentStatus.UNAUDITED);
+        comment.setCreateTime(LocalDateTime.now());
         return comment;
     }
 
@@ -39,8 +41,8 @@ public class CommentService {
         commentMapper.deleteCommnet(commentId);
     }
 
-    public void auditComment(Integer commentId, Integer status){
-        commentMapper.updateCommentStatus(commentId,status);
+    public void auditComment(Integer id, Integer status){
+        commentMapper.updateCommentStatus(id,status);
     }
 
     public CommentVO getCommentById(Integer id){
@@ -68,12 +70,13 @@ public class CommentService {
         return commentVOList;
     }
 
-    public int getCommentCount(Integer siteId){
-        return commentMapper.getCommentCount(siteId);
+    public int getCommentCount(Integer status){
+        return commentMapper.getCommentCount(status);
     }
 
     public List<CommentVO> getCommentsByStatus(PageParam pageParam, Integer status){
-        return convertToCommentVOList(commentMapper.getCommentsByStatus(pageParam,status));
+        List<CommentDTO> commentDTOS = commentMapper.getCommentsByStatus(pageParam,status);
+        return convertToCommentVOList(commentDTOS);
 
     }
 }

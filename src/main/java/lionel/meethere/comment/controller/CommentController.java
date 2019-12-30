@@ -5,12 +5,10 @@ import lionel.meethere.comment.param.CommentPublishParam;
 import lionel.meethere.comment.service.CommentService;
 import lionel.meethere.comment.status.CommentAuditStatus;
 import lionel.meethere.comment.status.CommentStatus;
-import lionel.meethere.comment.vo.CommentVO;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
 import lionel.meethere.user.session.UserSessionInfo;
-import lionel.meethere.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +56,7 @@ public class CommentController {
                                   @RequestParam Integer commentId,
                                   @RequestParam Integer auditOption) {
 
+        System.out.println(commentId+" "+auditOption);
         if (userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
         if (auditOption == CommentAuditStatus.SUCCESS) {
@@ -72,7 +71,7 @@ public class CommentController {
     @PostMapping("getcomments")
     public Result<?> getCommentsBySite(@RequestParam Integer siteId) {
 
-        return CommonResult.success().data(commentService.getCommentsBySite(siteId)).total(commentService.getCommentCount(siteId));
+        return CommonResult.success().data(commentService.getCommentsBySite(siteId));
     }
 
     @PostMapping("get")
@@ -82,10 +81,11 @@ public class CommentController {
 
     @PostMapping("listNewComments")
     public Result<?> getCommentsBySite(@RequestParam Integer pageNum,
-                                       @RequestParam Integer pageSize) {
+                                       @RequestParam Integer pageSize,
+                                       @RequestParam Integer status) {
 
         PageParam pageParam = new PageParam(pageNum, pageSize);
-        return CommonResult.success().data(commentService.getCommentsByStatus(pageParam, CommentStatus.UNAUDITED)).total(commentService.getCommentCount(CommentStatus.UNAUDITED));
+        return CommonResult.success().data(commentService.getCommentsByStatus(pageParam, status)).total(commentService.getCommentCount(status));
     }
 
 }

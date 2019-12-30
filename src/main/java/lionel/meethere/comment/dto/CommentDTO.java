@@ -20,6 +20,8 @@ public class CommentDTO {
 
     private String content;
 
+    private Integer status;
+
     private LocalDateTime createTime;
 
 }

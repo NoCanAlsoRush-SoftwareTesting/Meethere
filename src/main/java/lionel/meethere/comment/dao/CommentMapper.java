@@ -17,7 +17,7 @@ public interface CommentMapper {
     @Delete("delete from comment where id=#{id};")
     int deleteCommnet(Integer id);
 
-    @Update("update comment set status=#{status} where id=#{id};")
+    @Update("update comment set status=#{status} where id=#{id}")
     int updateCommentStatus(@Param("id") Integer id,
                             @Param("status") Integer status);
 
@@ -27,6 +27,7 @@ public interface CommentMapper {
             @Result(property="reviewerId", column="user_id"),
             @Result(property="siteId", column="site_id"),
             @Result(property="content", column="content"),
+            @Result(property="status", column="status"),
             @Result(property ="createTime", column = "create_time")
     }
     )
@@ -38,8 +39,8 @@ public interface CommentMapper {
     List<CommentDTO> getAuditedCommentsBySite(@Param("siteId")   Integer siteId);
 
 
-    @Select("select count(*) from comment where site_id=#{siteId}")
-    int getCommentCount(Integer siteId);
+    @Select("select count(*) from comment where status=#{status}")
+    int getCommentCount(Integer status);
 
     @ResultMap("commentDTO")
     @Select("select * from comment where status=#{status} limit ${pageParam.pageSize*(pageParam.pageNum-1)},#{pageParam.pageSize};")

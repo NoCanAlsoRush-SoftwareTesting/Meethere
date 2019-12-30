@@ -18,5 +18,7 @@ public class CommentVO {
 
     private String content;
 
+    private Integer status;
+
     private LocalDateTime createTime;
 }

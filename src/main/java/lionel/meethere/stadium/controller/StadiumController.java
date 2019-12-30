@@ -49,9 +49,10 @@ public class StadiumController {
         return CommonResult.success();
     }
 
-    @PostMapping("delete")
+    @PostMapping("/stadium/delete")
     public Result<?> deleteStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                    @RequestParam Integer id) {
+        System.out.println(id);
         if (userSessionInfo.getAdmin() == 0) {
             return CommonResult.accessDenied();
         }
@@ -60,7 +61,7 @@ public class StadiumController {
         return CommonResult.success();
     }
 
-    @PostMapping("update")
+    @PostMapping("/stadium/update")
     public Result<?> updateStadium(@SessionAttribute UserSessionInfo userSessionInfo,
                                    @RequestParam Integer id,
                                    @RequestParam String name,
