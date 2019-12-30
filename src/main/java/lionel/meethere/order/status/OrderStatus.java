@@ -10,5 +10,4 @@ public class OrderStatus {
 
     public static final Integer CANCEL = 3;
 
-    public static final Integer  EXCEPT_UNAUDITED= 4;
 }

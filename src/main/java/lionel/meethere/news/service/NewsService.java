@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class NewsService {
         News news = new News();
         BeanUtils.copyProperties(newsPublishParam,news);
         news.setWriterId(adminId);
+        news.setCreateTime(LocalDateTime.now());
+        news.setModifiedTime(LocalDateTime.now());
         return news;
     }
     public void deleteNews(Integer id){

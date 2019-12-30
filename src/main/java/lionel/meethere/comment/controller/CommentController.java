@@ -70,12 +70,9 @@ public class CommentController {
 
     //OK
     @PostMapping("getcomments")
-    public Result<?> getCommentsBySite(@RequestParam Integer pageNum,
-                                       @RequestParam Integer pageSize,
-                                       @RequestParam Integer siteId) {
+    public Result<?> getCommentsBySite(@RequestParam Integer siteId) {
 
-        PageParam pageParam = new PageParam(pageNum, pageSize);
-        return CommonResult.success().data(commentService.getCommentsBySite(pageParam, siteId)).total(commentService.getCommentCount(siteId));
+        return CommonResult.success().data(commentService.getCommentsBySite(siteId)).total(commentService.getCommentCount(siteId));
     }
 
     @PostMapping("get")
@@ -88,7 +85,7 @@ public class CommentController {
                                        @RequestParam Integer pageSize) {
 
         PageParam pageParam = new PageParam(pageNum, pageSize);
-        return CommonResult.success().data(commentService.getCommentsBySite(pageParam, CommentStatus.UNAUDITED)).total(commentService.getCommentCount(CommentStatus.UNAUDITED));
+        return CommonResult.success().data(commentService.getCommentsByStatus(pageParam, CommentStatus.UNAUDITED)).total(commentService.getCommentCount(CommentStatus.UNAUDITED));
     }
 
 }
