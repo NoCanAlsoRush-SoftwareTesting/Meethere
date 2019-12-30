@@ -19,7 +19,7 @@ public interface NewsMapper {
     @Delete("delete from news where id=#{id}")
     int deleteNews(Integer id);
 
-    @Update("update news set title=#{title},content=#{content},image=#{image},modified_time=current_timestamp where id=#{id};")
+    @Update("update news set title=#{title},content=#{content},image=#{image},modified_time=#{modifiedTime} where id=#{id};")
     int updateNews(NewsUpdateParam newsUpdateParam);
 
     @Results(
@@ -35,6 +35,9 @@ public interface NewsMapper {
     @Select("select * from news where id=#{id};")
     NewsDTO getNewsById(Integer id);
 
+    @ResultMap("newsDTO")
+    @Select("select * from news order by create_time desc limit ${pageSize * (pageNum - 1)},#{pageSize}")
+    List<NewsDTO> listNews(PageParam pageParam);
 
     @Results(
             id = "newsCatalogDTO",value = {

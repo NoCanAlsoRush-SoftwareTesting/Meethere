@@ -65,9 +65,9 @@ class NewsMapperTest {
 
     @Test
     void when_update_a_news_with_updateParam_should_update_the_property(){
-
+        LocalDateTime time = LocalDateTime.now();
         assertEquals(1,this.newsMapper.updateNews(
-                new NewsUpdateParam(2,"title2.1","content2.1","image")));
+                new NewsUpdateParam(2,"title2.1","content2.1","image",time)));
 
         NewsDTO newsDTO = newsMapper.getNewsById(2);
 

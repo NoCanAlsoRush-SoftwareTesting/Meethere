@@ -63,7 +63,8 @@ class NewsServiceTest {
 
     @Test
     void when_service_do_updateNews_with_updateParam_then_diapatch_to_mapper_update_news() {
-        NewsUpdateParam updateParam = new NewsUpdateParam(1,"title","content","image");
+        LocalDateTime time = LocalDateTime.now();
+        NewsUpdateParam updateParam = new NewsUpdateParam(1,"title","content","image",time);
         newsService.updateNews(updateParam);
         verify(newsMapper, times(1)).updateNews(updateParam);
     }
@@ -109,8 +110,8 @@ class NewsServiceTest {
         verify(userMapper,times(1)).getUserById(6);
         Assertions.assertAll(
                 ()-> assertEquals(1,newsVO.getId()),
-                ()-> assertEquals(6,newsVO.getWriter().getId()),
-                ()-> assertEquals("admin1",newsVO.getWriter().getUsername()),
+                ()-> assertEquals(6,newsVO.getWriterId()),
+                ()-> assertEquals("admin1",newsVO.getWriter()),
                 ()-> assertEquals("title",newsVO.getTitle()),
                 ()-> assertEquals("content",newsVO.getContent()),
                 ()-> assertEquals("image",newsVO.getImage()),

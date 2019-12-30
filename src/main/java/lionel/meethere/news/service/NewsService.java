@@ -73,12 +73,24 @@ public class NewsService {
         NewsVO newsVO = new NewsVO();
         BeanUtils.copyProperties(newsDTO,newsVO);
         UserVO admin = userMapper.getUserById(newsDTO.getWriterId());
-        newsVO.setWriter(admin);
+        newsVO.setWriterId(admin.getId());
+        newsVO.setWriter(admin.getUsername());
         return newsVO;
+    }
+    public List<NewsVO> getNewsList(PageParam pageParam){
+
+        List<NewsDTO>  newsDTOS = newsMapper.listNews(pageParam);
+        List<NewsVO> newsVOS = new ArrayList<>();
+        for(NewsDTO newsDTO : newsDTOS){
+            newsVOS.add(convertToNewsVO(newsDTO));
+        }
+        return newsVOS;
     }
 
     public int getNewsCount(){
        return newsMapper.getNewsCount();
     }
+
+
 
 }

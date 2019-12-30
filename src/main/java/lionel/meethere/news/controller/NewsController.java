@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @RestController
 @CrossOrigin
@@ -52,7 +53,7 @@ public class NewsController {
                                 @RequestParam String content,
                                 @RequestParam String image) {
 
-        NewsUpdateParam updateParam = new NewsUpdateParam(id, title, content, image);
+        NewsUpdateParam updateParam = new NewsUpdateParam(id, title, content, image,LocalDateTime.now());
         if (userSessionInfo.getAdmin() != 1)
             return CommonResult.accessDenied();
         newsService.updateNews(updateParam);
@@ -72,4 +73,13 @@ public class NewsController {
         return CommonResult.success().data(newsService.getNewsCatalogList(pageParam)).total(newsService.getNewsCount());
     }
 
+    @PostMapping("list")
+    public Result<?> listNews(@SessionAttribute UserSessionInfo userSessionInfo,
+                              @RequestParam Integer pageNum,
+                              @RequestParam Integer pageSize) {
+        if(!userSessionInfo.getAdmin().equals(1))
+            return CommonResult.accessDenied();
+        PageParam pageParam = new PageParam(pageNum, pageSize);
+        return CommonResult.success().data(newsService.getNewsList(pageParam)).total(newsService.getNewsCount());
+    }
 }

@@ -12,7 +12,9 @@ public class NewsVO {
 
     private Integer id;
 
-    private UserVO writer;
+    private Integer writerId;
+
+    private String writer;
 
     private String title;
 

@@ -18,7 +18,9 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -113,10 +115,11 @@ class NewsControllerTest {
     @Test
     void when_an_administrator_request_to_update_news_then_dispatch_to_service_and_return_success_result() throws Exception {
 
+        LocalDateTime time = LocalDateTime.now();
         MockHttpSession session = new MockHttpSession();
         UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lionel", 1);
         session.setAttribute("userSessionInfo", userSessionInfo);
-        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1");
+        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1",time);
 
         MvcResult result = mockMvc.perform(
                 post("/news/update")
@@ -133,10 +136,11 @@ class NewsControllerTest {
     @Test
     void when_no_administrator_request_to_update_news_then_return_access_denied_result() throws Exception {
 
+        LocalDateTime time = LocalDateTime.now();
         MockHttpSession session = new MockHttpSession();
         UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lionel", 0);
         session.setAttribute("userSessionInfo", userSessionInfo);
-        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1");
+        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1",time);
 
         MvcResult result = mockMvc.perform(
                 post("/news/update")
