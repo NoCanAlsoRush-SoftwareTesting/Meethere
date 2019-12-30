@@ -78,7 +78,7 @@ class CommentControllerTest {
                         .session(session)
         ).andReturn();
 
-        verify(commentService,times(1)).getCommentsBySite(pageParam,1);
+        verify(commentService,times(1)).getCommentsBySite(1);
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
     }

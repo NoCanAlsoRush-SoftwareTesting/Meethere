@@ -91,7 +91,7 @@ class CommentMapperTest {
     @MethodSource("commentPageProvider")
     void when_enter_a_pageParam_should_return_the_comment_in_that_page(PageParam pageParam, int wsize){
 
-        List<CommentDTO> commentDTOS = this.commentMapper.getAuditedCommentsBySite(pageParam,2);
+        List<CommentDTO> commentDTOS = this.commentMapper.getAuditedCommentsBySite(2);
         assertEquals(wsize,commentDTOS.size());
 
     }

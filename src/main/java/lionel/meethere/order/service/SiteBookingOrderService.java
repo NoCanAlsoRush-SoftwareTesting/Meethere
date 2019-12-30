@@ -116,13 +116,16 @@ public class SiteBookingOrderService {
     }
 
     public List<SiteBookingOrderUserVO> getOrderByUser(Integer userId, Integer status, PageParam pageParam){
-        System.out.println(pageParam);
-        return siteBookingOrderMapper.getOrderByUser(userId,status,pageParam);
+        List<SiteBookingOrderUserVO> orderUserVOS = siteBookingOrderMapper.getOrderByUser(userId,status,pageParam);
+        for(SiteBookingOrderUserVO vo : orderUserVOS){
+            vo.setStadiumName(stadiumService.getStadiumById(siteService.getSiteById(vo.getSiteId()).getStadiumId()).getName());
+        }
+        return orderUserVOS;
     }
 
 
-    public List<SiteBookingOrderAdminVO> listOrders(Integer status, PageParam pageParam){
-        return convertToSiteBookingOrderAdminVOList(siteBookingOrderMapper.listOrders(status,pageParam));
+    public List<SiteBookingOrderAdminVO> listOrders(Integer status, PageParam pageParam) {
+        return convertToSiteBookingOrderAdminVOList(siteBookingOrderMapper.listOrders(status, pageParam));
     }
 
 
