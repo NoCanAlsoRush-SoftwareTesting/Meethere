@@ -4,6 +4,7 @@ import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
 import lionel.meethere.result.UserResult;
+import lionel.meethere.user.exception.IncorrectUsernameOrPasswordException;
 import lionel.meethere.user.exception.UsernameAlreadyExistException;
 import lionel.meethere.user.exception.UsernameNotExistsException;
 import lionel.meethere.user.service.UserService;
@@ -42,7 +43,11 @@ public class UserController {
         if(newPassword.length() < 2 || newPassword.length() > 20){
             return UserResult.invalidUsernameOrPassword();
         }
+        try {
             service.updatePassword(userSessionInfo, oldPassword, newPassword);
+        }catch (IncorrectUsernameOrPasswordException e){
+            return UserResult.incorrectUsernameOrPassword();
+        }
             return CommonResult.success();
     }
 //ok
@@ -50,7 +55,7 @@ public class UserController {
     public Result<?> updateTelephone(@SessionAttribute UserSessionInfo userSessionInfo,
                                      @RequestParam String telephone){
         if(telephone.length() != 11 ){
-            return UserResult.incorrectTelephone();
+            return UserResult.invalidTelephone();
         }
             service.updateTelephone(userSessionInfo.getId(),telephone);
             return CommonResult.success();
