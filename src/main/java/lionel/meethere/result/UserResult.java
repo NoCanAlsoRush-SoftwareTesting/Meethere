@@ -13,6 +13,8 @@ public class UserResult {
 
     public static final int USERNAME_NOT_EXISTS = 104;
 
+    public static final int INCORRECT_TELEPHONE_LENGTH = 105;
+
     public static Result invalidUsernameOrPassword() {
         return new Result(INVALID_USERNAME_OR_PASSWORD, "用户名或密码不合法");
     }
@@ -27,5 +29,9 @@ public class UserResult {
 
     public static Result usernameNotExists() {
         return new Result(USERNAME_NOT_EXISTS, "该用户名没有注册过");
+    }
+
+    public static Result incorrectTelephone(){
+        return new Result(INCORRECT_TELEPHONE_LENGTH,"输入手机位数不合法");
     }
 }

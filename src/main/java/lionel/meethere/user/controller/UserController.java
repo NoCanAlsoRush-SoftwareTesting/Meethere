@@ -3,6 +3,7 @@ package lionel.meethere.user.controller;
 import lionel.meethere.paging.PageParam;
 import lionel.meethere.result.CommonResult;
 import lionel.meethere.result.Result;
+import lionel.meethere.result.UserResult;
 import lionel.meethere.user.exception.UsernameAlreadyExistException;
 import lionel.meethere.user.exception.UsernameNotExistsException;
 import lionel.meethere.user.service.UserService;
@@ -20,6 +21,10 @@ public class UserController {
     @PostMapping("update/username")
     public Result<?> updateUsername(@SessionAttribute UserSessionInfo userSessionInfo,
                                  @RequestParam String newName) {
+
+        if(newName.length() < 2 || newName.length() > 20){
+            return UserResult.invalidUsernameOrPassword();
+        }
         try{
             service.updateUsername(userSessionInfo.getId(), newName);
         }catch (UsernameAlreadyExistException e){
@@ -33,6 +38,10 @@ public class UserController {
     public Result<?> updatePassword(@SessionAttribute UserSessionInfo userSessionInfo,
                                     @RequestParam String oldPassword,
                                     @RequestParam String newPassword){
+
+        if(newPassword.length() < 2 || newPassword.length() > 20){
+            return UserResult.invalidUsernameOrPassword();
+        }
             service.updatePassword(userSessionInfo, oldPassword, newPassword);
             return CommonResult.success();
     }
@@ -40,6 +49,9 @@ public class UserController {
     @PostMapping("update/telephone")
     public Result<?> updateTelephone(@SessionAttribute UserSessionInfo userSessionInfo,
                                      @RequestParam String telephone){
+        if(telephone.length() != 11 ){
+            return UserResult.incorrectTelephone();
+        }
             service.updateTelephone(userSessionInfo.getId(),telephone);
             return CommonResult.success();
     }
