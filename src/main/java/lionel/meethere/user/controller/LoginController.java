@@ -53,9 +53,9 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public Result<?> register(@RequestParam String username,@RequestParam String  password,@RequestParam String telephone){
+    public Result<?> register(@RequestParam String username,@RequestParam String  password){
 
-        RegisterParam registerParam = new RegisterParam(username,password,telephone);
+        RegisterParam registerParam = new RegisterParam(username,password,null);
         //参数校验
         if(registerParam.getUsername().length() < 2 || registerParam.getUsername().length() > 20
                 || registerParam.getPassword().length() < 2 || registerParam.getPassword().length() > 20){

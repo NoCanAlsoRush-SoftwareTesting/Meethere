@@ -91,7 +91,7 @@ class SiteMapperTest {
 
     @Test
     void when_get_site_by_invalid_Id_should_return_a_site() {
-        assertNull(this.siteMapper.getSite(10));
+        assertNull(this.siteMapper.getSite(100));
     }
 
 

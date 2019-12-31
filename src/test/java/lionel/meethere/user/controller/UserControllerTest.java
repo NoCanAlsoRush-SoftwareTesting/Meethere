@@ -153,7 +153,7 @@ class UserControllerTest {
         session.setAttribute("userSessionInfo", userSessionInfo);
 
         MvcResult result = mockMvc.perform(
-                get("/user/list")
+                post("/user/list")
                         .param("pageNum", "1")
                         .param("pageSize", "1")
                         .session(session)

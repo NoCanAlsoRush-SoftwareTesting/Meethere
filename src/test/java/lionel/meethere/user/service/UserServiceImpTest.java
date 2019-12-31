@@ -117,7 +117,7 @@ class UserServiceImpTest {
         UserSessionInfo userSessionInfo = new UserSessionInfo(1,"lyb",0);
         String oldPassword = "123456789";
         String newPassword = "987654321";
-        User user =new User(1,"lyb","18982170688","123456788",0);
+        User user =new User(1,"lyb","18982170688","123456789",0);
         when(userMapper.getUserByUsername("lyb")).thenReturn(user);
         assertEquals(0,userService.updatePassword(userSessionInfo,oldPassword,newPassword));
     }

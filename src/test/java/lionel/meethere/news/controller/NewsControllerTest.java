@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -66,8 +67,9 @@ class NewsControllerTest {
 
         MvcResult result = mockMvc.perform(
                 post("/news/publish")
-                        .content(JSON.toJSONString(publishParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .param("title", "title")
+                        .param("content", "content")
+                        .param("image", "1")
                         .session(session)
         ).andReturn();
 
@@ -103,8 +105,7 @@ class NewsControllerTest {
 
         MvcResult result = mockMvc.perform(
                 post("/news/delete")
-                        .content("1")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .param("newsId", "1")
                         .session(session)
         ).andReturn();
 
@@ -119,7 +120,7 @@ class NewsControllerTest {
         MockHttpSession session = new MockHttpSession();
         UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lionel", 1);
         session.setAttribute("userSessionInfo", userSessionInfo);
-        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1",time);
+        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1", time);
 
         MvcResult result = mockMvc.perform(
                 post("/news/update")
@@ -140,12 +141,14 @@ class NewsControllerTest {
         MockHttpSession session = new MockHttpSession();
         UserSessionInfo userSessionInfo = new UserSessionInfo(1, "lionel", 0);
         session.setAttribute("userSessionInfo", userSessionInfo);
-        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1",time);
+        NewsUpdateParam updateParam = new NewsUpdateParam(1, "update title", "update content", "1", time);
 
         MvcResult result = mockMvc.perform(
                 post("/news/update")
-                        .content(JSON.toJSONString(updateParam))
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .param("id","1")
+                        .param("title","update title")
+                        .param("content","update content")
+                        .param("image","1")
                         .session(session)
         ).andReturn();
 
@@ -164,7 +167,7 @@ class NewsControllerTest {
         map.put("newsId", 1);
         MvcResult result = mockMvc.perform(
                 post("/news/get")
-                        .param("id","1")
+                        .param("id", "1")
         ).andReturn();
         Result<Object> res = JSON.parseObject(result.getResponse().getContentAsString(), Result.class);
         assertEquals(CommonResult.SUCCESS, res.getCode());
@@ -175,8 +178,8 @@ class NewsControllerTest {
         PageParam pageParam = new PageParam(1, 1);
         MvcResult result = mockMvc.perform(
                 post("/news/getcatalog")
-                .param("pageNum","1")
-                .param("pageSize","1")
+                        .param("pageNum", "1")
+                        .param("pageSize", "1")
         ).andReturn();
 
         verify(newsService).getNewsCatalogList(new PageParam(1, 1));
