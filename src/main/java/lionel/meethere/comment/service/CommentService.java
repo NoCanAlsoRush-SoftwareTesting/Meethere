@@ -29,7 +29,7 @@ public class CommentService {
         commentMapper.publishCommnet(convertToComment(commentDTO));
     }
 
-    private Comment convertToComment(CommentDTO commentDTO){
+    public Comment convertToComment(CommentDTO commentDTO){
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentDTO,comment);
         comment.setStatus(CommentStatus.UNAUDITED);
