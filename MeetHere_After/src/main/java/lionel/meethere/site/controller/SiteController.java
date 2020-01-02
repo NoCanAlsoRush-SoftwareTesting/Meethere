@@ -28,13 +28,16 @@ public class SiteController {
 
 
     @PostMapping("/site/list")
-    public Result<?> getSiteList(@RequestParam Integer pageNum,@RequestParam Integer pageSize){
+    public Result<?> getSiteList(@RequestParam Integer pageNum,
+                                 @RequestParam Integer pageSize){
         PageParam pageParam = new PageParam(pageNum,pageSize);
         return CommonResult.success().data(siteService.getSites(pageParam)).total(siteService.getSiteCount());
     }
     //ok
     @PostMapping("/site/listByStadium")
-    public Result<?> getSiteListByStadium(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam Integer id){
+    public Result<?> getSiteListByStadium(@RequestParam Integer pageNum,
+                                          @RequestParam Integer pageSize,
+                                          @RequestParam Integer id){
         PageParam pageParam = new PageParam(pageNum,pageSize);
         return CommonResult.success().data(siteService.getSitesByStadium(id,pageParam)).total(siteService.getSiteCountByStadium(id));
     }

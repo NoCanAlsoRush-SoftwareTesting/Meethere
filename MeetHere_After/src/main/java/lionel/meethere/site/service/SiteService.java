@@ -39,7 +39,6 @@ public class SiteService {
     }
 
     public Site getSiteById(Integer id){
-        System.out.println("site service");
         return siteMapper.getSite(id);
     }
 
