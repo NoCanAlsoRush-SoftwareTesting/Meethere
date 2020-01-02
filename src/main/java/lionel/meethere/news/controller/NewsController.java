@@ -63,7 +63,7 @@ public class NewsController {
 
     @PostMapping("get")
     public Result<?> getNews(@RequestParam Integer id) {
-        return CommonResult.success().data(newsService.getNews(id));
+         return CommonResult.success().data(newsService.getNews(id));
     }
 
     @PostMapping("getcatalog")
